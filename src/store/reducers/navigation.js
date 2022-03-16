@@ -1,7 +1,8 @@
 import * as types from '../types'
 
 const initialState = {
-    tab: 'menu'
+    tab: 'menu',
+    menu: []
 }
 
 const navigation = (state = initialState, action) => {
