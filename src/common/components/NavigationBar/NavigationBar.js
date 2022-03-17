@@ -4,8 +4,6 @@ import navigationStore from "../../../store/modules/navigationStore";
 
 const NavigationBar = ({ tab, changeActiveTab }) => {
 
-    console.log(tab);
-
     return (
         <div>
 

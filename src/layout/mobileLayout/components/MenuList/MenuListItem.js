@@ -15,6 +15,10 @@ const MenuListItem = ({ item }) => {
          evt.target.value : count)
    }
 
+   const addProduct = () => {
+
+   }
+
    const style = {
       position: 'absolute',
       top: '50%',
@@ -30,14 +34,17 @@ const MenuListItem = ({ item }) => {
    };
 
    return (
-      <div className='row card m-2'>
+      <div className='row card m-2 mb-4'>
          <Card className='menu-item-card'>
             <CardContent className='card-body'>
                <h5 className='card-title'>
                   {item.name}
                </h5>
                <p className='card-text'>
-                  Идеально прожаренные зерна кофе подарят вам прекрасный заряд бодрости
+                  {item.description}
+               </p>
+               <p className='card-text'>
+                  {item.price} руб.
                </p>
                <Button onClick={handleOpen} className="btn btn-primary">Добавить в корзину</Button>
             </CardContent>
@@ -91,6 +98,7 @@ const MenuListItem = ({ item }) => {
                      onInput={handleCountChange.bind(this)}
                      value={count} />
                </div>
+               <Button onClick={addProduct} className="btn btn-primary">Добавить</Button>
             </Box>
          </Modal>
       </div>

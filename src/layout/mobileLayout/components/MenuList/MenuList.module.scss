@@ -1,0 +1,26 @@
+.header {
+
+  .title,
+  .subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 39px;
+
+    color: #6F4E37;
+  }
+
+  .subtitle {
+    color: #B07E5A;
+    cursor: pointer;
+
+    text-decoration: underline;
+  }
+}
+
+.spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

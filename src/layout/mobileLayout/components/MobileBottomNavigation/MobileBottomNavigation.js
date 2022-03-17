@@ -1,13 +1,20 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CoffeeIcon from '@mui/icons-material/Coffee';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import PersonIcon from '@mui/icons-material/Person';
+import {connect} from "react-redux";
+import navigationStore from "../../../../store/modules/navigationStore";
 
-const MobileBottomNavigation = () => {
+const MobileBottomNavigation = ({ tab, changeActiveTab }) => {
 
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState('menu');
+
+    useEffect( () => {
+        setValue(tab);
+        
+    }, [tab])
 
     return (
         <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
@@ -15,15 +22,27 @@ const MobileBottomNavigation = () => {
                 showLabels
                 value={value}
                 onChange={(event, newValue) => {
+                    changeActiveTab(newValue)
                     setValue(newValue);
                 }}
             >
-                <BottomNavigationAction label="Меню" icon={<RestoreIcon />} />
-                <BottomNavigationAction label="Корзина" icon={<FavoriteIcon />} />
-                <BottomNavigationAction label="Отзыв" icon={<LocationOnIcon />} />
+                <BottomNavigationAction value='menu' label="Меню" icon={<CoffeeIcon />} />
+                <BottomNavigationAction value='cart' label="Корзина" icon={<ShoppingBasketIcon />} />
+                <BottomNavigationAction value='profile' label="Профиль" icon={<PersonIcon />} />
             </BottomNavigation>
         </Paper>
     )
 }
 
-export default MobileBottomNavigation;
+const mapStateToProps = state => ({
+    tab: state.navigation.tab
+});
+
+const mapDispatchToProps = {
+    changeActiveTab: navigationStore.changeActiveTab,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MobileBottomNavigation);

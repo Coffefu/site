@@ -15,7 +15,7 @@ export default async function callApi(
 
    const res = await axios({
       method: 'get',
-      url: 'http://51.250.4.2/products',
+      url: endpoint,
       responseType: 'json',
 
 

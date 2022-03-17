@@ -1,0 +1,1 @@
+export const CHANGE_COFFEE_HOUSE = Symbol('CHANGE_COFFEE_HOUSE');

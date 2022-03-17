@@ -2,7 +2,6 @@ import * as types from '../types'
 
 const initialState = {
    menu: [],
-   tab: 'menu'
 }
 
 const menu = (state = initialState, action) => {
