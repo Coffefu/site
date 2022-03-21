@@ -1,26 +1,138 @@
-.header {
-
+.headerPlace {
   .title,
   .subtitle {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: 26px;
+    font-size: 24px;
     line-height: 39px;
 
-    color: #6F4E37;
+    color: #6f4e37;
   }
 
   .subtitle {
-    color: #B07E5A;
+    color: #5c3519;
     cursor: pointer;
 
     text-decoration: underline;
   }
+
+  background-color: #f2cd9f;
+  border-radius: 20px;
+}
+
+.headerWrapper {
+  margin: -20px;
+  padding: 20px;
+  background-color: #d49a73;
+
+  // border-bottom-left-radius: 24px;
+  // border-bottom-right-radius: 24px;
 }
 
 .spinner {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.countInput {
+  width: 50px;
+
+  text-align: center;
+  color: #000000;
+  font-size: 1rem;
+}
+
+.quantity_inner * {
+  box-sizing: border-box;
+}
+.quantity_inner {
+  display: inline-flex;
+  border-radius: 26px;
+  border: 1px solid #000000;
+}
+.quantity_inner .bt_minus,
+.quantity_inner .bt_plus,
+.quantity_inner .quantity {
+  height: 30px;
+  width: 28px;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  outline: 0;
+}
+.quantity_inner .quantity {
+  width: 38px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+.quantity_inner .bt_minus svg,
+.quantity_inner .bt_plus svg {
+  stroke: #000000;
+  stroke-width: 6;
+  transition: 0.5s;
+  margin: 7px;
+}
+
+.sizeCheckbox {
+  width: 44px;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+
+.sizeCheckbox:not(:last-child) {
+  margin-right: 5px;
+}
+
+.activeSize {
+  background-color: #b07e5a;
+  color: #ffffff;
+  border: 1px solid #b07e5a;
+}
+
+.addonCheckbox {
+  width: 110px;
+  height: 40px;
+  padding: 6px;
+  border: 1px solid black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.activeAddon {
+  background-color: #b07e5a;
+  color: #ffffff;
+  border: 1px solid #b07e5a;
+}
+
+.addonCheckbox:not(:last-child) {
+  margin-right: 5px;
+}
+
+.menuContent {
+  margin: -21px;
+  padding: 21px;
+  border-top-right-radius: 24px;
+  border-top-left-radius: 24px;
+
+  z-index: 100;
+
+  background-color: #ffffff;
+}
+
+.menuItemCard {
+  color: #000000 !important;
+  background-color: #f2cd9f !important;
+
+  &:hover {
+    box-shadow: 0px 4px 50px rgba(50, 74, 89, 0.12);
+  }
 }

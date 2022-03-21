@@ -11,3 +11,15 @@
 .menu-modal-input input {
    max-width: 100px;
 }
+
+.MuiTabPanel-root {
+   padding: 15px !important;
+}
+
+body {
+   padding-right: 0 !important;
+}
+
+.MuiBottomNavigationAction-root.Mui-selected {
+   color: #ffffff !important;
+}

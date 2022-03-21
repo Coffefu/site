@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import Card from '@mui/material/Card';
 import { Box, Button, CardContent, Modal, Typography } from '@mui/material';
 
+import s from './MenuList.module.scss'
+
 const MenuListItem = ({ item }) => {
 
    const [open, setOpen] = React.useState(false);
@@ -9,11 +11,58 @@ const MenuListItem = ({ item }) => {
    const handleClose = () => setOpen(false);
 
    const [count, setCount] = useState(1)
+   const handleCountChange = (type) => {
 
-   const handleCountChange = (evt) => {
-      setCount((evt.target.validity.valid) && (evt.target.value > 0 && evt.target.value < 10) ?
-         evt.target.value : count)
+      if (type === 'minus' && count > 1) {
+         setCount(count - 1);
+         setSum(item.price * (count - 1));
+      }
+      if (type === 'plus' && count < 10) {
+         setCount(count + 1)
+         setSum(item.price * (count + 1));
+      }
    }
+
+   const [size, setSize] = useState('S');
+   const changeSize = (evt) => {
+      setSize(evt.target.getAttribute('data-size'));
+      const checkboxes = document.getElementsByClassName(s.sizeCheckbox);
+      for (let checkbox of checkboxes) {
+         checkbox.classList.remove(s.activeSize);
+      }
+      evt.target.classList.add(s.activeSize);
+   }
+
+   const addons = [
+      {
+         'title': 'Корица',
+         'value': 'cinnamon',
+      },
+      {
+         'title': 'Мёд',
+         'value': 'honey',
+      },
+      {
+         'title': 'С. карамель',
+         'value': 'caramel',
+      },
+      {
+         'title': 'фундук',
+         'value': 'hazelnuts',
+      },
+   ]
+
+   const [addon, setAddon] = useState(0);
+   const changeAddon = (evt) => {
+      setAddon(evt.target.getAttribute('data-value'));
+      const checkboxes = document.getElementsByClassName(s.addonCheckbox);
+      for (let checkbox of checkboxes) {
+         checkbox.classList.remove(s.activeAddon);
+      }
+      evt.target.classList.add(s.activeAddon);
+   }
+
+   const [sum, setSum] = useState(item.price);
 
    const addProduct = () => {
 
@@ -26,7 +75,7 @@ const MenuListItem = ({ item }) => {
       transform: 'translate(-50%, -50%)',
       width: 300,
       bgcolor: 'background.paper',
-      border: '2px solid #000',
+      border: '1px solid #000',
       boxShadow: 24,
       p: 4,
       borderRadius: '10px',
@@ -34,21 +83,27 @@ const MenuListItem = ({ item }) => {
    };
 
    return (
-      <div className='row card m-2 mb-4'>
-         <Card className='menu-item-card'>
+      <div className={'row card mb-4'}>
+         <Card onClick={handleOpen} className={s.menuItemCard}>
             <CardContent className='card-body'>
-               <h5 className='card-title'>
-                  {item.name}
-               </h5>
-               <p className='card-text'>
-                  {item.description}
-               </p>
-               <p className='card-text'>
-                  {item.price} руб.
-               </p>
-               <Button onClick={handleOpen} className="btn btn-primary">Добавить в корзину</Button>
+               <div className='row'>
+                  <div className='col'>
+                     <h5 className='card-title'>
+                        {item.name}
+                     </h5>
+                     <p className='card-text'>
+                        {item.description}
+                     </p>
+                  </div>
+                  <div className='col d-flex justify-content-end'>
+                     <p className='card-text'>
+                        {item.price} руб.
+                     </p>
+                  </div>
+               </div>
             </CardContent>
          </Card>
+
          <Modal
             open={open}
             onClose={handleClose}
@@ -56,49 +111,70 @@ const MenuListItem = ({ item }) => {
             aria-describedby="modal-modal-description"
          >
             <Box sx={style}>
-               <Typography id="modal-modal-title" variant="h6" component="h2">
+               <div className='d-flex justify-content-end h4' onClick={handleClose}>
+                  x
+               </div>
+
+               <Typography className='mb-3' id="modal-modal-title" variant="h4" component="h2">
                   {item.name}
                </Typography>
-               <Typography>
-                  Количество
-               </Typography>
-               <div className="input-group mb-3 menu-modal-input">
-                  <input
-                     type="text"
-                     pattern="[0-9]*"
-                     className="form-control"
-                     aria-label="count"
-                     aria-describedby="basic-addon1"
-                     onInput={handleCountChange.bind(this)}
-                     value={count} />
+
+               <div className="mb-3 d-flex align-items-center justify-content-between">
+                  <Typography variant='h6'>
+                     Количество
+                  </Typography>
+
+                  <div className={s.quantity_inner}>
+                     <button className={s.bt_minus} onClick={() => handleCountChange('minus')}>
+                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                     </button>
+                     <input onChange={() => { return false; }} className={s.quantity} type="text" value={count} size="2" data-max-count="20" />
+                     <button className={s.bt_plus} onClick={() => handleCountChange('plus')}>
+                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                     </button>
+                  </div>
                </div>
-               <Typography>
-                  Уровень сахара
-               </Typography>
-               <div className="input-group mb-3 menu-modal-input">
-                  <input
-                     type="text"
-                     pattern="[0-9]*"
-                     className="form-control"
-                     aria-label="count"
-                     aria-describedby="basic-addon1"
-                     onInput={handleCountChange.bind(this)}
-                     value={count} />
+
+               <div className="mb-3 d-flex align-items-center justify-content-between">
+                  <Typography variant='h6'>
+                     Размер
+                  </Typography>
+
+                  <div className={'d-flex align-items-center'}>
+                     <div className={s.sizeCheckbox} data-size='S' onClick={changeSize}>
+                        S
+                     </div>
+                     <div className={s.sizeCheckbox} data-size='M' onClick={changeSize}>
+                        M
+                     </div>
+                  </div>
+
                </div>
-               <Typography>
-                  Размер стакана
-               </Typography>
-               <div className="input-group mb-3 menu-modal-input">
-                  <input
-                     type="text"
-                     pattern="[0-9]*"
-                     className="form-control"
-                     aria-label="count"
-                     aria-describedby="basic-addon1"
-                     onInput={handleCountChange.bind(this)}
-                     value={count} />
+
+               <div className="mb-3 d-flex align-items-center justify-content-between">
+                  <Typography variant='h6'>
+                     Добавки
+                  </Typography>
                </div>
-               <Button onClick={addProduct} className="btn btn-primary">Добавить</Button>
+
+               <div className='d-flex flex-wrap align-items-center'>
+                  {addons.map((addon, index) => {
+                     return (
+                        <div key={index} className={s.addonCheckbox} data-addon={addon.value} onClick={changeAddon}>
+                           {addon.title}
+                        </div>
+                     )
+                  })}
+               </div>
+
+               <div className="mb-3 d-flex align-items-center justify-content-between flex-wrap">
+
+               </div>
+
+               <Typography variant='h5' className='mb-2'>
+                  Итого: {sum} руб.
+               </Typography>
+               <Button onClick={addProduct} className="btn">Добавить</Button>
             </Box>
          </Modal>
       </div>

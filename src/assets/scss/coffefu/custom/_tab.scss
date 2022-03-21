@@ -1,0 +1,15 @@
+.MuiTab-root.Mui-selected {
+   color: #000000 !important;
+   height: 20px !important;
+
+   background-color: #fbb049 !important;
+   border-radius: 10px;
+
+   &:focus {
+      outline: none !important;
+   }
+}
+
+.MuiTabs-indicator {
+   display: none !important;
+}

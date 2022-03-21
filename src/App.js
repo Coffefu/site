@@ -3,7 +3,6 @@ import MobileLayout from "./layout/mobileLayout";
 
 import './assets/scss/coffefu.scss'
 
-
 const App = () => {
   return (
     <div >
