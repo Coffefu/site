@@ -73,10 +73,10 @@ const MenuListItem = ({ item }) => {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      width: 300,
+      width: 320,
       bgcolor: 'background.paper',
-      border: '1px solid #000',
-      boxShadow: 24,
+      border: '1px solid #f7a818',
+      boxShadow: 'none',
       p: 4,
       borderRadius: '10px',
       textAlign: 'center'
@@ -111,8 +111,8 @@ const MenuListItem = ({ item }) => {
             aria-describedby="modal-modal-description"
          >
             <Box sx={style}>
-               <div className='d-flex justify-content-end h4' onClick={handleClose}>
-                  x
+               <div className='d-flex justify-content-end h6' onClick={handleClose}>
+                  <span>X</span>
                </div>
 
                <Typography className='mb-3' id="modal-modal-title" variant="h4" component="h2">
@@ -157,7 +157,7 @@ const MenuListItem = ({ item }) => {
                   </Typography>
                </div>
 
-               <div className='d-flex flex-wrap align-items-center'>
+               <div className={'d-flex flex-wrap align-items-center' + s.addonWrapper}>
                   {addons.map((addon, index) => {
                      return (
                         <div key={index} className={s.addonCheckbox} data-addon={addon.value} onClick={changeAddon}>
@@ -167,14 +167,11 @@ const MenuListItem = ({ item }) => {
                   })}
                </div>
 
-               <div className="mb-3 d-flex align-items-center justify-content-between flex-wrap">
-
-               </div>
-
-               <Typography variant='h5' className='mb-2'>
+               <Typography variant='h5' className='mb-2 mt-3'>
                   Итого: {sum} руб.
                </Typography>
-               <Button onClick={addProduct} className="btn">Добавить</Button>
+
+               <Button onClick={addProduct} className={"btn " + s.productAdd}>Добавить</Button>
             </Box>
          </Modal>
       </div>

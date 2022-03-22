@@ -1,0 +1,15 @@
+.MuiTypography-root {
+   font-family: "Montserrat", sans-serif !important;
+}
+
+.MuiBottomNavigationAction-label {
+   font-family: "Montserrat", sans-serif !important;
+   font-size: 0.9rem !important;
+   font-weight: bold !important;
+}
+
+.MuiBottomNavigationAction-root {
+   &:focus {
+      outline: none !important;
+   }
+}

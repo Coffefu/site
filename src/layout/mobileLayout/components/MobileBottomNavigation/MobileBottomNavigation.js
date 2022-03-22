@@ -23,6 +23,7 @@ const MobileBottomNavigation = ({ tab, changeActiveTab }) => {
                 bottom: 0,
                 left: 0,
                 right: 0,
+                boxShadow: 'none'
             }}
             elevation={3}>
             <BottomNavigation
@@ -38,7 +39,7 @@ const MobileBottomNavigation = ({ tab, changeActiveTab }) => {
                     borderRadius: '24px',
                     backgroundColor: "#d49a73",
                     margin: 2,
-                    boxShadow: 'none'
+                    boxShadow: 'none',
                 }}
             >
                 <BottomNavigationAction value='menu' label="Меню" icon={<CoffeeIcon />} />

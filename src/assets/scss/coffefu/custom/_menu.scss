@@ -23,3 +23,9 @@ body {
 .MuiBottomNavigationAction-root.Mui-selected {
    color: #ffffff !important;
 }
+
+.MuiButtonBase-root {
+   &:focus {
+      outline: none;
+   }
+}
