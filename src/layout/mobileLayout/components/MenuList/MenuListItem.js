@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Card from '@mui/material/Card';
-import { Box, Button, CardContent, Modal, Typography } from '@mui/material';
+import { Box, Button, CardContent, Modal, Typography, Snackbar, Alert } from '@mui/material';
 
 import s from './MenuList.module.scss'
 
@@ -23,7 +23,7 @@ const MenuListItem = ({ item }) => {
       }
    }
 
-   const [size, setSize] = useState('S');
+   const [size, setSize] = useState('');
    const changeSize = (evt) => {
       setSize(evt.target.getAttribute('data-size'));
       const checkboxes = document.getElementsByClassName(s.sizeCheckbox);
@@ -52,7 +52,7 @@ const MenuListItem = ({ item }) => {
       },
    ]
 
-   const [addon, setAddon] = useState(0);
+   const [addon, setAddon] = useState('');
    const changeAddon = (evt) => {
       setAddon(evt.target.getAttribute('data-value'));
       const checkboxes = document.getElementsByClassName(s.addonCheckbox);
@@ -64,8 +64,29 @@ const MenuListItem = ({ item }) => {
 
    const [sum, setSum] = useState(item.price);
 
-   const addProduct = () => {
+   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+   const [openErrorAlert, setOpenErrorAlert] = useState(false);
+   const handleCloseAlert = (event, reason) => {
+      if (reason === 'clickaway') {
+         return;
+      }
 
+      setOpenSuccessAlert(false);
+      setOpenErrorAlert(false);
+   };
+
+   const addProduct = () => {
+      if (size === '') {
+         setOpenErrorAlert(true);
+         return;
+      }
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      for (let i = 0; i < count; i += 1) {
+         cart.push({ ...item, price: sum });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      setOpenSuccessAlert(true);
+      setOpen(false);
    }
 
    const style = {
@@ -174,6 +195,28 @@ const MenuListItem = ({ item }) => {
                <Button onClick={addProduct} className={"btn " + s.productAdd}>Добавить</Button>
             </Box>
          </Modal>
+
+         <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={openErrorAlert}
+            onClose={handleCloseAlert}
+            key='errorAlert'
+         >
+            <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+               Вы не выбрали размер
+            </Alert>
+         </Snackbar>
+         <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={openSuccessAlert}
+            onClose={handleCloseAlert}
+            key='successAlert'
+            autoHideDuration={6000}
+         >
+            <Alert onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>
+               Продукт добавлен в вашу корзину
+            </Alert>
+         </Snackbar>
       </div>
    )
 }
