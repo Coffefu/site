@@ -2,6 +2,7 @@ import { ConnectedMenuList } from "./components/MenuList/MenuList";
 import BottomNavigation from "./components/MobileBottomNavigation";
 import {connect} from "react-redux";
 import navigationStore from "../../store/modules/navigationStore";
+import CartComponent from "./components/Cart";
 
 export const MobileLayout = ({ children, tab, changeActiveTab }) => {
     
@@ -11,7 +12,7 @@ export const MobileLayout = ({ children, tab, changeActiveTab }) => {
                 tab === 'menu'
                 ? ( <ConnectedMenuList /> )
                 : tab === 'cart'
-                ? (<div>cart component</div>)
+                ? (<CartComponent />)
                 : (<div>feedback component</div>)
             }
             {children}

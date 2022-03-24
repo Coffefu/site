@@ -6,6 +6,25 @@ import s from './MenuList.module.scss'
 
 const MenuListItem = ({ item }) => {
 
+   const addons = [
+      {
+         'title': 'Корица',
+         'value': 'cinnamon',
+      },
+      {
+         'title': 'Мёд',
+         'value': 'honey',
+      },
+      {
+         'title': 'С. карамель',
+         'value': 'caramel',
+      },
+      {
+         'title': 'фундук',
+         'value': 'hazelnuts',
+      },
+   ]
+
    const [open, setOpen] = React.useState(false);
    const handleOpen = () => setOpen(true);
    const handleClose = () => setOpen(false);
@@ -33,28 +52,9 @@ const MenuListItem = ({ item }) => {
       evt.target.classList.add(s.activeSize);
    }
 
-   const addons = [
-      {
-         'title': 'Корица',
-         'value': 'cinnamon',
-      },
-      {
-         'title': 'Мёд',
-         'value': 'honey',
-      },
-      {
-         'title': 'С. карамель',
-         'value': 'caramel',
-      },
-      {
-         'title': 'фундук',
-         'value': 'hazelnuts',
-      },
-   ]
-
    const [addon, setAddon] = useState('');
    const changeAddon = (evt) => {
-      setAddon(evt.target.getAttribute('data-value'));
+      setAddon(evt.target.getAttribute('data-addon'));
       const checkboxes = document.getElementsByClassName(s.addonCheckbox);
       for (let checkbox of checkboxes) {
          checkbox.classList.remove(s.activeAddon);
@@ -82,7 +82,7 @@ const MenuListItem = ({ item }) => {
       }
       const cart = JSON.parse(localStorage.getItem('cart') || '[]');
       for (let i = 0; i < count; i += 1) {
-         cart.push({ ...item, price: sum });
+         cart.push({ ...item, price: sum, addon: addon });
       }
       localStorage.setItem('cart', JSON.stringify(cart));
       setOpenSuccessAlert(true);
@@ -147,11 +147,11 @@ const MenuListItem = ({ item }) => {
 
                   <div className={s.quantity_inner}>
                      <button className={s.bt_minus} onClick={() => handleCountChange('minus')}>
-                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                      </button>
                      <input onChange={() => { return false; }} className={s.quantity} type="text" value={count} size="2" data-max-count="20" />
                      <button className={s.bt_plus} onClick={() => handleCountChange('plus')}>
-                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                      </button>
                   </div>
                </div>
