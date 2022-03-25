@@ -13,3 +13,13 @@
 .MuiTabs-indicator {
    display: none !important;
 }
+
+.MuiTab-root.MuiButtonBase-root {
+   max-height: 30px !important;
+   min-height: 30px !important;
+}
+
+.MuiTabs-root {
+   height: 32px !important;
+   min-height: 32px !important;
+}

@@ -73,7 +73,7 @@ const MenuList = ({ menu = [], receiveMenu, coffeeHouse, changeCoffeeHouse }) =>
                             </TabList>
                         </div>
                     </div>
-                    <div className='menu-container'>
+                    <div className='mb65-container'>
                         <TabPanel value='coffee'>
                             {loading
                                 ? (

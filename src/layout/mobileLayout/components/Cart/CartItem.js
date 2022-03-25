@@ -6,26 +6,46 @@ import s from './Cart.module.scss'
 
 const CartItem = ({ item }) => {
 
+    const addons = [
+        {
+            'title': 'Корица',
+            'value': 'cinnamon',
+        },
+        {
+            'title': 'Мёд',
+            'value': 'honey',
+        },
+        {
+            'title': 'С. карамель',
+            'value': 'caramel',
+        },
+        {
+            'title': 'фундук',
+            'value': 'hazelnuts',
+        },
+    ]
+    const stringAddon = addons.filter((addon) => addon.value === item.addon);
+
     return (
-        <div className={'row card mb-4'}>
-            <Card>
+        <div className={'row card mb-4 ' + s.cartItem}>
+            <Card className={s.cartItemContent}>
                 <CardContent className='card-body'>
                     <div className='row'>
-                        <div className='col'>
+                        <div className='col-7'>
                             <h5 className='card-title'>
                                 {item.name}
                             </h5>
-                            <p className='card-text'>
+                            <p className='card-text card-subtitle'>
                                 {item.description}
                             </p>
                         </div>
-                        <div className='col d-flex justify-content-end'>
-                            <p className='card-text row'>
+                        <div className='col-5'>
+                            <p className='font-weight-bold card-text d-flex justify-content-end justify-content-center'>
                                 {item.price} руб.
                             </p>
                             {item.addon !== ''
-                             ? <p className='card-text row'>
-                                    {item.addon}
+                             ? <p className='card-text d-flex justify-content-end mr-2 justify-content-center'>
+                                    {stringAddon[0].title}
                                 </p> : <span/>}
                         </div>
                     </div>

@@ -149,8 +149,8 @@
 
 .menuItemCard {
   color: #000000 !important;
-  background-color: #f2cd9f !important;
   border: 1px solid #f7a818;
+  box-shadow: none;
 
   &:hover {
     box-shadow: 0px 4px 50px rgba(50, 74, 89, 0.12);
