@@ -9,8 +9,7 @@ import {LocalizationProvider, MobileTimePicker, TimePicker} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import menuStore from "../../../../store/modules/menuStore";
 
-const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
-    const [cartItems, setCartItems] = useState([])
+const CartUserData = () => {
 
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
@@ -103,59 +102,57 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
 
     return (
         <div>
-            <div className='mb65-container d-flex flex-column'>
-                <div className='mt-3 mb-3'>
-                    <Typography variant='h4'>
-                        Мой заказ
-                    </Typography>
-                </div>
-                <div className={'container-fluid ' + s.cartItemsContainer}>
-                    {cartItems.map((product, index) => {
-                        return (
-                            <CartItem key={index} item={product} addons={addons}/>
-                        )
-                    })}
-                </div>
-                <div className={'mt-auto'}>
-                    <Button onClick={makeOrder} className={"btn " + s.makeOrder}>Заказать</Button>
+            <div className='col mb65-container'>
+                <div className={'row flex-column d-flex align-items-center justify-content-center'}>
+                    <div className={'form-group d-flex flex-column'}>
+                        <div className={'row mb-1'}>
+                            <div className={'col'}>
+                                <label>
+                                    Имя
+                                </label>
+                            </div>
+                            <div className={'col'}>
+                                <input value={name} onChange={handleNameChange} placeholder={'Ваше имя'}
+                                       className={'ml-1'} type={'text'}/>
+                            </div>
+                        </div>
+                        <div className={'row mb-2'}>
+                            <div className={'col'}>
+                                <label>
+                                    Телефон
+                                </label>
+                            </div>
+                            <div className={'col'}>
+                                <input value={telephone} onChange={handleTelephoneChange} placeholder={'Номер телефона'}
+                                       className={'ml-1'} type={'text'}/>
+                            </div>
+                        </div>
+                        <div className={'row mb-2 d-flex align-items-center'}>
+                            <div className={'col'}>
+                                <label>
+                                    Во сколько заберете?
+                                </label>
+                            </div>
+                            <div className={'col ' + s.timePicker}>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                    <TimePicker
+                                        ampm={false}
+                                        ampmInClock={false}
+                                        value={time}
+                                        onChange={setTime}
+                                        renderInput={(params) => <TextField {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={'row'}>
+                        <Button onClick={makeOrder} className={"btn " + s.makeOrder}>Заказать</Button>
+                    </div>
                 </div>
             </div>
-
-            <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                open={openErrorAlert}
-                onClose={handleCloseAlert}
-                key='errorAlert'
-            >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{width: '100%'}}>
-                    Вы заполнили не все данные
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                open={openSuccessAlert}
-                onClose={handleCloseAlert}
-                key='successAlert'
-                autoHideDuration={6000}
-            >
-                <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
-                    Заказ успешно отправлен
-                </Alert>
-            </Snackbar>
         </div>
     )
 }
 
-const mapStateToProps = state => ({
-    coffeeHouse: state.user.coffeeHouse,
-    addons: state.menu.addons,
-});
-
-const mapDispatchToProps = {
-    receiveAddons: menuStore.receiveAddons,
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(CartComponent);
+export default CartUserData;

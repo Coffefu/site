@@ -23,7 +23,8 @@ const MobileBottomNavigation = ({ tab, changeActiveTab }) => {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                boxShadow: 'none'
+                boxShadow: 'none',
+                background: '#F6FCFE'
             }}
             elevation={3}>
             <BottomNavigation
@@ -36,10 +37,10 @@ const MobileBottomNavigation = ({ tab, changeActiveTab }) => {
                 sx={{
                     // borderTopLeftRadius: 24,
                     // borderTopRightRadius: 24,
-                    borderRadius: '24px',
-                    backgroundColor: "#d49a73",
+                    borderRadius: '20px',
+                    backgroundColor: "#FFFFFF",
                     margin: 2,
-                    boxShadow: 'none',
+                    boxShadow: '0px 4px 50px rgba(50, 74, 89, 0.12)',
                 }}
             >
                 <BottomNavigationAction value='menu' label="Меню" icon={<CoffeeIcon />} />

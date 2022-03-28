@@ -2,6 +2,7 @@ import * as types from '../types'
 
 const initialState = {
    menu: [],
+   addons: [],
 }
 
 const menu = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const menu = (state = initialState, action) => {
          return {
             ...state,
             menu: action.payload,
+         }
+      case types.RECEIVE_ADDONS_SUCCESS:
+         return {
+            ...state,
+            addons: action.payload,
          }
       default:
          return state;

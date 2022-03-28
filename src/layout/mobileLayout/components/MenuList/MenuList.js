@@ -5,12 +5,11 @@ import MenuListItem from './MenuListItem';
 import { Skeleton, TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, CardContent, CircularProgress, Modal, Tab, Tabs, Typography } from "@mui/material";
 import userStore from "../../../../store/modules/userStore";
-import Card from "@mui/material/Card";
 
 import s from './MenuList.module.scss';
 import TopHeader from './MenuListHeader';
 
-const MenuList = ({ menu = [], receiveMenu, coffeeHouse, changeCoffeeHouse }) => {
+const MenuList = ({ menu = [], receiveMenu, coffeeHouse, changeCoffeeHouse, receiveAddons, addons }) => {
 
     const [value, setValue] = React.useState('coffee');
     const handleChange = (event, newValue) => {
@@ -24,12 +23,13 @@ const MenuList = ({ menu = [], receiveMenu, coffeeHouse, changeCoffeeHouse }) =>
     const [loading, setLoading] = useState(false);
     useEffect(() => {
 
-        const getMenu = async () => {
+        const getMenuAndAddons = async () => {
             setLoading(true);
             await receiveMenu();
+            await receiveAddons();
             setLoading(false);
         }
-        getMenu();
+        getMenuAndAddons();
     }, [])
 
     const changeActiveCoffeeHouse = (coffeeHouse) => {
@@ -69,7 +69,6 @@ const MenuList = ({ menu = [], receiveMenu, coffeeHouse, changeCoffeeHouse }) =>
                         <div className='row d-flex align-item-center justify-content-start'>
                             <TabList onChange={handleChange} aria-label="lab API tabs">
                                 <Tab label="Кофе" value="coffee" />
-                                <Tab label="Не кофе" value="notcoffee" />
                             </TabList>
                         </div>
                     </div>
@@ -83,12 +82,9 @@ const MenuList = ({ menu = [], receiveMenu, coffeeHouse, changeCoffeeHouse }) =>
                                 )
                                 : menu.map((product) => {
                                     return (
-                                        <MenuListItem key={product.id} item={product} />
+                                        <MenuListItem key={product.id} item={product} addons={addons}/>
                                     )
                                 })}
-                        </TabPanel>
-                        <TabPanel value='notcoffee'>
-                            123
                         </TabPanel>
                     </div>
                 </TabContext >
@@ -99,11 +95,13 @@ const MenuList = ({ menu = [], receiveMenu, coffeeHouse, changeCoffeeHouse }) =>
 
 const mapStateToProps = state => ({
     menu: state.menu.menu,
+    addons: state.menu.addons,
     coffeeHouse: state.user.coffeeHouse,
 });
 
 const mapDispatchToProps = {
     receiveMenu: menuStore.receiveMenu,
+    receiveAddons: menuStore.receiveAddons,
     changeCoffeeHouse: userStore.changeCoffeeHouse,
 };
 

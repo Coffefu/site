@@ -7,28 +7,22 @@
     font-size: 24px;
     line-height: 39px;
 
-    color: #6f4e37;
   }
+
+  border: 1px solid black;
+  padding: 2px 4px;
+  border-radius: 12px;
 
   .subtitle {
-    color: #5c3519;
     cursor: pointer;
-
-    text-decoration: underline;
   }
-
-  background-color: #f2cd9f;
-  border-radius: 20px;
 }
 
 .headerWrapper {
 
   margin: -15px;
   padding: 15px;
-  background-color: #d49a73;
-
-  // border-bottom-left-radius: 24px;
-  // border-bottom-right-radius: 24px;
+  background-color: #FFFFFF;
 
   overflow-x: hidden;
 }
@@ -123,12 +117,14 @@
 .menuContent {
   margin: -15px;
   padding: 15px;
-  border-top-right-radius: 18px;
-  border-top-left-radius: 18px;
   z-index: 100;
   overflow-x: hidden;
 
-  background-color: #ffffff;
+  background-color: #F6FCFE;
+
+  -webkit-box-shadow: 0px 5px 5px -5px rgba(0, 119, 210, 0.39) inset;
+  -moz-box-shadow: 0px 5px 5px -5px rgba(0, 119, 210, 0.39) inset;
+  box-shadow: 0px 5px 5px -5px rgba(0, 119, 210, 0.39) inset;
 }
 
 .productAdd {
@@ -149,8 +145,9 @@
 
 .menuItemCard {
   color: #000000 !important;
-  border: 1px solid #f7a818;
-  box-shadow: none;
+  -webkit-box-shadow: 0px 5px 10px 2px rgba(0, 119, 210, 0.2);
+  -moz-box-shadow: 0px 5px 10px 2px rgba(0, 119, 210, 0.2);
+  box-shadow: 0px 5px 10px 2px rgba(0, 119, 210, 0.2) !important;
 
   &:hover {
     box-shadow: 0px 4px 50px rgba(50, 74, 89, 0.12);

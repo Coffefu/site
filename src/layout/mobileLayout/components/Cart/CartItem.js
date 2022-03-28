@@ -1,31 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Card from '@mui/material/Card';
-import { Box, Button, CardContent, Modal, Typography, Snackbar, Alert } from '@mui/material';
+import {CardContent} from '@mui/material';
 
 import s from './Cart.module.scss'
 
-const CartItem = ({ item }) => {
+const CartItem = ({item, addons}) => {
 
-    const addons = [
-        {
-            'title': 'Корица',
-            'value': 'cinnamon',
-        },
-        {
-            'title': 'Мёд',
-            'value': 'honey',
-        },
-        {
-            'title': 'С. карамель',
-            'value': 'caramel',
-        },
-        {
-            'title': 'фундук',
-            'value': 'hazelnuts',
-        },
-    ]
-    const stringAddon = addons.filter((addon) => addon.value === item.addon);
-
+    const stringAddon = addons.filter((addon) => +addon.id === +item.addon);
     return (
         <div className={'row card mb-4 ' + s.cartItem}>
             <Card className={s.cartItemContent}>
@@ -44,8 +25,8 @@ const CartItem = ({ item }) => {
                                 {item.price} руб.
                             </p>
                             {item.addon !== ''
-                             ? <p className='card-text d-flex justify-content-end mr-2 justify-content-center'>
-                                    {stringAddon[0].title}
+                                ? <p className='card-text d-flex justify-content-end mr-2 justify-content-center'>
+                                    {stringAddon[0].name}
                                 </p> : <span/>}
                         </div>
                     </div>

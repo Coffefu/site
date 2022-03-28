@@ -20,12 +20,33 @@ body {
    padding-right: 0 !important;
 }
 
+.MuiBottomNavigation-root {
+
+}
+
 .MuiBottomNavigationAction-root.Mui-selected {
    color: #ffffff !important;
+   background: rgba(102, 102, 255, 0.68);
+   border-radius: 12px;
+
+   span {
+      width: inherit;
+   }
+
+   button {
+      width: inherit;
+   }
 }
 
 .MuiButtonBase-root {
    &:focus {
       outline: none;
+   }
+}
+
+.MuiBottomNavigationAction-root {
+
+   span {
+      font-size: 12px !important;
    }
 }

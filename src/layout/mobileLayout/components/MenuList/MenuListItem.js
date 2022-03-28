@@ -4,26 +4,7 @@ import { Box, Button, CardContent, Modal, Typography, Snackbar, Alert } from '@m
 
 import s from './MenuList.module.scss'
 
-const MenuListItem = ({ item }) => {
-
-   const addons = [
-      {
-         'title': 'Корица',
-         'value': 'cinnamon',
-      },
-      {
-         'title': 'Мёд',
-         'value': 'honey',
-      },
-      {
-         'title': 'С. карамель',
-         'value': 'caramel',
-      },
-      {
-         'title': 'фундук',
-         'value': 'hazelnuts',
-      },
-   ]
+const MenuListItem = ({ item, addons }) => {
 
    const [open, setOpen] = React.useState(false);
    const handleOpen = () => setOpen(true);
@@ -117,7 +98,7 @@ const MenuListItem = ({ item }) => {
                      </p>
                   </div>
                   <div className='col d-flex justify-content-end'>
-                     <p className='card-text'>
+                     <p className='card-text font-weight-bold'>
                         {item.price} руб.
                      </p>
                   </div>
@@ -181,8 +162,8 @@ const MenuListItem = ({ item }) => {
                <div className={'d-flex flex-wrap align-items-center' + s.addonWrapper}>
                   {addons.map((addon, index) => {
                      return (
-                        <div key={index} className={s.addonCheckbox} data-addon={addon.value} onClick={changeAddon}>
-                           {addon.title}
+                        <div key={index} className={s.addonCheckbox} data-addon={addon.id} onClick={changeAddon}>
+                           {addon.name}
                         </div>
                      )
                   })}
@@ -192,7 +173,7 @@ const MenuListItem = ({ item }) => {
                   Итого: {sum} руб.
                </Typography>
 
-               <Button onClick={addProduct} className={"btn " + s.productAdd}>Добавить</Button>
+               <Button sx={{ border: '1px solid black', color: '#c28760'}} onClick={addProduct} className={"btn " + s.productAdd}>Добавить</Button>
             </Box>
          </Modal>
 
