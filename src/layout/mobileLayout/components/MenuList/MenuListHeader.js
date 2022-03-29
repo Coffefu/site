@@ -58,11 +58,11 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 300,
+        width: 320,
         maxHeight: 400,
         overflow: 'auto',
         bgcolor: 'background.paper',
-        border: '2px solid #000',
+        border: '1px solid #000',
         boxShadow: 24,
         p: 4,
         borderRadius: '5px',
@@ -96,7 +96,7 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
                         <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase
-                        placeholder="Search…"
+                        placeholder="Латте…"
                         inputProps={{ 'aria-label': 'search' }}
                     />
                 </Search>
@@ -109,7 +109,7 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    <Typography className={'mb-2'} id="modal-modal-title" variant="h6" component="h2">
                         Выберите место, откуда будете забирать заказ
                     </Typography>
                     <div id="modal-modal-description">

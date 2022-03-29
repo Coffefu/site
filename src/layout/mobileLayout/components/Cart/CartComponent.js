@@ -59,10 +59,10 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
         }
 
         const order = {};
-        order.coffee_house = coffeeHouse.id
+        order.coffee_house = coffeeHouse.id;
         order.customer = {
             name,
-            "phone_number": telephone,
+            "phone_number": telephone.slice(telephone.length - 10),
             'email': email,
         }
         order.products = [];
@@ -90,13 +90,25 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
             }
         }
 
-        sendOrder()
+        sendOrder();
     }
 
     if (loading) {
         return (
             <div >
                 <CircularProgress color="success" />
+            </div>
+        )
+    }
+
+    if (cartItems.length === 0) {
+        return (
+            <div>
+                <div className='mb65-container d-flex flex-column align-items-center justify-content-center height-100'>
+                    <Typography variant={'h5'}>
+                        В вашей корзине пусто!
+                    </Typography>
+                </div>
             </div>
         )
     }
@@ -116,8 +128,56 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
                         )
                     })}
                 </div>
-                <div className={'mt-auto'}>
-                    <Button onClick={makeOrder} className={"btn " + s.makeOrder}>Заказать</Button>
+                <div>
+                    <div className='col mb65-container mt-2'>
+                        <div className={'row flex-column d-flex align-items-center justify-content-center'}>
+                            <div className={'form-group d-flex flex-column'}>
+                                <div className={'row mb-1'}>
+                                    <div className={'col'}>
+                                        <label>
+                                            Имя
+                                        </label>
+                                    </div>
+                                    <div className={'col'}>
+                                        <input required value={name} onChange={handleNameChange} placeholder={'Ваше имя'}
+                                               className={'ml-1'} type={'text'}/>
+                                    </div>
+                                </div>
+                                <div className={'row mb-2'}>
+                                    <div className={'col'}>
+                                        <label>
+                                            Телефон
+                                        </label>
+                                    </div>
+                                    <div className={'col'}>
+                                        <input required value={telephone} onChange={handleTelephoneChange} placeholder={'Номер телефона'}
+                                               className={'ml-1'} type={'tel'} pattern={'^(\\+7|7|8)[0-9]{10}$'}/>
+                                    </div>
+                                </div>
+                                <div className={'row mb-2 d-flex align-items-center'}>
+                                    <div className={'col'}>
+                                        <label>
+                                            Во сколько заберете?
+                                        </label>
+                                    </div>
+                                    <div className={'col ' + s.timePicker}>
+                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                            <TimePicker
+                                                ampm={false}
+                                                ampmInClock={false}
+                                                value={time}
+                                                onChange={setTime}
+                                                renderInput={(params) => <TextField {...params} />}
+                                            />
+                                        </LocalizationProvider>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={'row'}>
+                                <Button onClick={makeOrder} className={"btn " + s.makeOrder}>Заказать</Button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
