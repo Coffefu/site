@@ -11,10 +11,27 @@ import TopHeader from './MenuListHeader';
 
 const MenuList = ({ menu = [], receiveMenu, coffeeHouse, changeCoffeeHouse, receiveAddons, addons }) => {
 
-    const [value, setValue] = React.useState('coffee');
+    const [value, setValue] = useState('coffee');
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const [search, setSearch] = useState('');
+    const [activeMenu, setActiveMenu] = useState([])
+
+    useEffect(() => {
+        const getMenu = async () => {
+            setLoading(true);
+            await receiveMenu();
+            setActiveMenu(menu)
+            setLoading(false);
+        }
+        if (search === '') {
+            getMenu();
+            return;
+        }
+        setActiveMenu(menu.filter((product) => product.name.toLowerCase().includes(search.toLowerCase())));
+    }, [search])
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -61,6 +78,8 @@ const MenuList = ({ menu = [], receiveMenu, coffeeHouse, changeCoffeeHouse, rece
                 handleOpen={handleOpen}
                 handleClose={handleClose}
                 open={open}
+                search={search}
+                setSearch={setSearch}
             />
 
             <div className={s.menuContent}>
@@ -80,7 +99,7 @@ const MenuList = ({ menu = [], receiveMenu, coffeeHouse, changeCoffeeHouse, rece
                                         <CircularProgress color="success" />
                                     </div>
                                 )
-                                : menu.map((product) => {
+                                : activeMenu.map((product) => {
                                     return (
                                         <MenuListItem key={product.id} item={product} addons={addons}/>
                                     )

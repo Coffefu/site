@@ -63,7 +63,7 @@ const MenuListItem = ({ item, addons }) => {
       }
       const cart = JSON.parse(localStorage.getItem('cart') || '[]');
       for (let i = 0; i < count; i += 1) {
-         cart.push({ ...item, price: sum, addon: addon });
+         cart.push({ ...item, price: sum / count, addon: addon });
       }
       localStorage.setItem('cart', JSON.stringify(cart));
       setOpenSuccessAlert(true);

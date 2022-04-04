@@ -8,26 +8,23 @@ const CartItem = ({item, addons}) => {
 
     const stringAddon = addons.filter((addon) => +addon.id === +item.addon);
     return (
-        <div className={'row card mb-4 ' + s.cartItem}>
-            <Card className={s.cartItemContent}>
+        <div className={'row card mb-3 ' + s.cartItem}>
+            <Card>
                 <CardContent className='card-body'>
                     <div className='row'>
                         <div className='col-7'>
                             <h5 className='card-title'>
                                 {item.name}
+                                {item.addon !== ''
+                                    ? <span>
+                                        {' - ' + stringAddon[0].name}
+                                    </span> : <span/>}
                             </h5>
-                            <p className='card-text card-subtitle'>
-                                {item.description}
-                            </p>
                         </div>
                         <div className='col-5'>
                             <p className='font-weight-bold card-text d-flex justify-content-end justify-content-center'>
                                 {item.price} руб.
                             </p>
-                            {item.addon !== ''
-                                ? <p className='card-text d-flex justify-content-end mr-2 justify-content-center'>
-                                    {stringAddon[0].name}
-                                </p> : <span/>}
                         </div>
                     </div>
                 </CardContent>

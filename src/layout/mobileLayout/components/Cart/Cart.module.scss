@@ -1,10 +1,13 @@
 .cartItem {
   width: 100%;
-}
-
-.cartItemContent {
+  padding: 0;
 
 
+  div {
+    div {
+      padding-bottom: 0 !important;
+    }
+  }
 }
 
 .makeOrder {
@@ -20,9 +23,7 @@
 }
 
 .cartItemsContainer {
-  width: 100%;
-  max-height: 300px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .orderTime {

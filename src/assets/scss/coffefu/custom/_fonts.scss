@@ -13,3 +13,19 @@
       outline: none !important;
    }
 }
+
+.MuiButton-root {
+   &:focus {
+      outline: none;
+      box-shadow: none;
+   }
+}
+
+.MuiPaper-root {
+   box-shadow: none;
+   outline: none;
+}
+
+div[role="listbox"] {
+   outline: none;
+}

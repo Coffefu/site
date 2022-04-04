@@ -7,6 +7,10 @@ const initialState = {
         address: 'Корпус D, 7 этаж \n Открыто до 20:00',
         short: 'D7'
     },
+    order: JSON.parse(localStorage.getItem('order')) || {
+        number: null,
+        time: null,
+    },
 }
 
 const user = (state = initialState, action) => {
@@ -15,6 +19,11 @@ const user = (state = initialState, action) => {
             return {
                 ...state,
                 coffeeHouse: action.payload,
+            };
+        case types.CHANGE_ORDER:
+            return {
+                ...state,
+                order: action.payload,
             }
         default:
             return state;

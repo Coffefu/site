@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Box, CardContent, Modal, Typography, IconButton, Card, InputBase} from "@mui/material";
 import { styled, alpha } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -50,8 +50,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: '100%'
 }));
 
-const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleClose, handleOpen, open}) => {
-
+const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleClose, handleOpen, open, search, setSearch}) => {
 
     const style = {
         position: 'absolute',
@@ -96,6 +95,8 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
                         <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase
+                        value={search}
+                        onChange={(evt) => setSearch(evt.target.value)}
                         placeholder="Латте…"
                         inputProps={{ 'aria-label': 'search' }}
                     />

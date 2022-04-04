@@ -10,4 +10,13 @@ export default class userStore {
 
         function change(coffeeHouse) { return { type: types.CHANGE_COFFEE_HOUSE, payload: coffeeHouse }}
     }
+
+    static changeOrder = (order) => {
+        return async dispatch => {
+            dispatch(change(order))
+            localStorage.setItem('order', JSON.stringify(order))
+        }
+
+        function change(order) { return { type: types.CHANGE_ORDER, payload: order }}
+    }
 }

@@ -1,21 +1,30 @@
 import React, {useEffect, useState} from 'react'
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 import s from './Cart.module.scss';
-import {Alert, Button, CircularProgress, Snackbar, TextField, Typography} from "@mui/material";
+import { Alert, Button, CircularProgress, IconButton, Snackbar, TextField, Typography } from "@mui/material";
 import CartItem from "./CartItem";
-import {LocalizationProvider, MobileTimePicker, TimePicker} from "@mui/lab";
+import { LocalizationProvider, MobileTimePicker } from "@mui/lab";
+import DeleteIcon from '@mui/icons-material/Delete';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import menuStore from "../../../../store/modules/menuStore";
+import userStore from "../../../../store/modules/userStore";
 
-const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
+const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
     const [cartItems, setCartItems] = useState([])
+
+    const clearCart = () => {
+        localStorage.removeItem('cart');
+        setCartItems([])
+    }
 
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [telephone, setTelephone] = useState('');
     const [time, setTime] = React.useState(new Date());
+
+    const [orderNumber, setOrderNumber] = useState(null);
 
     const [loading, setLoading] = useState(false);
     useEffect(() => {
@@ -34,6 +43,10 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
     }, [])
 
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+    const successOrder = (number) => {
+        setOrderNumber(number);
+        setOpenSuccessAlert(true)
+    }
     const [openErrorAlert, setOpenErrorAlert] = useState(false);
     const handleCloseAlert = (event, reason) => {
         if (reason === 'clickaway') {
@@ -63,7 +76,6 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
         order.customer = {
             name,
             "phone_number": telephone.slice(telephone.length - 10),
-            'email': email,
         }
         order.products = [];
         cartItems.map((product) => {
@@ -82,8 +94,13 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
                     }
                 })
                 const response = await request.json();
-                if (response === 'Success') {
-                    setOpenSuccessAlert(true);
+                if (response['order_number']) {
+                    const orderNumber = response['order_number']
+                    successOrder(orderNumber);
+                    changeOrder({
+                        number: orderNumber,
+                        time: time,
+                    });
                 }
             } catch (e) {
                 console.log(e)
@@ -95,7 +112,7 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
 
     if (loading) {
         return (
-            <div >
+            <div className='mb65-container d-flex flex-column justify-content-center align-items-center height-100'>
                 <CircularProgress color="success" />
             </div>
         )
@@ -115,13 +132,16 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
 
     return (
         <div>
-            <div className='mb65-container d-flex flex-column'>
-                <div className='mt-3 mb-3'>
+            <div className='mb65-container height-100 d-flex flex-column'>
+                <div className='mt-3 mb-3 d-flex justify-content-between'>
                     <Typography variant='h4'>
                         Мой заказ
                     </Typography>
+                    <IconButton aria-label="delete" onClick={clearCart}>
+                        <DeleteIcon />
+                    </IconButton>
                 </div>
-                <div className={'container-fluid ' + s.cartItemsContainer}>
+                <div className={'container-fluid mb-auto ' + s.cartItemsContainer}>
                     {cartItems.map((product, index) => {
                         return (
                             <CartItem key={index} item={product} addons={addons}/>
@@ -129,7 +149,7 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
                     })}
                 </div>
                 <div>
-                    <div className='col mb65-container mt-2'>
+                    <div className='col mt-2'>
                         <div className={'row flex-column d-flex align-items-center justify-content-center'}>
                             <div className={'form-group d-flex flex-column'}>
                                 <div className={'row mb-1'}>
@@ -162,11 +182,13 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
                                     </div>
                                     <div className={'col ' + s.timePicker}>
                                         <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                            <TimePicker
+                                            <MobileTimePicker
                                                 ampm={false}
                                                 ampmInClock={false}
                                                 value={time}
                                                 onChange={setTime}
+                                                cancelText={'Отмена'}
+                                                openTo={'minutes'}
                                                 renderInput={(params) => <TextField {...params} />}
                                             />
                                         </LocalizationProvider>
@@ -198,8 +220,13 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons }) => {
                 key='successAlert'
                 autoHideDuration={6000}
             >
-                <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
-                    Заказ успешно отправлен
+                <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%', fontSize: '16px'}}>
+                    <p>
+                        Заказ успешно отправлен
+                    </p>
+                    <p>
+                        Номер вашего заказа - {orderNumber}
+                    </p>
                 </Alert>
             </Snackbar>
         </div>
@@ -213,6 +240,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     receiveAddons: menuStore.receiveAddons,
+    changeOrder: userStore.changeOrder,
 };
 
 export default connect(
