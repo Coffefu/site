@@ -19,7 +19,6 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
         setCartItems([])
     }
 
-    const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [telephone, setTelephone] = useState('');
     const [time, setTime] = React.useState(new Date());
@@ -78,7 +77,7 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
             "phone_number": telephone.slice(telephone.length - 10),
         }
         order.products = [];
-        cartItems.map((product) => {
+        cartItems.forEach((product) => {
             const addon = addons.filter((addon) => addon.value === product.addon);
             order.products.push({ id: product.id, toppings: addon[0] ? [addon[0].id] : [] })
         })

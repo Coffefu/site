@@ -52,7 +52,7 @@ const MenuListItem = ({item, addons}) => {
         evt.target.classList.add(s.activeAddon);
     }
 
-    const [sum, setSum] = useState(item.price);
+    const sum = useState(item.price);
 
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
     const [openErrorAlert, setOpenErrorAlert] = useState(false);

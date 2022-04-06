@@ -6,12 +6,6 @@ export default async function callApi(
    payload,
    options,
 ) {
-   const config = {
-      method: 'GET',
-      headers: {
-         'Content-Type': 'application/json',
-      }
-   };
 
    const res = await axios({
       method: 'get',

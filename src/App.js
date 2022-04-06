@@ -1,4 +1,3 @@
-import MenuPage from "./pages/MenuPage";
 import MobileLayout from "./layout/mobileLayout";
 
 import './assets/scss/coffefu.scss'

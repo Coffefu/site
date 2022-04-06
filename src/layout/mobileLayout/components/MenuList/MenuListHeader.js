@@ -1,8 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {Box, CardContent, Modal, Typography, IconButton, Card, InputBase} from "@mui/material";
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
-import Avatar from '@mui/material/Avatar';
 import PlaceIcon from '@mui/icons-material/Place';
 import SearchIcon from '@mui/icons-material/Search';
 
