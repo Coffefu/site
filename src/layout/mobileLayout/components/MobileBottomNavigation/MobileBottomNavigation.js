@@ -35,8 +35,6 @@ const MobileBottomNavigation = ({ tab, changeActiveTab }) => {
                     setValue(newValue);
                 }}
                 sx={{
-                    // borderTopLeftRadius: 24,
-                    // borderTopRightRadius: 24,
                     borderRadius: '20px',
                     backgroundColor: "#FFFFFF",
                     margin: 2,
