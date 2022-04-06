@@ -47,6 +47,8 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
         setOpenSuccessAlert(true)
     }
     const [openErrorAlert, setOpenErrorAlert] = useState(false);
+    const [openTimeAlert, setOpenTimeAlert] = useState(false);
+
     const handleCloseAlert = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -54,6 +56,7 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
 
         setOpenSuccessAlert(false);
         setOpenErrorAlert(false);
+        setOpenTimeAlert(false);
     };
 
     const handleTelephoneChange = (event) => {
@@ -64,9 +67,14 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
     }
 
     const makeOrder = () => {
-        if (name === '' || telephone === '' || time - new Date() < 0) {
+        if (name === '' || telephone === '') {
 
             setOpenErrorAlert(true);
+            return;
+        }
+        if (time - new Date() < 0) {
+
+            setOpenTimeAlert(true);
             return;
         }
 
@@ -78,11 +86,12 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
         }
         order.products = [];
         cartItems.forEach((product) => {
-            const addon = addons.filter((addon) => addon.value === product.addon);
+            const addon = addons.filter((addon) => +addon.id === +product.addon);
             order.products.push({ id: product.id, toppings: addon[0] ? [addon[0].id] : [] })
         })
         order.time = moment(time).format("YYYY-MM-DD HH:mm");
 
+        console.log(order)
         const sendOrder = async () => {
             try {
                 const request = await fetch('https://cofefu.ru/api/make_order', {
@@ -210,6 +219,16 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
             >
                 <Alert onClose={handleCloseAlert} severity="error" sx={{width: '100%'}}>
                     Вы заполнили не все данные
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                open={openTimeAlert}
+                onClose={handleCloseAlert}
+                key='timeErrorAlert'
+            >
+                <Alert onClose={handleCloseAlert} severity="error" sx={{width: '100%'}}>
+                    Выбрано неверное время!
                 </Alert>
             </Snackbar>
             <Snackbar

@@ -52,7 +52,7 @@ const MenuListItem = ({item, addons}) => {
         evt.target.classList.add(s.activeAddon);
     }
 
-    const sum = useState(item.price);
+    const sum = item.price;
 
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
     const [openErrorAlert, setOpenErrorAlert] = useState(false);
@@ -154,7 +154,7 @@ const MenuListItem = ({item, addons}) => {
                     <div className='d-flex justify-content-center'>
                         <Button sx={{border: '1px solid black', color: '#c28760'}} onClick={addProduct}
                                 className={"btn " + s.productAdd}>
-                            В корзину {sum + ' руб.'}
+                            В корзине {sum} руб.
                         </Button>
                     </div>
                 </Box>
