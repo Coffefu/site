@@ -55,13 +55,13 @@ const MenuList = ({ menu, receiveMenu, coffeeHouse, changeCoffeeHouse, receiveAd
     const coffeeHouses = [
         {
             id: '1',
-            title: 'Полка кофе',
+            title: 'Полка Кофе',
             address: 'Корпус E, 6 этаж \n Открыто до 20:00',
             short: 'E6'
         },
         {
             id: '1',
-            title: 'Полка кофе',
+            title: 'Полка Кофе',
             address: 'Корпус D, 7 этаж \n Открыто до 20:00',
             short: 'D7'
         }

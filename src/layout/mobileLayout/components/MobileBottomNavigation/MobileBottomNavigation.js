@@ -3,7 +3,7 @@ import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 
 import CoffeeIcon from '@mui/icons-material/Coffee';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import PersonIcon from '@mui/icons-material/Person';
+import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import { connect } from "react-redux";
 import navigationStore from "../../../../store/modules/navigationStore";
 
@@ -45,7 +45,7 @@ const MobileBottomNavigation = ({ tab, changeActiveTab }) => {
             >
                 <BottomNavigationAction value='menu' label="Меню" icon={<CoffeeIcon />} />
                 <BottomNavigationAction value='cart' label="Корзина" icon={<ShoppingBasketIcon />} />
-                <BottomNavigationAction value='profile' label="Профиль" icon={<PersonIcon />} />
+                <BottomNavigationAction value='order' label="Заказ" icon={<AlarmOnIcon />} />
             </BottomNavigation>
         </Paper>
     )

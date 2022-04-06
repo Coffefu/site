@@ -9,7 +9,7 @@ const Order = ({ order }) => {
     useEffect(() => {
         const checkStatus = async () => {
             try {
-                const res = await fetch(`https://cofefu.ru/order_status/${order.number}`).then(res => res.json());
+                const res = await fetch(`https://cofefu.ru/api/order_status/${order.number}`).then(res => res.json());
                 if (res.status === 400 ) {
                     setStatus('noOrder')
                 } else {
@@ -63,14 +63,17 @@ const Order = ({ order }) => {
                     </Typography>
                 </div>
 
-                <div className='mt-3 mb-3 d-flex justify-content-center align-items-center flex-column'>
-                    <Typography variant='body1'>
-                        Будет готов к
-                    </Typography>
-                    <Typography variant='h5'>
-                        { moment(order.time).format('HH:MM') }
-                    </Typography>
-                </div>
+                {
+                    status !== 'Принят' ? <></>
+                        : (<div className='mt-3 mb-3 d-flex justify-content-center align-items-center flex-column'>
+                            <Typography variant='body1'>
+                                Будет готов к
+                            </Typography>
+                            <Typography variant='h5'>
+                                { moment(order.time).format('HH:MM') }
+                            </Typography>
+                        </div>)
+                }
             </div>
         </div>
     )

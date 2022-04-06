@@ -10,11 +10,7 @@ import s from './MenuList.module.scss';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
+    backgroundColor: 'rgba(251, 152, 81, 0.69)',
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '100%',
@@ -22,7 +18,7 @@ const Search = styled('div')(({ theme }) => ({
         marginLeft: theme.spacing(3),
         width: 'auto',
     },
-    border: '1px solid black'
+    borderRadius: '24px',
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -36,7 +32,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
+    color: '#000000',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
@@ -84,7 +80,7 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
                         <span className={s.title + ' mr-1'}>
                             <PlaceIcon sx={{marginBottom: "6px"}}/>
                         </span>
-                        <span className={s.subtitle} onClick={handleOpen}> {coffeeHouse.short} </span>
+                        <span className={s.subtitle} onClick={handleOpen}> {coffeeHouse.title + ' ' + coffeeHouse.short} </span>
                     </div>
                 </div>
             </div>

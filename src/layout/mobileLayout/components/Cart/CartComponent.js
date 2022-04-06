@@ -86,7 +86,7 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
 
         const sendOrder = async () => {
             try {
-                const request = await fetch('https://cofefu.ru/make_order', {
+                const request = await fetch('https://cofefu.ru/api/make_order', {
                     method: 'POST',
                     body: JSON.stringify(order),
                     headers: {
