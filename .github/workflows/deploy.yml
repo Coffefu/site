@@ -30,8 +30,15 @@ jobs:
     - run: CI='' npm run build
     #- run: npm run build --if-present
     #- run: npm test
+    - name: Setup key
+      run: |
+        set -eu
+        mkdir "$HOME/.ssh"
+        echo "${{ secrets.SSH_TOKEN }}" > "$HOME/.ssh/key"
+        chmod 600 "$HOME/.ssh/key"
     - name: Deploy
       run: |
         cd build
-        rsync -e "ssh -i ${{ secrets.SSH_TOKEN }} -o StrictHostKeyChecking=no" --archive --compress . ${{ secrets.HOST }}:${{ secrets.DIR }}
+        rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.DIR }}
+
            
