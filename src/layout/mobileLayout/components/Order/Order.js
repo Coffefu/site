@@ -70,7 +70,7 @@ const Order = ({ order }) => {
                                 Будет готов к
                             </Typography>
                             <Typography variant='h5'>
-                                { moment(order.time).format('HH:MM') }
+                                { moment(order.time).format('HH:mm') }
                             </Typography>
                         </div>)
                 }

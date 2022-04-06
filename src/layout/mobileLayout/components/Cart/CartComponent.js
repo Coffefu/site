@@ -91,7 +91,6 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
         })
         order.time = moment(time).format("YYYY-MM-DD HH:mm");
 
-        console.log(order)
         const sendOrder = async () => {
             try {
                 const request = await fetch('https://cofefu.ru/api/make_order', {
