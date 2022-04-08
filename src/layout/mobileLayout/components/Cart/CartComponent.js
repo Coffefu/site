@@ -63,7 +63,9 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
         setTelephone(event.target.value)
     }
     const handleNameChange = (event) => {
-        setName(event.target.value)
+        if (/^[a-zA-Zа-яА-Я]+$/.test(event.target.value) || event.target.value === '') {
+            setName(event.target.value)
+        }
     }
 
     const makeOrder = () => {

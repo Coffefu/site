@@ -7,7 +7,6 @@ export default class navigationStore {
         return async dispatch => {
             dispatch(change(tab))
             localStorage.setItem('tab', tab)
-            // history.push(`/${tab}`)
             history.push(tab)
         }
 
