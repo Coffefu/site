@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, CardContent, Modal, Typography, IconButton, Card, InputBase} from "@mui/material";
+import { Box, CardContent, Modal, Typography, IconButton, Card, InputBase } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import PlaceIcon from '@mui/icons-material/Place';
@@ -45,7 +45,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: '100%'
 }));
 
-const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleClose, handleOpen, open, search, setSearch}) => {
+const TopHeader = ({ coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleClose, handleOpen, open, search, setSearch }) => {
 
     const style = {
         position: 'absolute',
@@ -71,13 +71,13 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
                     color="inherit"
                     aria-label="open drawer"
                 >
-                    <MenuIcon/>
+                    <MenuIcon />
                 </IconButton>
 
                 <div className={s.headerPlace + ' mb-3 mt-3 ml-auto'}>
                     <div className='d-flex align-item-center justify-content-start'>
                         <span className={s.title + ' mr-1'}>
-                            <PlaceIcon sx={{marginBottom: "6px"}}/>
+                            <PlaceIcon sx={{ marginBottom: "6px" }} />
                         </span>
                         <span className={s.subtitle} onClick={handleOpen}> {coffeeHouse.title + ' ' + coffeeHouse.short} </span>
                     </div>
@@ -113,13 +113,13 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
                             coffeeHouses.map((coffeeHouse, index) => {
                                 return (
                                     <Card key={index} id={coffeeHouse.id} className={'mb-4 border'}
-                                          onClick={() => changeActiveCoffeeHouse(coffeeHouse)}>
+                                        onClick={() => changeActiveCoffeeHouse(coffeeHouse)}>
                                         <CardContent>
                                             <Typography variant="h5" component="div">
-                                                {coffeeHouse.title}
+                                                {coffeeHouse.name}
                                             </Typography>
-                                            <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                                {coffeeHouse.address}
+                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                                {coffeeHouse.placement}
                                             </Typography>
                                         </CardContent>
                                     </Card>

@@ -13,14 +13,24 @@ export default class menuStore {
       function success(data) { return { type: types.RECEIVE_MENU_SUCCESS, payload: data } }
       function failure() { return { type: types.RECEIVE_MENU_FAILURE } }
    }
-   static receiveAddons= () => {
+   static receiveAddons = () => {
       return async dispatch => {
          await callApi(`https://cofefu.ru/api/toppings`, 'GET', undefined, {})
-             .then((json) => dispatch(success(json)))
-             .catch((reason) => { console.log(reason); return dispatch(failure()); });
+            .then((json) => dispatch(success(json)))
+            .catch((reason) => { console.log(reason); return dispatch(failure()); });
       }
 
       function success(data) { return { type: types.RECEIVE_ADDONS_SUCCESS, payload: data } }
       function failure() { return { type: types.RECEIVE_ADDONS_FAILURE } }
+   }
+   static receiveCoffeeHouses = () => {
+      return async dispatch => {
+         await callApi(`https://cofefu.ru/api/coffee_houses`, 'GET', undefined, {})
+            .then((json) => dispatch(success(json)))
+            .catch((reason) => { console.log(reason); return dispatch(failure()); });
+      }
+
+      function success(data) { return { type: types.RECEIVE_COFFEEHOUSES_SUCCESS, payload: data } }
+      function failure() { return { type: types.RECEIVE_COFFEEHOUSES_FAILURE } }
    }
 }

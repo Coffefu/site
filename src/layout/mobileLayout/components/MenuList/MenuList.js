@@ -9,7 +9,16 @@ import userStore from "../../../../store/modules/userStore";
 import s from './MenuList.module.scss';
 import TopHeader from './MenuListHeader';
 
-const MenuList = ({ menu, receiveMenu, coffeeHouse, changeCoffeeHouse, receiveAddons, addons }) => {
+const MenuList = ({
+    menu,
+    coffeeHouses,
+    receiveCoffeeHouses,
+    receiveMenu,
+    coffeeHouse,
+    changeCoffeeHouse,
+    receiveAddons,
+    addons
+}) => {
 
     const [value, setValue] = useState('coffee');
     const handleChange = (event, newValue) => {
@@ -33,6 +42,7 @@ const MenuList = ({ menu, receiveMenu, coffeeHouse, changeCoffeeHouse, receiveAd
             setLoading(true);
             await receiveMenu();
             await receiveAddons();
+            await receiveCoffeeHouses();
             setLoading(false);
         }
         if (search === '') {
@@ -51,21 +61,6 @@ const MenuList = ({ menu, receiveMenu, coffeeHouse, changeCoffeeHouse, receiveAd
         changeCoffeeHouse(coffeeHouse)
         handleClose();
     }
-
-    const coffeeHouses = [
-        {
-            id: '1',
-            title: 'Полка Кофе',
-            address: 'Корпус E, 6 этаж \n Открыто до 20:00',
-            short: 'E6'
-        },
-        {
-            id: '1',
-            title: 'Полка Кофе',
-            address: 'Корпус D, 7 этаж \n Открыто до 20:00',
-            short: 'D7'
-        }
-    ]
 
     return (
         <div>
@@ -114,12 +109,14 @@ const mapStateToProps = state => ({
     menu: state.menu.menu,
     addons: state.menu.addons,
     coffeeHouse: state.user.coffeeHouse,
+    coffeeHouses: state.menu.coffeeHouses,
 });
 
 const mapDispatchToProps = {
     receiveMenu: menuStore.receiveMenu,
     receiveAddons: menuStore.receiveAddons,
     changeCoffeeHouse: userStore.changeCoffeeHouse,
+    receiveCoffeeHouses: menuStore.receiveCoffeeHouses
 };
 
 export const ConnectedMenuList = connect(

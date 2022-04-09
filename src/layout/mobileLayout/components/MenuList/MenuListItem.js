@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Card from '@mui/material/Card';
-import {Box, Button, CardContent, Modal, Typography, Snackbar, Alert, IconButton} from '@mui/material';
+import { Box, Button, CardContent, Modal, Typography, Snackbar, Alert, IconButton } from '@mui/material';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import s from './MenuList.module.scss'
@@ -21,7 +21,7 @@ const style = {
     color: '#000000'
 };
 
-const MenuListItem = ({item, addons}) => {
+const MenuListItem = ({ item, addons }) => {
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -71,7 +71,7 @@ const MenuListItem = ({item, addons}) => {
             return;
         }
         const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        cart.push({...item, price: sum, addon: addon});
+        cart.push({ ...item, price: sum, addon: addon });
         localStorage.setItem('cart', JSON.stringify(cart));
         setOpenSuccessAlert(true);
         closeModal();
@@ -86,13 +86,17 @@ const MenuListItem = ({item, addons}) => {
                             <h5 className='card-title'>
                                 {item.name}
                             </h5>
-                            <p className='card-text'>
-                                {item.description}
-                            </p>
                         </div>
                         <div className='col d-flex justify-content-end'>
                             <p className='card-text font-weight-bold'>
                                 {item.price} руб.
+                            </p>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col'>
+                            <p className='card-text'>
+                                {item.description}
                             </p>
                         </div>
                     </div>
@@ -108,7 +112,7 @@ const MenuListItem = ({item, addons}) => {
                 <Box sx={style}>
                     <div className='d-flex justify-content-start h6'>
                         <IconButton aria-label="delete" onClick={closeModal} className='p-0'>
-                            <ArrowBackIcon color='#000000'/>
+                            <ArrowBackIcon color='#000000' />
                         </IconButton>
                     </div>
 
@@ -144,7 +148,7 @@ const MenuListItem = ({item, addons}) => {
                         {addons.map((addon, index) => {
                             return (
                                 <div key={index} className={s.addonCheckbox} data-addon={addon.id}
-                                     onClick={changeAddon}>
+                                    onClick={changeAddon}>
                                     {addon.name}
                                 </div>
                             )
@@ -152,8 +156,8 @@ const MenuListItem = ({item, addons}) => {
                     </div>
 
                     <div className='d-flex justify-content-center'>
-                        <Button sx={{border: '1px solid black', color: '#c28760'}} onClick={addProduct}
-                                className={"btn " + s.productAdd}>
+                        <Button sx={{ border: '1px solid black', color: '#c28760' }} onClick={addProduct}
+                            className={"btn " + s.productAdd}>
                             В корзину {sum} руб.
                         </Button>
                     </div>
@@ -161,23 +165,23 @@ const MenuListItem = ({item, addons}) => {
             </Modal>
 
             <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 open={openErrorAlert}
                 onClose={handleCloseAlert}
                 key='errorAlert'
             >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{width: '100%'}}>
+                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
                     Вы не выбрали размер
                 </Alert>
             </Snackbar>
             <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 open={openSuccessAlert}
                 onClose={handleCloseAlert}
                 key='successAlert'
                 autoHideDuration={6000}
             >
-                <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%'}}>
+                <Alert onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>
                     Продукт добавлен в вашу корзину
                 </Alert>
             </Snackbar>
