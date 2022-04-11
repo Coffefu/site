@@ -3,28 +3,7 @@ import {Typography} from "@mui/material";
 import {connect} from "react-redux";
 import moment from "moment";
 
-const Order = ({ order }) => {
-
-    const [status, setStatus] = useState(null);
-    useEffect(() => {
-        const checkStatus = async () => {
-            try {
-                const res = await fetch(`https://cofefu.ru/api/order_status/${order.number}`).then(res => res.json());
-                if (res.status === 400 ) {
-                    setStatus('noOrder')
-                } else {
-                    setStatus(res)
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        }
-
-        if (order.number) {
-            checkStatus();
-            setInterval(checkStatus, 60000)
-        }
-    }, [status])
+const ActiveOrder = ({ order, status }) => {
 
     if (!order.number || status === 'noOrder') {
         return (
@@ -88,4 +67,4 @@ const mapDispatchToProps = {};
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Order);
+)(ActiveOrder);
