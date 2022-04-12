@@ -81,7 +81,9 @@ const MenuList = ({
                         <div className='row d-flex align-item-center justify-content-start'>
                             <TabList onChange={handleChange} aria-label="lab API tabs">
                                 <Tab label="Кофе" value="coffee" />
+                                <Tab label="Не кофе" value="notCoffee" />
                             </TabList>
+
                         </div>
                     </div>
                     <div className='mb65-container'>
@@ -93,9 +95,26 @@ const MenuList = ({
                                     </div>
                                 )
                                 : activeMenu.map((product) => {
-                                    return (
-                                        <MenuListItem key={product.id} item={product} addons={addons} />
-                                    )
+                                    if (product.type === 0) {
+                                        return (
+                                            <MenuListItem key={product.id} item={product} addons={addons} />
+                                        )
+                                    }
+                                })}
+                        </TabPanel>
+                        <TabPanel value='notCoffee'>
+                            {loading && activeMenu.length > 0
+                                ? (
+                                    <div className={s.spinner}>
+                                        <CircularProgress color="success" />
+                                    </div>
+                                )
+                                : activeMenu.map((product) => {
+                                    if (product.type === 1) {
+                                        return (
+                                            <MenuListItem key={product.id} item={product} addons={addons} />
+                                        )
+                                    }
                                 })}
                         </TabPanel>
                     </div>

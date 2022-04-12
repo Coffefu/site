@@ -89,7 +89,7 @@ const MenuListItem = ({ item, addons }) => {
                         </div>
                         <div className='col d-flex justify-content-end'>
                             <p className='card-text font-weight-bold'>
-                                {item.price} руб.
+                                {item.variations.reduce((a, b) => a += b.price + '/', '').slice(0, -1)} руб.
                             </p>
                         </div>
                     </div>

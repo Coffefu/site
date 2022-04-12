@@ -28,7 +28,7 @@ const Profile = ({ order }) => {
         const checkStatus = async () => {
             try {
                 const res = await fetch(`https://cofefu.ru/api/order_status/${order.number}`).then(res => res.json());
-                if (res.status === 400 ) {
+                if (res.status === 400 || res.detail === 'Invalid order number') {
                     setStatus('noOrder')
                 } else {
                     setStatus(res)
@@ -38,7 +38,7 @@ const Profile = ({ order }) => {
             }
         }
 
-        if (order.number) {
+        if (order.number || status !== 'noOrder') {
             checkStatus();
             setInterval(checkStatus, 60000)
         }
