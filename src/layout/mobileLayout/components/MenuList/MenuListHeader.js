@@ -1,13 +1,13 @@
 import React from 'react'
-import {Box, CardContent, Modal, Typography, IconButton, Card, InputBase} from "@mui/material";
-import { styled } from '@mui/material/styles';
+import {Box, CardContent, Modal, Typography, IconButton, Card, InputBase, Drawer} from "@mui/material";
+import {styled} from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import PlaceIcon from '@mui/icons-material/Place';
 import SearchIcon from '@mui/icons-material/Search';
 
 import s from './MenuList.module.scss';
 
-const Search = styled('div')(({ theme }) => ({
+const Search = styled('div')(({theme}) => ({
     position: 'relative',
     backgroundColor: 'rgba(251, 152, 81, 0.69)',
     marginRight: theme.spacing(2),
@@ -20,7 +20,7 @@ const Search = styled('div')(({ theme }) => ({
     borderRadius: '24px',
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled('div')(({theme}) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -30,7 +30,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({theme}) => ({
     color: '#000000',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
@@ -45,7 +45,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: '100%'
 }));
 
-const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleClose, handleOpen, open, search, setSearch}) => {
+const TopHeader = ({
+                       coffeeHouse,
+                       coffeeHouses,
+                       changeActiveCoffeeHouse,
+                       handleClose,
+                       handleOpen,
+                       open,
+                       search,
+                       setSearch
+                   }) => {
 
     const style = {
         position: 'absolute',
@@ -62,6 +71,12 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
         borderRadius: '5px',
     };
 
+    const [state, setState] = React.useState(false);
+
+    const toggleDrawer = () => {
+        setState(!state);
+    };
+
     return (
         <div className={s.headerWrapper}>
             <div className={'mb-3 mt-3 d-flex'}>
@@ -70,8 +85,18 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
                     edge="start"
                     color="inherit"
                     aria-label="open drawer"
+                    onClick={toggleDrawer}
                 >
-                    <MenuIcon/>
+                    <MenuIcon />
+                    <Drawer
+                        anchor={'left'}
+                        open={state}
+                        onClose={toggleDrawer}
+                    >
+                        <div className='p-3 mt-5'>
+                            В разработке!
+                        </div>
+                    </Drawer>
                 </IconButton>
 
                 <div className={s.headerPlace + ' mb-3 mt-3 ml-auto'}>
@@ -79,21 +104,22 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
                         <span className={s.title + ' mr-1'}>
                             <PlaceIcon sx={{marginBottom: "6px"}}/>
                         </span>
-                        <span className={s.subtitle} onClick={handleOpen}> {coffeeHouse.title + ' ' + coffeeHouse.short} </span>
+                        <span className={s.subtitle}
+                              onClick={handleOpen}> {coffeeHouse.title + ' ' + coffeeHouse.short} </span>
                     </div>
                 </div>
             </div>
 
-            <div className={'mb-3 mt-3'} >
+            <div className={'mb-3 mt-3'}>
                 <Search>
                     <SearchIconWrapper>
-                        <SearchIcon />
+                        <SearchIcon/>
                     </SearchIconWrapper>
                     <StyledInputBase
                         value={search}
                         onChange={(evt) => setSearch(evt.target.value)}
                         placeholder="Латте…"
-                        inputProps={{ 'aria-label': 'search' }}
+                        inputProps={{'aria-label': 'search'}}
                     />
                 </Search>
             </div>
@@ -116,10 +142,10 @@ const TopHeader = ({coffeeHouse, coffeeHouses, changeActiveCoffeeHouse, handleCl
                                           onClick={() => changeActiveCoffeeHouse(coffeeHouse)}>
                                         <CardContent>
                                             <Typography variant="h5" component="div">
-                                                {coffeeHouse.title}
+                                                {coffeeHouse.name}
                                             </Typography>
                                             <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-                                                {coffeeHouse.address}
+                                                {coffeeHouse.placement}
                                             </Typography>
                                         </CardContent>
                                     </Card>

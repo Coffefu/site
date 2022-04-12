@@ -21,7 +21,7 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
 
     const [name, setName] = useState('');
     const [telephone, setTelephone] = useState('');
-    const [time, setTime] = React.useState(new Date());
+    const [time, setTime] = React.useState(new Date().setMilliseconds(new Date().getMilliseconds() + 300000));
 
     const [orderNumber, setOrderNumber] = useState(null);
 

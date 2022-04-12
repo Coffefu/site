@@ -3,6 +3,7 @@ import * as types from '../types'
 const initialState = {
    menu: [],
    addons: [],
+   coffeeHouses: [],
 }
 
 const menu = (state = initialState, action) => {
@@ -16,6 +17,11 @@ const menu = (state = initialState, action) => {
          return {
             ...state,
             addons: action.payload,
+         }
+      case types.RECEIVE_COFFEEHOUSES_SUCCESS:
+         return {
+            ...state,
+            coffeeHouses: action.payload,
          }
       default:
          return state;
