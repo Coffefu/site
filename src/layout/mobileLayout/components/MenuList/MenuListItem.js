@@ -32,9 +32,17 @@ const MenuListItem = ({ item, addons }) => {
         handleClose();
     }
 
-    const [size, setSize] = useState('');
+    const [sum, setSum] = useState(item.variations[0].price);
+
+    const sizes = ['250', '350', '450'];
+    const [size, setSize] = useState({
+        size: item.variations[0].size,
+        price: item.variations[0].price
+    });
     const changeSize = (evt) => {
         setSize(evt.target.getAttribute('data-size'));
+        setSum(evt.target.getAttribute('data-price'));
+        setSum(evt.target.getAttribute('data-price') + addon.price);
         const checkboxes = document.getElementsByClassName(s.sizeCheckbox);
         for (let checkbox of checkboxes) {
             checkbox.classList.remove(s.activeSize);
@@ -42,17 +50,19 @@ const MenuListItem = ({ item, addons }) => {
         evt.target.classList.add(s.activeSize);
     }
 
-    const [addon, setAddon] = useState('');
+    const [addon, setAddon] = useState({});
     const changeAddon = (evt) => {
-        setAddon(evt.target.getAttribute('data-addon'));
+        setAddon({
+            addon: evt.target.getAttribute('data-addon'),
+            price: evt.target.getAttribute('data-price')
+        });
+        setSum(size.price + +evt.target.getAttribute('data-price'));
         const checkboxes = document.getElementsByClassName(s.addonCheckbox);
         for (let checkbox of checkboxes) {
             checkbox.classList.remove(s.activeAddon);
         }
         evt.target.classList.add(s.activeAddon);
     }
-
-    const sum = item.price;
 
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
     const [openErrorAlert, setOpenErrorAlert] = useState(false);
@@ -128,12 +138,32 @@ const MenuListItem = ({ item, addons }) => {
                         </div>
 
                         <div className={'d-flex align-items-center'}>
-                            <div className={s.sizeCheckbox} data-size='S' onClick={changeSize}>
-                                S
-                            </div>
-                            <div className={s.sizeCheckbox} data-size='M' onClick={changeSize}>
-                                M
-                            </div>
+                            {
+                                item.variations.map((item, index) => {
+                                    if (index === 0) {
+                                        return (
+                                            <div
+                                                className={s.sizeCheckbox + ' ' + s.activeSize}
+                                                data-size={item.size}
+                                                onClick={changeSize}
+                                                data-price={item.price}
+                                            >
+                                                {sizes[item.size]}
+                                            </div>
+                                        )
+                                    }
+                                    return (
+                                        <div
+                                            className={s.sizeCheckbox}
+                                            data-size={item.size}
+                                            onClick={changeSize}
+                                            data-price={item.price}
+                                        >
+                                            {sizes[item.size]}
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
 
                     </div>
@@ -147,8 +177,12 @@ const MenuListItem = ({ item, addons }) => {
                     <div className={'d-flex justify-content-center flex-wrap align-items-center mb-auto ' + s.addonWrapper}>
                         {addons.map((addon, index) => {
                             return (
-                                <div key={index} className={s.addonCheckbox} data-addon={addon.id}
-                                    onClick={changeAddon}>
+                                <div key={index}
+                                     className={s.addonCheckbox}
+                                     data-addon={addon.id}
+                                    onClick={changeAddon}
+                                     data-price={addon.price}
+                                >
                                     {addon.name}
                                 </div>
                             )
