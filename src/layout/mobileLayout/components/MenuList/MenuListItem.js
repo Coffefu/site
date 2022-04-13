@@ -218,7 +218,7 @@ const MenuListItem = ({ item, addons }) => {
                         })}
                     </div>
 
-                    <div className='d-flex justify-content-center'>
+                    <div className='d-flex justify-content-center mt-3'>
                         <Button sx={{ border: '1px solid black', color: '#c28760' }} onClick={addProduct}
                             className={"btn " + s.productAdd}>
                             В корзину {sum} руб.
