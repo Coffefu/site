@@ -52,6 +52,15 @@ const MenuListItem = ({ item, addons }) => {
 
     const [addon, setAddon] = useState({});
     const changeAddon = (evt) => {
+        if (addon.addon === evt.target.getAttribute('data-addon')) {
+            setAddon(null);
+            setSum(size.price);
+            const checkboxes = document.getElementsByClassName(s.addonCheckbox);
+            for (let checkbox of checkboxes) {
+                checkbox.classList.remove(s.activeAddon);
+            }
+            return;
+        }
         setAddon({
             addon: evt.target.getAttribute('data-addon'),
             price: evt.target.getAttribute('data-price')
@@ -143,6 +152,7 @@ const MenuListItem = ({ item, addons }) => {
                                     if (index === 0) {
                                         return (
                                             <div
+                                                key={index}
                                                 className={s.sizeCheckbox + ' ' + s.activeSize}
                                                 data-size={item.size}
                                                 onClick={changeSize}
@@ -154,6 +164,7 @@ const MenuListItem = ({ item, addons }) => {
                                     }
                                     return (
                                         <div
+                                            key={index}
                                             className={s.sizeCheckbox}
                                             data-size={item.size}
                                             onClick={changeSize}
@@ -178,10 +189,10 @@ const MenuListItem = ({ item, addons }) => {
                         {addons.map((addon, index) => {
                             return (
                                 <div key={index}
-                                     className={s.addonCheckbox}
-                                     data-addon={addon.id}
+                                    className={s.addonCheckbox}
+                                    data-addon={addon.id}
                                     onClick={changeAddon}
-                                     data-price={addon.price}
+                                    data-price={addon.price}
                                 >
                                     {addon.name}
                                 </div>

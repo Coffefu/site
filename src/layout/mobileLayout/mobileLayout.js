@@ -1,10 +1,10 @@
 import { ConnectedMenuList } from "./components/MenuList/MenuList";
 import BottomNavigation from "./components/MobileBottomNavigation";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import CartComponent from "./components/Cart";
-import Order from "./components/Order";
+import Order from "./components/Profile";
 import StartPage from "./components/StartPage";
-import {useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 import navigationStore from "../../store/modules/navigationStore";
 
 export const MobileLayout = ({ children, tab, changeActiveTab }) => {
@@ -13,7 +13,7 @@ export const MobileLayout = ({ children, tab, changeActiveTab }) => {
     if (!cookies.jwt) {
         changeActiveTab('start');
     }
-    
+
     if (tab === 'start') {
         return (
             <StartPage />
@@ -24,7 +24,7 @@ export const MobileLayout = ({ children, tab, changeActiveTab }) => {
                 <div className="container">
                     {
                         tab === 'menu'
-                            ? ( <ConnectedMenuList /> )
+                            ? (<ConnectedMenuList />)
                             : tab === 'cart'
                                 ? (<CartComponent />)
                                 : (<Order />)

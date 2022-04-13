@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {Typography} from "@mui/material";
-import {connect} from "react-redux";
+import React, { useEffect, useState } from "react";
+import { Typography } from "@mui/material";
+import { connect } from "react-redux";
 import moment from "moment";
 
 const ActiveOrder = ({ order, status }) => {
@@ -30,7 +30,7 @@ const ActiveOrder = ({ order, status }) => {
                         Номер заказа
                     </Typography>
                     <Typography variant='h1'>
-                        { order.number }
+                        {order.number}
                     </Typography>
                 </div>
                 <div className='mt-3 mb-3 d-flex justify-content-center align-items-center flex-column'>
@@ -38,7 +38,7 @@ const ActiveOrder = ({ order, status }) => {
                         Статус заказа
                     </Typography>
                     <Typography variant='h3'>
-                        { status }
+                        {status}
                     </Typography>
                 </div>
 
@@ -49,7 +49,7 @@ const ActiveOrder = ({ order, status }) => {
                                 Будет готов к
                             </Typography>
                             <Typography variant='h5'>
-                                { moment(order.time).format('HH:mm') }
+                                {moment(order.time).format('HH:mm')}
                             </Typography>
                         </div>)
                 }

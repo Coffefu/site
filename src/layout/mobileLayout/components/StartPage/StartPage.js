@@ -1,10 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import coffeeBeans from '../../../../assets/img/coffeeBeans.png';
-import {Alert, Box, Button, IconButton, Modal, Snackbar, TextField, Typography} from "@mui/material";
+import { Alert, Box, Button, IconButton, Modal, Snackbar, TextField, Typography } from "@mui/material";
 import s from "./StartPage.module.scss";
-import {useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ReactCodeInput from "react-verification-code-input";
+import { connect } from 'react-redux';
+import navigationStore from './../../../../store/modules/navigationStore';
 
 const style = {
     display: 'flex',
@@ -22,7 +24,7 @@ const style = {
     color: '#000000'
 };
 
-const StartPage = () => {
+const StartPage = ({ changeActiveTab }) => {
 
     const [isLogin, setIsLogin] = useState(true)
     const [name, setName] = useState('');
@@ -30,6 +32,8 @@ const StartPage = () => {
     const [nameValid, setNameValid] = useState(null);
     const [phoneValid, setPhoneValid] = useState(null);
     const [cookies, setCookie] = useCookies(["jwt"]);
+    const [code, setCode] = useState('')
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -37,6 +41,8 @@ const StartPage = () => {
         handleClose();
     }
 
+    const [openLoginSuccessAlert, setOpenLoginSuccessAlert] = useState(false);
+    const [openCodeErrorAlert, setOpenCodeErrorAlert] = useState(false)
     const [wrongTelephoneAlert, setWrongTelephoneAlert] = useState(false)
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
     const [openErrorAlert, setOpenErrorAlert] = useState(false);
@@ -65,7 +71,7 @@ const StartPage = () => {
     }
 
     const verifyPhone = () => {
-        const newWindow = window.open('https://t.me/coffefu_test_bot', '_blank', 'noopener,noreferrer')
+        const newWindow = window.open('https://t.me/cofefu_bot', '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
     }
 
@@ -104,6 +110,7 @@ const StartPage = () => {
                     if (response) {
                         setOpenSuccessAlert(true);
                         setCookie('jwt', response);
+                        changeActiveTab('menu');
                     }
                 } catch (e) {
                     console.log(e)
@@ -139,21 +146,51 @@ const StartPage = () => {
         setIsLogin(!isLogin);
     }
 
-    const verify = () => {
+    const changeCode = (event) => {
+        setCode(event);
+    }
 
+    const verify = () => {
+        if (code.length < 6) {
+            setOpenCodeErrorAlert(true);
+            return;
+        }
+
+        const sendVerifyCode = async () => {
+            try {
+                const request = await fetch(`https://cofefu.ru/api/verify_login_code?code=${code}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                const response = await request.json();
+                if (response.detail === 'Неверный код подтверждения.') {
+                    setOpenCodeErrorAlert(true);
+                } else {
+                    setCookie('jwt', response);
+                    setOpenLoginSuccessAlert(true);
+                    changeActiveTab('menu');
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
+        sendVerifyCode();
     }
 
     return (
         <div className='container pt-4 '>
             <div className='d-flex flex-column align-items-center justify-content-center height-100 mb-2'>
                 <div className='mb-4 d-flex flex-column align-items-center justify-content-center'>
-                    <img src={coffeeBeans} width='120' alt='coffee beans'/>
+                    <img src={coffeeBeans} width='120' alt='coffee beans' />
                     <Typography className='pt-1' variant='h4'>
                         Cofefu
                     </Typography>
                 </div>
                 {!isLogin
-                ? (<TextField
+                    ? (<TextField
                         onChange={handleNameChange}
                         className='mb-2'
                         id="userName"
@@ -163,7 +200,7 @@ const StartPage = () => {
                         value={name}
                     />) : null}
                 <TextField
-                    inputProps={{ type: 'tel'}}
+                    inputProps={{ type: 'tel' }}
                     className='mb-4'
                     id="userNumber"
                     label="Номер телефона"
@@ -172,9 +209,9 @@ const StartPage = () => {
                     onChange={handleTelephoneChange}
                     error={phoneValid !== null && !phoneValid}
                 />
-                <Button sx={{border: '1px solid black', color: '#c28760'}}
-                        className={"btn " + s.login}
-                        onClick={userLoginRegistration}
+                <Button sx={{ border: '1px solid black', color: '#c28760' }}
+                    className={"btn " + s.login}
+                    onClick={userLoginRegistration}
                 >
                     {isLogin ? 'Войти' : 'Регистрация'}
                 </Button>
@@ -183,7 +220,7 @@ const StartPage = () => {
                 </Typography>
             </div>
             <div className='d-flex align-items-center justify-content-center'>
-                <Typography onClick={changeIsLogin} style={{ cursor: 'pointer'}} variant='subtitle1'>
+                <Typography onClick={changeIsLogin} style={{ cursor: 'pointer' }} variant='subtitle1'>
                     {isLogin ? 'Регистрация' : 'Войти'}
                 </Typography>
             </div>
@@ -206,19 +243,44 @@ const StartPage = () => {
                     </Typography>
 
                     <div className="p-3 d-flex flex-column align-items-center justify-content-between">
-                        <ReactCodeInput />
+                        <ReactCodeInput
+                            type="number"
+                            fields={6}
+                            value={code}
+                            onChange={changeCode} />
                     </div>
 
                     <div className='mt-auto d-flex justify-content-center'>
                         <Button sx={{ border: '1px solid black', color: '#c28760' }} onClick={verify}
-                                className={"btn"}>
+                            className={"btn"}>
                             подтвердить
                         </Button>
                     </div>
                 </Box>
             </Modal>
 
-
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={openLoginSuccessAlert}
+                onClose={handleCloseAlert}
+                key='loginSuccessAlert'
+                autoHideDuration={6000}
+            >
+                <Alert severity="success" sx={{ width: '100%' }}>
+                    Успешный вход
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={openCodeErrorAlert}
+                onClose={handleCloseAlert}
+                key='codeErrorAlert'
+                autoHideDuration={6000}
+            >
+                <Alert severity="error" sx={{ width: '100%' }}>
+                    Неверный код подтверждения
+                </Alert>
+            </Snackbar>
             <Snackbar
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 open={openErrorAlert}
@@ -226,7 +288,7 @@ const StartPage = () => {
                 key='errorAlert'
                 autoHideDuration={6000}
             >
-                <Alert  severity="error" sx={{ width: '100%' }}>
+                <Alert severity="error" sx={{ width: '100%' }}>
                     Данные не заполнены!
                 </Alert>
             </Snackbar>
@@ -237,7 +299,7 @@ const StartPage = () => {
                 key='successAlert'
                 autoHideDuration={6000}
             >
-                <Alert  severity="success" sx={{ width: '100%' }}>
+                <Alert severity="success" sx={{ width: '100%' }}>
                     Регистрация успешна!
                     <p>
                         Не забудьте потвердить номер телефона!
@@ -251,7 +313,7 @@ const StartPage = () => {
                 key='wrongTelephoneAlert'
                 autoHideDuration={6000}
             >
-                <Alert  severity="error" sx={{ width: '100%' }}>
+                <Alert severity="error" sx={{ width: '100%' }}>
                     Пользователь с таким номером телефона уже существует.
                 </Alert>
             </Snackbar>
@@ -259,4 +321,13 @@ const StartPage = () => {
     )
 };
 
-export default StartPage;
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = {
+    changeActiveTab: navigationStore.changeActiveTab
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(StartPage);

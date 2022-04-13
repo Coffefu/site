@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { useCookies } from "react-cookie";
 
 import s from './Cart.module.scss';
 import { Alert, Button, CircularProgress, IconButton, Snackbar, TextField, Typography } from "@mui/material";
@@ -11,7 +12,9 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import menuStore from "../../../../store/modules/menuStore";
 import userStore from "../../../../store/modules/userStore";
 
-const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
+const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
+
+    const [cookies, setCookie] = useCookies(["jwt"]);
     const [cartItems, setCartItems] = useState([])
 
     const clearCart = () => {
@@ -19,8 +22,6 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
         setCartItems([])
     }
 
-    const [name, setName] = useState('');
-    const [telephone, setTelephone] = useState('');
     const [time, setTime] = React.useState(new Date().setMilliseconds(new Date().getMilliseconds() + 300000));
 
     const [orderNumber, setOrderNumber] = useState(null);
@@ -46,6 +47,8 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
         setOrderNumber(number);
         setOpenSuccessAlert(true)
     }
+
+    const [openVerifyAlert, setOpenVerifyAlert] = useState(false);
     const [openErrorAlert, setOpenErrorAlert] = useState(false);
     const [openTimeAlert, setOpenTimeAlert] = useState(false);
 
@@ -58,22 +61,7 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
         setOpenErrorAlert(false);
         setOpenTimeAlert(false);
     };
-
-    const handleTelephoneChange = (event) => {
-        setTelephone(event.target.value)
-    }
-    const handleNameChange = (event) => {
-        if (/^[a-zA-Zа-яА-Я]+$/.test(event.target.value) || event.target.value === '') {
-            setName(event.target.value)
-        }
-    }
-
     const makeOrder = () => {
-        if (name === '' || telephone === '') {
-
-            setOpenErrorAlert(true);
-            return;
-        }
         if (time - new Date() < 0) {
 
             setOpenTimeAlert(true);
@@ -82,10 +70,6 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
 
         const order = {};
         order.coffee_house = coffeeHouse.id;
-        order.customer = {
-            name,
-            "phone_number": telephone.slice(telephone.length - 10),
-        }
         order.products = [];
         cartItems.forEach((product) => {
             const addon = addons.filter((addon) => +addon.id === +product.addon);
@@ -99,10 +83,15 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
                     method: 'POST',
                     body: JSON.stringify(order),
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'jwt-token': cookies.jwt
                     }
                 })
                 const response = await request.json();
+                if (response.detail === 'Пользователь не подтвердил номер телефона.') {
+                    setOpenVerifyAlert(true);
+                    return;
+                }
                 if (response['order_number']) {
                     const orderNumber = response['order_number']
                     successOrder(orderNumber);
@@ -153,7 +142,7 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
                 <div className={'container-fluid mb-auto ' + s.cartItemsContainer}>
                     {cartItems.map((product, index) => {
                         return (
-                            <CartItem key={index} item={product} addons={addons}/>
+                            <CartItem key={index} item={product} addons={addons} />
                         )
                     })}
                 </div>
@@ -161,28 +150,6 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
                     <div className='col mt-2'>
                         <div className={'row flex-column d-flex align-items-center justify-content-center'}>
                             <div className={'form-group d-flex flex-column'}>
-                                <div className={'row mb-1'}>
-                                    <div className={'col'}>
-                                        <label>
-                                            Имя
-                                        </label>
-                                    </div>
-                                    <div className={'col'}>
-                                        <input required value={name} onChange={handleNameChange} placeholder={'Ваше имя'}
-                                               className={'ml-1'} type={'text'}/>
-                                    </div>
-                                </div>
-                                <div className={'row mb-2'}>
-                                    <div className={'col'}>
-                                        <label>
-                                            Телефон
-                                        </label>
-                                    </div>
-                                    <div className={'col'}>
-                                        <input required value={telephone} onChange={handleTelephoneChange} placeholder={'Номер телефона'}
-                                               className={'ml-1'} type={'tel'} pattern={'^(\\+7|7|8)[0-9]{10}$'}/>
-                                    </div>
-                                </div>
                                 <div className={'row mb-2 d-flex align-items-center'}>
                                     <div className={'col'}>
                                         <label>
@@ -213,33 +180,46 @@ const CartComponent = ({coffeeHouse, addons, receiveAddons, changeOrder }) => {
             </div>
 
             <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={openVerifyAlert}
+                onClose={handleCloseAlert}
+                key='verifyAlert'
+            >
+                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+                    Номер телефон не подтверждён.
+                    <p>
+                        Вы можете подтвердить номер в профиле!
+                    </p>
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 open={openErrorAlert}
                 onClose={handleCloseAlert}
                 key='errorAlert'
             >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{width: '100%'}}>
+                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
                     Вы заполнили не все данные
                 </Alert>
             </Snackbar>
             <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 open={openTimeAlert}
                 onClose={handleCloseAlert}
                 key='timeErrorAlert'
             >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{width: '100%'}}>
+                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
                     Выбрано неверное время!
                 </Alert>
             </Snackbar>
             <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 open={openSuccessAlert}
                 onClose={handleCloseAlert}
                 key='successAlert'
                 autoHideDuration={6000}
             >
-                <Alert onClose={handleCloseAlert} severity="success" sx={{width: '100%', fontSize: '16px'}}>
+                <Alert onClose={handleCloseAlert} severity="success" sx={{ width: '100%', fontSize: '16px' }}>
                     <p>
                         Заказ успешно отправлен
                     </p>
