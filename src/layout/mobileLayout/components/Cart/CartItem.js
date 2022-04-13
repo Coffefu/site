@@ -1,12 +1,12 @@
 import React from 'react'
 import Card from '@mui/material/Card';
-import {CardContent} from '@mui/material';
+import { CardContent } from '@mui/material';
 
 import s from './Cart.module.scss'
 
-const CartItem = ({item, addons}) => {
+const CartItem = ({ item, addons }) => {
 
-    const stringAddon = addons.filter((addon) => +addon.id === +item.addon);
+    const stringAddon = addons.filter((addon) => +addon.id === +item.addon.addon);
     return (
         <div className={'row card mb-3 ' + s.cartItem}>
             <Card>
@@ -15,10 +15,10 @@ const CartItem = ({item, addons}) => {
                         <div className='col-7'>
                             <h5 className='card-title'>
                                 {item.name}
-                                {item.addon !== ''
+                                {stringAddon.length !== 0 && item.addon !== ''
                                     ? <span>
                                         {' - ' + stringAddon[0].name}
-                                    </span> : <span/>}
+                                    </span> : <span />}
                             </h5>
                         </div>
                         <div className='col-5'>

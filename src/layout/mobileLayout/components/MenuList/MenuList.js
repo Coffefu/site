@@ -94,10 +94,10 @@ const MenuList = ({
                                         <CircularProgress color="success" />
                                     </div>
                                 )
-                                : activeMenu.map((product) => {
+                                : activeMenu.map((product, index) => {
                                     if (product.type === 0) {
                                         return (
-                                            <MenuListItem key={product.id} item={product} addons={addons} />
+                                            <MenuListItem key={index} item={product} addons={addons} />
                                         )
                                     }
                                 })}
@@ -109,10 +109,10 @@ const MenuList = ({
                                         <CircularProgress color="success" />
                                     </div>
                                 )
-                                : activeMenu.map((product) => {
+                                : activeMenu.map((product, index) => {
                                     if (product.type === 1) {
                                         return (
-                                            <MenuListItem key={product.id} item={product} addons={addons} />
+                                            <MenuListItem key={index} item={product} addons={addons} />
                                         )
                                     }
                                 })}
