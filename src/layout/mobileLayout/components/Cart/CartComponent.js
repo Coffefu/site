@@ -72,7 +72,7 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
         order.coffee_house = coffeeHouse.id;
         order.products = [];
         cartItems.forEach((product) => {
-            const addon = addons.filter((addon) => +addon.id === +product.addon.addon);
+            const addon = addons.filter((addon) => +addon.id === +product.addon.id);
             order.products.push({ id: product.id, toppings: addon[0] ? [addon[0].id] : [] })
         })
         order.time = moment(time).format("YYYY-MM-DD HH:mm");
