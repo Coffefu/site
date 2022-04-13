@@ -27,8 +27,16 @@ const MenuListItem = ({ item, addons }) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const closeModal = () => {
-        setSize('');
-        setAddon('');
+        setAddon({
+            id: null,
+            price: 0
+        });
+        setSize({
+            size: item.variations[0].size,
+            price: item.variations[0].price
+        });
+
+        setSum(+item.variations[0].price);
         handleClose();
     }
 
@@ -54,7 +62,7 @@ const MenuListItem = ({ item, addons }) => {
 
     const [addon, setAddon] = useState({});
     const changeAddon = (evt) => {
-        if (addon.id === evt.target.getAttribute('data-addon')) {
+        if (+addon.id === +evt.target.getAttribute('data-addon')) {
             setAddon({
                 id: null,
                 price: 0

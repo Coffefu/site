@@ -41,6 +41,7 @@ const StartPage = ({ changeActiveTab }) => {
         handleClose();
     }
 
+    const [loginErrorAlert, openLoginErrorAlert] = useState(false);
     const [openLoginSuccessAlert, setOpenLoginSuccessAlert] = useState(false);
     const [openCodeErrorAlert, setOpenCodeErrorAlert] = useState(false)
     const [wrongTelephoneAlert, setWrongTelephoneAlert] = useState(false)
@@ -130,6 +131,9 @@ const StartPage = ({ changeActiveTab }) => {
                         }
                     })
                     const response = await request.json();
+                    if (response.detail === 'Пользователя с таким номером телефона не существует.') {
+                        openLoginErrorAlert(true);
+                    }
                     if (response === 'Success') {
                         handleOpen();
                     }
@@ -259,6 +263,17 @@ const StartPage = ({ changeActiveTab }) => {
                 </Box>
             </Modal>
 
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={loginErrorAlert}
+                onClose={handleCloseAlert}
+                key='loginErrorAlert'
+                autoHideDuration={6000}
+            >
+                <Alert severity="error" sx={{ width: '100%' }}>
+                    Пользователя с таким номером телефона не существует
+                </Alert>
+            </Snackbar>
             <Snackbar
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 open={openLoginSuccessAlert}
