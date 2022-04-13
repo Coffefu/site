@@ -3,12 +3,11 @@ import * as types from '../types'
 const initialState = {
     coffeeHouse: JSON.parse(localStorage.getItem('coffeeHouse')) || {
         id: '1',
-        title: 'Полка кофе',
-        address: 'Корпус D, 7 этаж \n Открыто до 20:00',
-        short: 'D7'
+        name: 'Полка кофе',
+        placement: 'D7'
     },
     order: JSON.parse(localStorage.getItem('order')) || {
-        number: null,
+        number: -1,
         time: null,
     },
 }

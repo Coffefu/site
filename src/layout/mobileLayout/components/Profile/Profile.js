@@ -32,7 +32,6 @@ const Profile = ({ order }) => {
     }
 
     const [profile, setProfile] = useState(null);
-    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const getCustomer = async () => {
             try {
@@ -67,6 +66,7 @@ const Profile = ({ order }) => {
                             'jwt-token': cookies.jwt
                         }
                     }).then(res => res.json());
+                console.log(res);
                 if (res.detail === 'Неверный номер заказа') {
                     setStatus('noOrder')
                 } else {

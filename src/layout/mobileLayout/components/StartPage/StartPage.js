@@ -71,7 +71,7 @@ const StartPage = ({ changeActiveTab }) => {
     }
 
     const verifyPhone = () => {
-        const newWindow = window.open('https://t.me/cofefu_bot', '_blank', 'noopener,noreferrer')
+        const newWindow = window.open('https://t.me/cofefu_bot');
         if (newWindow) newWindow.opener = null
     }
 
