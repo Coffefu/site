@@ -33,7 +33,8 @@ const MenuListItem = ({ item, addons }) => {
         });
         setSize({
             size: item.variations[0].size,
-            price: item.variations[0].price
+            price: item.variations[0].price,
+            id: item.variations[0].id,
         });
 
         setSum(+item.variations[0].price);
@@ -45,12 +46,14 @@ const MenuListItem = ({ item, addons }) => {
     const sizes = ['S', 'M', 'L'];
     const [size, setSize] = useState({
         size: item.variations[0].size,
-        price: item.variations[0].price
+        price: item.variations[0].price,
+        id: item.variations[0].id,
     });
     const changeSize = (evt) => {
         setSize({
             size: +evt.target.getAttribute('data-size'),
-            price: +evt.target.getAttribute('data-price')
+            price: +evt.target.getAttribute('data-price'),
+            id: evt.target.getAttribute('data-id'),
         });
         setSum(+evt.target.getAttribute('data-price') + (+addon.price || 0));
         const checkboxes = document.getElementsByClassName(s.sizeCheckbox);
@@ -103,7 +106,7 @@ const MenuListItem = ({ item, addons }) => {
             return;
         }
         const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        cart.push({ ...item, price: sum, addon: addon });
+        cart.push({ ...item, price: sum, addon: addon, id: size.id });
         localStorage.setItem('cart', JSON.stringify(cart));
         setOpenSuccessAlert(true);
         closeModal();
@@ -170,6 +173,7 @@ const MenuListItem = ({ item, addons }) => {
                                                 data-size={item.size}
                                                 onClick={changeSize}
                                                 data-price={item.price}
+                                                data-id={item.id}
                                             >
                                                 {sizes[item.size]}
                                             </div>
@@ -182,6 +186,7 @@ const MenuListItem = ({ item, addons }) => {
                                             data-size={item.size}
                                             onClick={changeSize}
                                             data-price={item.price}
+                                            data-id={item.id}
                                         >
                                             {sizes[item.size]}
                                         </div>
