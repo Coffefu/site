@@ -59,7 +59,6 @@ const MenuListItem = ({ item, addons }) => {
                 id: null,
                 price: 0
             });
-            console.log(size);
             setSum(+size.price);
             const checkboxes = document.getElementsByClassName(s.addonCheckbox);
             for (let checkbox of checkboxes) {
