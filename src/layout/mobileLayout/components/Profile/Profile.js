@@ -27,7 +27,7 @@ const Profile = ({ order }) => {
     const [cookies, setCookie] = useCookies(["jwt"]);
 
     const verifyPhone = () => {
-        const newWindow = window.open('https://t.me/cofefu_bot', '_blank', 'noopener,noreferrer')
+        const newWindow = window.open('https://t.me/cofefu_bot')
         if (newWindow) newWindow.opener = null
     }
 
