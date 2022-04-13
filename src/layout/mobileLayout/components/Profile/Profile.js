@@ -67,7 +67,8 @@ const Profile = ({ order }) => {
                             'jwt-token': cookies.jwt
                         }
                     }).then(res => res.json());
-                if (res.status === 400 || res.detail === 'Invalid order number' || res.status === 422) {
+                console.log(res);
+                if (res.detail === 'Неверный номер заказа') {
                     setStatus('noOrder')
                 } else {
                     setStatus(res)

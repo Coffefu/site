@@ -34,15 +34,17 @@ const MenuListItem = ({ item, addons }) => {
 
     const [sum, setSum] = useState(item.variations[0].price);
 
-    const sizes = ['250', '350', '450'];
+    const sizes = ['S', 'M', 'L'];
     const [size, setSize] = useState({
         size: item.variations[0].size,
         price: item.variations[0].price
     });
     const changeSize = (evt) => {
-        setSize(evt.target.getAttribute('data-size'));
-        setSum(evt.target.getAttribute('data-price'));
-        setSum(evt.target.getAttribute('data-price') + addon.price);
+        setSize({
+            size: evt.target.getAttribute('data-size'),
+            price: evt.target.getAttribute('data-price')
+        });
+        setSum(+evt.target.getAttribute('data-price') + (+addon.price || 0));
         const checkboxes = document.getElementsByClassName(s.sizeCheckbox);
         for (let checkbox of checkboxes) {
             checkbox.classList.remove(s.activeSize);
@@ -52,9 +54,13 @@ const MenuListItem = ({ item, addons }) => {
 
     const [addon, setAddon] = useState({});
     const changeAddon = (evt) => {
-        if (addon.addon === evt.target.getAttribute('data-addon')) {
-            setAddon(null);
-            setSum(size.price);
+        if (addon.id === evt.target.getAttribute('data-addon')) {
+            setAddon({
+                id: null,
+                price: 0
+            });
+            console.log(size);
+            setSum(+size.price);
             const checkboxes = document.getElementsByClassName(s.addonCheckbox);
             for (let checkbox of checkboxes) {
                 checkbox.classList.remove(s.activeAddon);
@@ -62,7 +68,7 @@ const MenuListItem = ({ item, addons }) => {
             return;
         }
         setAddon({
-            addon: evt.target.getAttribute('data-addon'),
+            id: evt.target.getAttribute('data-addon'),
             price: evt.target.getAttribute('data-price')
         });
         setSum(size.price + +evt.target.getAttribute('data-price'));
