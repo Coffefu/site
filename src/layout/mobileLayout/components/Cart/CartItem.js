@@ -6,7 +6,7 @@ import s from './Cart.module.scss'
 
 const CartItem = ({ item, addons }) => {
 
-    const stringAddon = addons.filter((addon) => +addon.id === +item.addon);
+    const stringAddon = addons.filter((addon) => +addon.id === +item.addon.addon);
     return (
         <div className={'row card mb-3 ' + s.cartItem}>
             <Card>
