@@ -9,9 +9,9 @@ import { CookiesProvider } from "react-cookie";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-        <CookiesProvider>
-            <App />
-        </CookiesProvider>,
+      <CookiesProvider>
+        <App />
+      </CookiesProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
