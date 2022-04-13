@@ -41,8 +41,8 @@ const MenuListItem = ({ item, addons }) => {
     });
     const changeSize = (evt) => {
         setSize({
-            size: evt.target.getAttribute('data-size'),
-            price: evt.target.getAttribute('data-price')
+            size: +evt.target.getAttribute('data-size'),
+            price: +evt.target.getAttribute('data-price')
         });
         setSum(+evt.target.getAttribute('data-price') + (+addon.price || 0));
         const checkboxes = document.getElementsByClassName(s.sizeCheckbox);
@@ -67,10 +67,10 @@ const MenuListItem = ({ item, addons }) => {
             return;
         }
         setAddon({
-            id: evt.target.getAttribute('data-addon'),
-            price: evt.target.getAttribute('data-price')
+            id: +evt.target.getAttribute('data-addon'),
+            price: +evt.target.getAttribute('data-price')
         });
-        setSum(size.price + +evt.target.getAttribute('data-price'));
+        setSum(+size.price + +evt.target.getAttribute('data-price'));
         const checkboxes = document.getElementsByClassName(s.addonCheckbox);
         for (let checkbox of checkboxes) {
             checkbox.classList.remove(s.activeAddon);
