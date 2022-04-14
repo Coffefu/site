@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, IconButton, CircularProgress, List, ListItem, ListItemButton, Modal, Typography } from "@mui/material";
 import { connect } from "react-redux"
 import s from "./Profile.module.scss"
-import ActiveOrder from "./ActiveOrder";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useCookies } from "react-cookie";
+import OrderHistory from './OrdersHistory';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const style = {
     display: 'flex',
@@ -25,6 +25,13 @@ const style = {
 const Profile = ({ order }) => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const closeModal = () => {
+        handleClose();
+    }
 
     const verifyPhone = () => {
         const newWindow = window.open('https://t.me/cofefu_bot')
@@ -54,11 +61,11 @@ const Profile = ({ order }) => {
         }
     }, [profile])
 
-    const [status, setStatus] = useState(null);
+    const [orders, setOrders] = useState(null);
     useEffect(() => {
-        const checkStatus = async () => {
+        const getOrdersHistory = async () => {
             try {
-                const res = await fetch(`https://cofefu.ru/api/order_status/${order.number}`,
+                const res = await fetch(`https://cofefu.ru/api/my_orders`,
                     {
                         method: 'GET',
                         headers: {
@@ -66,28 +73,15 @@ const Profile = ({ order }) => {
                             'jwt-token': cookies.jwt
                         }
                     }).then(res => res.json());
-                if (res.detail === 'Неверный номер заказа') {
-                    setStatus('noOrder')
-                } else {
-                    setStatus(res)
-                }
+
+                setOrders(res);
             } catch (e) {
                 console.log(e);
             }
         }
 
-        if (order.number || status !== 'noOrder') {
-            checkStatus();
-            setInterval(checkStatus, 60000)
-        }
-    }, [status])
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const closeModal = () => {
-        handleClose();
-    }
+        getOrdersHistory();
+    }, [])
 
     if (!profile) {
         return (
@@ -117,11 +111,6 @@ const Profile = ({ order }) => {
                     <List>
                         <ListItem disablePadding>
                             <ListItemButton onClick={handleOpen}>
-                                Активный заказ
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
                                 История заказов
                             </ListItemButton>
                         </ListItem>
@@ -146,7 +135,7 @@ const Profile = ({ order }) => {
                             <ArrowBackIcon color='#000000' />
                         </IconButton>
                     </div>
-                    <ActiveOrder order={order} status={status} />
+                    <OrderHistory orders={orders} />
                 </Box>
             </Modal>
         </div>

@@ -7,6 +7,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ReactCodeInput from "react-verification-code-input";
 import { connect } from 'react-redux';
 import navigationStore from './../../../../store/modules/navigationStore';
+import moment from "moment";
 
 const style = {
     display: 'flex',
@@ -110,7 +111,11 @@ const StartPage = ({ changeActiveTab }) => {
                     }
                     if (response) {
                         setOpenSuccessAlert(true);
-                        setCookie('jwt', response);
+                        setCookie('jwt', response,
+                            {
+                                path: '/',
+                                expires: new Date(moment().add(15, 'd').format()),
+                            });
                         changeActiveTab('menu');
                     }
                 } catch (e) {
@@ -172,7 +177,11 @@ const StartPage = ({ changeActiveTab }) => {
                 if (response.detail === 'Неверный код подтверждения.') {
                     setOpenCodeErrorAlert(true);
                 } else {
-                    setCookie('jwt', response);
+                    setCookie('jwt', response,
+                        {
+                            path: '/',
+                            expires: new Date(moment().add(15, 'd').format()),
+                        });
                     setOpenLoginSuccessAlert(true);
                     changeActiveTab('menu');
                 }

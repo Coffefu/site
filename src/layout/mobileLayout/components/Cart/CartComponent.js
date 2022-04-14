@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import menuStore from "../../../../store/modules/menuStore";
 import userStore from "../../../../store/modules/userStore";
+import _ from 'lodash';
 
 const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
 
@@ -20,6 +21,15 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
     const clearCart = () => {
         localStorage.removeItem('cart');
         setCartItems([])
+    }
+
+    const deleteItem = (item) => {
+        const cart = JSON.parse(localStorage.getItem('cart'));
+        const newCart = cart.filter(product => {
+            return !_.isEqual(product, item);
+        })
+        localStorage.setItem('cart', JSON.stringify(newCart));
+        setCartItems(newCart);
     }
 
     const [time, setTime] = React.useState(new Date().setMilliseconds(new Date().getMilliseconds() + 300000));
@@ -87,6 +97,14 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                     }
                 })
                 const response = await request.json();
+                if (response.detail === 'The coffee house is closed') {
+                    setOpenTimeAlert(true);
+                    return;
+                }
+                if (response.detail === 'Incorrect order time. The allowed time is from 5 minutes to 5 hours') {
+                    setOpenTimeAlert(true);
+                    return;
+                }
                 if (response.detail === 'Пользователь не подтвердил номер телефона.') {
                     setOpenVerifyAlert(true);
                     return;
@@ -141,7 +159,7 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                 <div className={'container-fluid mb-auto ' + s.cartItemsContainer}>
                     {cartItems.map((product, index) => {
                         return (
-                            <CartItem key={index} item={product} addons={addons} />
+                            <CartItem key={index} item={product} addons={addons} deleteItem={deleteItem} />
                         )
                     })}
                 </div>
@@ -183,8 +201,9 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                 open={openVerifyAlert}
                 onClose={handleCloseAlert}
                 key='verifyAlert'
+                autoHideDuration={6000}
             >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+                <Alert severity="error" sx={{ width: '100%' }}>
                     Номер телефон не подтверждён.
                     <p>
                         Вы можете подтвердить номер в профиле!
@@ -196,8 +215,9 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                 open={openErrorAlert}
                 onClose={handleCloseAlert}
                 key='errorAlert'
+                autoHideDuration={6000}
             >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+                <Alert severity="error" sx={{ width: '100%' }}>
                     Вы заполнили не все данные
                 </Alert>
             </Snackbar>
@@ -206,9 +226,11 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                 open={openTimeAlert}
                 onClose={handleCloseAlert}
                 key='timeErrorAlert'
+                autoHideDuration={6000}
             >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
-                    Выбрано неверное время!
+                <Alert severity="error" sx={{ width: '100%' }}>
+                    Выбрано неверное время
+                    Возможно кафе уже закрыто
                 </Alert>
             </Snackbar>
             <Snackbar
@@ -218,7 +240,7 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                 key='successAlert'
                 autoHideDuration={6000}
             >
-                <Alert onClose={handleCloseAlert} severity="success" sx={{ width: '100%', fontSize: '16px' }}>
+                <Alert severity="success" sx={{ width: '100%', fontSize: '16px' }}>
                     <p>
                         Заказ успешно отправлен
                     </p>

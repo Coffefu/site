@@ -1,0 +1,10 @@
+.update {
+   width: 130px;
+   margin-top: 1rem;
+   border: 1px solid black !important;
+   color: #c28760 !important;
+    
+   &:focus {
+      box-shadow: none;
+   }
+}

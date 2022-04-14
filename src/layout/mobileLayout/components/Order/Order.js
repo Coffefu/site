@@ -1,11 +1,45 @@
 import React, { useEffect, useState } from "react";
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import { connect } from "react-redux";
 import moment from "moment";
+import { useCookies } from "react-cookie";
 
-const ActiveOrder = ({ order, status }) => {
+import s from "./Order.module.scss"
 
-    if (!order.number || status === 'noOrder') {
+const Order = () => {
+
+    const [cookies, setCookie] = useCookies(["jwt"]);
+
+    const checkStatus = async () => {
+        try {
+            const res = await fetch(`https://cofefu.ru/api/last_order`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'jwt-token': cookies.jwt
+                    }
+                }).then(res => res.json());
+            setOrder(res);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    const [order, setOrder] = useState(null);
+    useEffect(() => {
+
+        if (!order || order.status !== 'Принят') {
+            checkStatus();
+            const interval = setInterval(() => {
+                checkStatus();
+            }, 60000);
+
+            return () => clearInterval(interval);
+        }
+    }, [])
+
+    if (!order) {
         return (
             <div>
                 <div className='mb65-container d-flex flex-column align-items-center justify-content-center height-100'>
@@ -22,7 +56,7 @@ const ActiveOrder = ({ order, status }) => {
             <div className='mb65-container d-flex flex-column'>
                 <div className='mt-3 mb-3'>
                     <Typography variant='h4'>
-                        Активный заказ
+                        Последний заказ
                     </Typography>
                 </div>
                 <div className='mt-3 mb-3 d-flex justify-content-center align-items-center flex-column'>
@@ -30,7 +64,7 @@ const ActiveOrder = ({ order, status }) => {
                         Номер заказа
                     </Typography>
                     <Typography variant='h1'>
-                        {order.number}
+                        {order.order_number}
                     </Typography>
                 </div>
                 <div className='mt-3 mb-3 d-flex justify-content-center align-items-center flex-column'>
@@ -38,12 +72,12 @@ const ActiveOrder = ({ order, status }) => {
                         Статус заказа
                     </Typography>
                     <Typography variant='h3'>
-                        {status}
+                        {order.status}
                     </Typography>
                 </div>
 
                 {
-                    status !== 'Принят' ? <></>
+                    order.status !== 'Принят' ? <></>
                         : (<div className='mt-3 mb-3 d-flex justify-content-center align-items-center flex-column'>
                             <Typography variant='body1'>
                                 Будет готов к
@@ -53,18 +87,13 @@ const ActiveOrder = ({ order, status }) => {
                             </Typography>
                         </div>)
                 }
+
+                <div className="d-flex align-items-center justify-content-center">
+                    <Button className={'btn ' + s.update} onClick={checkStatus}>Обновить</Button>
+                </div>
             </div>
         </div>
     )
 };
 
-const mapStateToProps = state => ({
-    order: state.user.order,
-});
-
-const mapDispatchToProps = {};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ActiveOrder);
+export default Order;
