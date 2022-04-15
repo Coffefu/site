@@ -145,7 +145,8 @@ const TopHeader = ({
                                                 {coffeeHouse.name}
                                             </Typography>
                                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                                {coffeeHouse.placement}
+                                                расположение {coffeeHouse.placement}, <br />
+                                                время работы {coffeeHouse.open_time.slice(0, 5)} - {coffeeHouse.close_time.slice(0, 5)}
                                             </Typography>
                                         </CardContent>
                                     </Card>
