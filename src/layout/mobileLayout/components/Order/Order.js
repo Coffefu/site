@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Button } from "@mui/material";
-import { connect } from "react-redux";
 import moment from "moment";
 import { useCookies } from "react-cookie";
+import 'moment/locale/ru';
 
 import s from "./Order.module.scss"
 
 const Order = () => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
+    moment.locale('ru');
 
     const checkStatus = async () => {
         try {
@@ -83,7 +84,7 @@ const Order = () => {
                                 Будет готов к
                             </Typography>
                             <Typography variant='h5'>
-                                {moment(order.time).format('HH:mm')}
+                                {moment(order.time).format('DD MMMM HH:mm')}
                             </Typography>
                         </div>)
                 }

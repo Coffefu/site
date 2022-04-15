@@ -19,10 +19,11 @@ const style = {
     boxShadow: 'none',
     p: 4,
     textAlign: 'center',
-    color: '#000000'
+    color: '#000000',
+    backgroundColor: '#F6FCFE',
 };
 
-const Profile = ({ order }) => {
+const Profile = () => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
 

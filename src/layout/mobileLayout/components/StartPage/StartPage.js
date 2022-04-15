@@ -228,12 +228,7 @@ const StartPage = ({ changeActiveTab }) => {
                 >
                     {isLogin ? 'Войти' : 'Регистрация'}
                 </Button>
-                <Typography className='mt-3' onClick={verifyPhone} variant='subtitle2'>
-                    Подтвердить телефон
-                </Typography>
-            </div>
-            <div className='d-flex align-items-center justify-content-center'>
-                <Typography onClick={changeIsLogin} style={{ cursor: 'pointer' }} variant='subtitle1'>
+                <Typography className='mt-3' onClick={changeIsLogin} style={{ cursor: 'pointer' }} variant='subtitle1'>
                     {isLogin ? 'Регистрация' : 'Войти'}
                 </Typography>
             </div>
