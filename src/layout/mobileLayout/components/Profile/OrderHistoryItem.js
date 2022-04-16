@@ -5,7 +5,6 @@ import moment from "moment";
 
 const OrderHistoryItem = ({ item }) => {
 
-    console.log(item);
     return (
         <div className={'row card mb-4'}>
             <Card>
