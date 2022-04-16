@@ -164,3 +164,10 @@
     box-shadow: 0px 4px 50px rgba(50, 74, 89, 0.12);
   }
 }
+
+.orderHistory {
+  overflow-y: auto;
+  height: 100%;
+  margin-bottom: 0 !important;
+  padding: 0 20px;
+}

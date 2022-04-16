@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import OrderHistoryItem from "./OrderHistoryItem";
 import menuStore from "../../../../store/modules/menuStore";
-import {connect} from "react-redux";
-import s from "../MenuList/MenuList.module.scss";
-import {CircularProgress} from "@mui/material";
+import { connect } from "react-redux";
+import s from "./Profile.module.scss";
+import { CircularProgress } from "@mui/material";
 
 const OrderHistory = ({ menu, addons, coffeeHouses, orders, receiveAddons, receiveCoffeeHouses, receiveMenu }) => {
 
@@ -22,7 +22,7 @@ const OrderHistory = ({ menu, addons, coffeeHouses, orders, receiveAddons, recei
    }, [])
 
    useEffect(() => {
-      if (menu.length !== 0) {
+      if (menu.length !== 0 && addons.length !== 0 && coffeeHouses.length !== 0) {
          const fullOrders = orders.map((order) => {
             return {
                ...order,
@@ -35,7 +35,7 @@ const OrderHistory = ({ menu, addons, coffeeHouses, orders, receiveAddons, recei
                      size: variant.size,
                      price: variant.price,
                      toppings: product.toppings.map(topping => {
-                        const fullTopping = addons.map(addon => addon.id === topping.id)[0];
+                        const fullTopping = addons.filter(addon => addon.id === topping)[0];
                         return {
                            ...fullTopping,
                         }
@@ -47,22 +47,22 @@ const OrderHistory = ({ menu, addons, coffeeHouses, orders, receiveAddons, recei
          })
          setFullOrders(fullOrders);
       }
-   }, [menu])
+   }, [menu, addons, coffeeHouses])
 
    if (loading || !fullOrders) {
       return (
-          <div className='d-flex align-items-center justify-content-center'>
-             <CircularProgress color="success" />
-          </div>
+         <div className='d-flex align-items-center justify-content-center'>
+            <CircularProgress color="success" />
+         </div>
       )
    }
 
    return (
-      <div className='mb65-container mt-3 height-100 d-flex flex-column'>
+      <div className={'mb65-container mt-3 ' + s.orderHistory}>
          {
             fullOrders.map((item, index) => {
                return (
-                   <OrderHistoryItem key={index} item={item} />
+                  <OrderHistoryItem key={index} item={item} />
                )
             })
          }
@@ -83,6 +83,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+   mapStateToProps,
+   mapDispatchToProps
 )(OrderHistory);

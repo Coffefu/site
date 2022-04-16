@@ -1,10 +1,11 @@
 import React from "react";
 import Card from "@mui/material/Card";
-import {CardContent} from "@mui/material";
+import { CardContent } from "@mui/material";
 import moment from "moment";
 
 const OrderHistoryItem = ({ item }) => {
 
+    console.log(item);
     return (
         <div className={'row card mb-4'}>
             <Card>
@@ -33,7 +34,7 @@ const OrderHistoryItem = ({ item }) => {
                                     return (
                                         <div className='row' key={index}>
                                             <div className='col'>
-                                                {product.name} {product.toppings[0] ? '-' + product.toppings[0].name : ''}
+                                                {product.name} {product.toppings[0] ? '- ' + product.toppings[0].name : ''}
                                             </div>
                                         </div>
                                     )
