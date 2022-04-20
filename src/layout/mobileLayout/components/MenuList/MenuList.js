@@ -64,10 +64,10 @@ const MenuList = ({
     }
 
     const swipedMenu = (evt) => {
-        if (value === 'coffee' && evt.dir === 'Right') {
+        if (value === 'coffee' && evt.dir === 'Left') {
             setValue('notCoffee')
         }
-        if (value === 'notCoffee' && evt.dir === 'Left') {
+        if (value === 'notCoffee' && evt.dir === 'Right') {
             setValue('coffee')
         }
     }
