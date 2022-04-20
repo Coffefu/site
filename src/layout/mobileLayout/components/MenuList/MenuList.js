@@ -8,6 +8,7 @@ import userStore from "../../../../store/modules/userStore";
 
 import s from './MenuList.module.scss';
 import TopHeader from './MenuListHeader';
+import {useSwipeable} from "react-swipeable";
 
 const MenuList = ({
     menu,
@@ -62,6 +63,16 @@ const MenuList = ({
         handleClose();
     }
 
+    const swipedMenu = (evt) => {
+        if (value === 'coffee' && evt.dir === 'Right') {
+            setValue('notCoffee')
+        }
+        if (value === 'notCoffee' && evt.dir === 'Left') {
+            setValue('coffee')
+        }
+    }
+    const handlers = useSwipeable({ onSwiped: swipedMenu })
+
     return (
         <div>
             <TopHeader
@@ -86,7 +97,7 @@ const MenuList = ({
 
                         </div>
                     </div>
-                    <div className='mb65-container'>
+                    <div className='mb65-container' {...handlers}>
                         <TabPanel value='coffee'>
                             {loading && activeMenu.length > 0
                                 ? (
