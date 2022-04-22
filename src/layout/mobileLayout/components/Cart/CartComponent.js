@@ -163,9 +163,6 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                     <Typography variant='h4'>
                         Мой заказ
                     </Typography>
-                    <IconButton aria-label="delete" onClick={clearCart}>
-                        <DeleteIcon />
-                    </IconButton>
                 </div>
                 <div className={'container-fluid mb-auto ' + s.cartItemsContainer}>
                     {cartItems.map((product, index) => {
@@ -184,10 +181,11 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                                             Комментарий
                                         </label>
                                     </div>
-                                    <div className={'col '}>
+                                    <div className={'col'}>
                                         <TextareaAutosize
                                             aria-label="comment"
                                             maxRows={3}
+                                            maxLength={200}
                                             value={comment}
                                             onChange={(evt) => setComment(evt.target.value)}
                                             placeholder="Ваш комментарий"

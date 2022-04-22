@@ -5,6 +5,7 @@ import s from "./Profile.module.scss"
 import { useCookies } from "react-cookie";
 import OrderHistory from './OrdersHistory';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import OrderFeedback from "./OrderFeedback";
 
 const style = {
     display: 'flex',
@@ -35,7 +36,7 @@ const Profile = () => {
     const handleCloseFeedback = () => setOpenFeedback(false);
     const closeModal = () => {
         handleCloseHistory();
-        handleCloseHistory();
+        handleCloseFeedback();
     }
 
     const verifyPhone = () => {
@@ -150,7 +151,7 @@ const Profile = () => {
             </Modal>
             <Modal
                 open={openFeedback}
-                onClose={handleCloseHistory}
+                onClose={handleCloseFeedback}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -160,7 +161,7 @@ const Profile = () => {
                             <ArrowBackIcon color='#000000' />
                         </IconButton>
                     </div>
-                    <OrderHistory orders={orders} />
+                    <OrderFeedback />
                 </Box>
             </Modal>
         </div>
