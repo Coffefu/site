@@ -80,24 +80,24 @@ const TopHeader = ({
     return (
         <div className={s.headerWrapper}>
             <div className={'mb-3 mt-3 d-flex'}>
-                <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={toggleDrawer}
-                >
-                    <MenuIcon />
-                    <Drawer
-                        anchor={'left'}
-                        open={state}
-                        onClose={toggleDrawer}
-                    >
-                        <div className='p-3 mt-5'>
-                            В разработке!
-                        </div>
-                    </Drawer>
-                </IconButton>
+                {/*<IconButton*/}
+                {/*    size="large"*/}
+                {/*    edge="start"*/}
+                {/*    color="inherit"*/}
+                {/*    aria-label="open drawer"*/}
+                {/*    onClick={toggleDrawer}*/}
+                {/*>*/}
+                {/*    <MenuIcon />*/}
+                {/*    <Drawer*/}
+                {/*        anchor={'left'}*/}
+                {/*        open={state}*/}
+                {/*        onClose={toggleDrawer}*/}
+                {/*    >*/}
+                {/*        <div className='p-3 mt-5'>*/}
+                {/*            В разработке!*/}
+                {/*        </div>*/}
+                {/*    </Drawer>*/}
+                {/*</IconButton>*/}
 
                 <div className={s.headerPlace + ' mb-3 mt-3 ml-auto'}>
                     <div className='d-flex align-item-center justify-content-start'>
@@ -105,23 +105,10 @@ const TopHeader = ({
                             <PlaceIcon sx={{ marginBottom: "6px" }} />
                         </span>
                         <span className={s.subtitle}
-                            onClick={handleOpen}> {coffeeHouse.name + ' ' + coffeeHouse.placement} </span>
+                            onClick={handleOpen}> {coffeeHouse.name + ' ' + coffeeHouse.placement}
+                        </span>
                     </div>
                 </div>
-            </div>
-
-            <div className={'mb-3 mt-3'}>
-                <Search>
-                    <SearchIconWrapper>
-                        <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                        value={search}
-                        onChange={(evt) => setSearch(evt.target.value)}
-                        placeholder="Латте…"
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
-                </Search>
             </div>
 
             <Modal

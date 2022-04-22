@@ -1,6 +1,7 @@
 {
   "short_name": "Cofefu",
   "name": "Cofefu - order coffee app",
+  "description": "Сервис для заказа кофе. Кампус ДВФУ.  FEFU campus.",
   "icons": [
     {
       "src": "favicon.ico",
