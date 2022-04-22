@@ -4,7 +4,16 @@ import moment from 'moment';
 import { useCookies } from "react-cookie";
 
 import s from './Cart.module.scss';
-import { Alert, Button, CircularProgress, IconButton, Snackbar, TextField, Typography } from "@mui/material";
+import {
+    Alert,
+    Button,
+    CircularProgress,
+    IconButton,
+    Snackbar,
+    TextareaAutosize,
+    TextField,
+    Typography
+} from "@mui/material";
 import CartItem from "./CartItem";
 import { LocalizationProvider, MobileTimePicker } from "@mui/lab";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -32,7 +41,8 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
         setCartItems(newCart);
     }
 
-    const [time, setTime] = React.useState(new Date().setMilliseconds(new Date().getMilliseconds() + 300000));
+    const [time, setTime] = useState(new Date().setMilliseconds(new Date().getMilliseconds() + 300000));
+    const [comment, setComment] = useState('')
 
     const [orderNumber, setOrderNumber] = useState(null);
 
@@ -86,6 +96,7 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
             order.products.push({ id: product.id, toppings: addon[0] ? [addon[0].id] : [] })
         })
         order.time = moment(time).format("YYYY-MM-DD HH:mm");
+        order.comment = comment;
         const sendOrder = async () => {
             try {
                 const request = await fetch('https://cofefu.ru/api/make_order', {
@@ -167,6 +178,23 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                     <div className='col mt-2'>
                         <div className={'row flex-column d-flex align-items-center justify-content-center'}>
                             <div className={'form-group d-flex flex-column'}>
+                                <div className={'row mb-2 d-flex align-items-center'}>
+                                    <div className={'col'}>
+                                        <label>
+                                            Комментарий
+                                        </label>
+                                    </div>
+                                    <div className={'col '}>
+                                        <TextareaAutosize
+                                            aria-label="comment"
+                                            maxRows={3}
+                                            value={comment}
+                                            onChange={(evt) => setComment(evt.target.value)}
+                                            placeholder="Ваш комментарий"
+                                            style={{ background: "inherit" }}
+                                        />
+                                    </div>
+                                </div>
                                 <div className={'row mb-2 d-flex align-items-center'}>
                                     <div className={'col'}>
                                         <label>
