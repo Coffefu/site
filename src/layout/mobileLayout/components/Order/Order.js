@@ -21,7 +21,9 @@ const Order = () => {
                         'jwt-token': cookies.jwt
                     }
                 }).then(res => res.json());
-            setOrder(res);
+            if (res.detail !== "Пользователь не подтвердил номер телефона.") {
+                setOrder(res);
+            }
         } catch (e) {
             console.log(e);
         }

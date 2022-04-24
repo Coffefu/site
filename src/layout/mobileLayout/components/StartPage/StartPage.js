@@ -55,6 +55,9 @@ const StartPage = ({ changeActiveTab }) => {
 
         setOpenSuccessAlert(false);
         setOpenErrorAlert(false);
+        openLoginErrorAlert(false);
+        setOpenCodeErrorAlert(false);
+        setOpenLoginSuccessAlert(false);
     };
 
     const handleNameChange = (event) => {
@@ -226,7 +229,7 @@ const StartPage = ({ changeActiveTab }) => {
                     className={"btn " + s.login}
                     onClick={userLoginRegistration}
                 >
-                    {isLogin ? 'Войти' : 'Регистрация'}
+                    {isLogin ? 'Войти' : 'Зарегистрироваться'}
                 </Button>
                 <Typography className='mt-3' onClick={changeIsLogin} style={{ cursor: 'pointer' }} variant='subtitle1'>
                     {isLogin ? 'Регистрация' : 'Войти'}
@@ -274,7 +277,7 @@ const StartPage = ({ changeActiveTab }) => {
                 key='loginErrorAlert'
                 autoHideDuration={6000}
             >
-                <Alert severity="error" sx={{ width: '100%' }}>
+                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
                     Пользователя с таким номером телефона не существует
                 </Alert>
             </Snackbar>
@@ -323,17 +326,6 @@ const StartPage = ({ changeActiveTab }) => {
                     <p>
                         Не забудьте потвердить номер телефона!
                     </p>
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={wrongTelephoneAlert}
-                onClose={handleCloseAlert}
-                key='wrongTelephoneAlert'
-                autoHideDuration={6000}
-            >
-                <Alert severity="error" sx={{ width: '100%' }}>
-                    Пользователь с таким номером телефона уже существует.
                 </Alert>
             </Snackbar>
         </div>

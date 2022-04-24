@@ -46,6 +46,8 @@ const OrderHistory = ({ menu, addons, coffeeHouses, orders, receiveAddons, recei
             }
          })
          setFullOrders(fullOrders);
+      } else {
+         setFullOrders([]);
       }
    }, [menu, addons, coffeeHouses])
 

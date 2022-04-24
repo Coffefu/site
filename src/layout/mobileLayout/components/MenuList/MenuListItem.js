@@ -145,7 +145,7 @@ const MenuListItem = ({ item, addons }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div className='d-flex justify-content-start h6'>
+                    <div className='d-flex justify-content-start'>
                         <IconButton aria-label="delete" onClick={closeModal} className='p-0'>
                             <ArrowBackIcon color='#000000' />
                         </IconButton>
