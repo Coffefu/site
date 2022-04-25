@@ -15,7 +15,6 @@ const MobileBottomNavigation = ({ tab, changeActiveTab }) => {
     const navigate = useNavigate();
     const location = useLocation();
     useEffect(() => {
-        setValue(tab);
         if (location.pathname.slice(8) !== value) {
             setValue(location.pathname.slice(8));
         }
