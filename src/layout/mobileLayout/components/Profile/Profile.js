@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 import OrderHistory from './OrdersHistory';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import OrderFeedback from "./OrderFeedback";
+import { useNavigate } from 'react-router-dom';
 
 const style = {
     display: 'flex',
@@ -27,9 +28,12 @@ const style = {
 const Profile = () => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
+    const navigate = useNavigate();
 
     const [openHistory, setOpenHistory] = React.useState(false);
-    const handleOpenHistory = () => setOpenHistory(true);
+    const handleOpenHistory = () => {
+        navigate('/mobile/profile/history')
+    };
     const handleCloseHistory = () => setOpenHistory(false);
     const [openFeedback, setOpenFeedback] = React.useState(false);
     const handleOpenFeedback = () => setOpenFeedback(true);
@@ -134,21 +138,6 @@ const Profile = () => {
                 </div>
             </div>
 
-            <Modal
-                open={openHistory}
-                onClose={handleCloseHistory}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <div className='d-flex justify-content-start h6'>
-                        <IconButton aria-label="delete" onClick={closeModal} className='p-0'>
-                            <ArrowBackIcon color='#000000' />
-                        </IconButton>
-                    </div>
-                    <OrderHistory orders={orders} />
-                </Box>
-            </Modal>
             <Modal
                 open={openFeedback}
                 onClose={handleCloseFeedback}

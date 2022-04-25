@@ -22,7 +22,14 @@ import menuStore from "../../../../store/modules/menuStore";
 import userStore from "../../../../store/modules/userStore";
 import _ from 'lodash';
 
-const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
+const CartComponent = ({
+    coffeeHouse,
+    addons,
+    receiveAddons,
+    changeOrder,
+    showErrorPopup,
+    showSuccessPopup
+}) => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
     const [cartItems, setCartItems] = useState([])
@@ -62,29 +69,14 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
         setCartItems(data);
     }, [])
 
-    const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
     const successOrder = (number) => {
         setOrderNumber(number);
-        setOpenSuccessAlert(true)
+        showSuccessPopup(`Заказ успешно отправлен. Номер вашего заказа - ${number}`)
     }
-
-    const [openVerifyAlert, setOpenVerifyAlert] = useState(false);
-    const [openErrorAlert, setOpenErrorAlert] = useState(false);
-    const [openTimeAlert, setOpenTimeAlert] = useState(false);
-
-    const handleCloseAlert = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpenSuccessAlert(false);
-        setOpenErrorAlert(false);
-        setOpenTimeAlert(false);
-    };
     const makeOrder = () => {
         if (time - new Date() < 0) {
 
-            setOpenTimeAlert(true);
+            showErrorPopup('Выбрано неверное время. Возможно кафе уже закрыто!')
             return;
         }
 
@@ -108,17 +100,8 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                     }
                 })
                 const response = await request.json();
-                if (response.detail === 'The coffee house is closed') {
-                    setOpenTimeAlert(true);
-                    return;
-                }
-                if (response.detail === 'Incorrect order time. The allowed time is from 5 minutes to 5 hours') {
-                    setOpenTimeAlert(true);
-                    return;
-                }
-                if (response.detail === 'Пользователь не подтвердил номер телефона.') {
-                    setOpenVerifyAlert(true);
-                    return;
+                if (response.detail) {
+                    showErrorPopup(response.detail);
                 }
                 if (response['order_number']) {
                     const orderNumber = response['order_number']
@@ -221,60 +204,6 @@ const CartComponent = ({ coffeeHouse, addons, receiveAddons, changeOrder }) => {
                     </div>
                 </div>
             </div>
-
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={openVerifyAlert}
-                onClose={handleCloseAlert}
-                key='verifyAlert'
-                autoHideDuration={6000}
-            >
-                <Alert severity="error" sx={{ width: '100%' }}>
-                    Номер телефон не подтверждён.
-                    <p>
-                        Вы можете подтвердить номер в профиле!
-                    </p>
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={openErrorAlert}
-                onClose={handleCloseAlert}
-                key='errorAlert'
-                autoHideDuration={6000}
-            >
-                <Alert severity="error" sx={{ width: '100%' }}>
-                    Вы заполнили не все данные
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={openTimeAlert}
-                onClose={handleCloseAlert}
-                key='timeErrorAlert'
-                autoHideDuration={6000}
-            >
-                <Alert severity="error" sx={{ width: '100%' }}>
-                    Выбрано неверное время
-                    Возможно кафе уже закрыто
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={openSuccessAlert}
-                onClose={handleCloseAlert}
-                key='successAlert'
-                autoHideDuration={6000}
-            >
-                <Alert severity="success" sx={{ width: '100%', fontSize: '16px' }}>
-                    <p>
-                        Заказ успешно отправлен
-                    </p>
-                    <p>
-                        Номер вашего заказа - {orderNumber}
-                    </p>
-                </Alert>
-            </Snackbar>
         </div>
     )
 }

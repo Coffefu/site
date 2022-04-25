@@ -6,7 +6,7 @@ import 'moment/locale/ru';
 
 import s from "./Order.module.scss"
 
-const Order = () => {
+const Order = ({ showErrorPopup }) => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
     moment.locale('ru');
@@ -21,8 +21,8 @@ const Order = () => {
                         'jwt-token': cookies.jwt
                     }
                 }).then(res => res.json());
-            if (res.detail !== "Пользователь не подтвердил номер телефона.") {
-                setOrder(res);
+            if (res && res.detail) {
+                showErrorPopup(res.detail)
             }
         } catch (e) {
             console.log(e);
@@ -32,7 +32,7 @@ const Order = () => {
     const [order, setOrder] = useState(null);
     useEffect(() => {
 
-        if (!order || order.status !== 'Принят') {
+        if (!order || order.status !== 'Отдан покупателю' || order.status !== 'Готов' || order.status !== 'Не забран покупателем') {
             checkStatus();
             const interval = setInterval(() => {
                 checkStatus();

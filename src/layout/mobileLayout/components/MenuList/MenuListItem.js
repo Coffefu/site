@@ -1,120 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Card from '@mui/material/Card';
-import { Box, Button, CardContent, Modal, Typography, Snackbar, Alert, IconButton } from '@mui/material';
+import { CardContent } from '@mui/material';
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import s from './MenuList.module.scss'
+import { useNavigate } from 'react-router-dom';
 
-const style = {
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '100%',
-    height: '100%',
-    bgcolor: 'background.paper',
-    boxShadow: 'none',
-    p: 4,
-    textAlign: 'center',
-    color: '#000000'
-};
+const MenuListItem = ({ item }) => {
 
-const MenuListItem = ({ item, addons }) => {
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const closeModal = () => {
-        setAddon({
-            id: null,
-            price: 0
-        });
-        setSize({
-            size: item.variations[0].size,
-            price: item.variations[0].price,
-            id: item.variations[0].id,
-        });
-
-        setSum(+item.variations[0].price);
-        handleClose();
-    }
-
-    const [sum, setSum] = useState(item.variations[0].price);
-
-    const sizes = ['S', 'M', 'L'];
-    const [size, setSize] = useState({
-        size: item.variations[0].size,
-        price: item.variations[0].price,
-        id: item.variations[0].id,
-    });
-    const changeSize = (evt) => {
-        setSize({
-            size: +evt.target.getAttribute('data-size'),
-            price: +evt.target.getAttribute('data-price'),
-            id: evt.target.getAttribute('data-id'),
-        });
-        setSum(+evt.target.getAttribute('data-price') + (+addon.price || 0));
-        const checkboxes = document.getElementsByClassName(s.sizeCheckbox);
-        for (let checkbox of checkboxes) {
-            checkbox.classList.remove(s.activeSize);
-        }
-        evt.target.classList.add(s.activeSize);
-    }
-
-    const [addon, setAddon] = useState({});
-    const changeAddon = (evt) => {
-        if (+addon.id === +evt.target.getAttribute('data-addon')) {
-            setAddon({
-                id: null,
-                price: 0
-            });
-            setSum(+size.price);
-            const checkboxes = document.getElementsByClassName(s.addonCheckbox);
-            for (let checkbox of checkboxes) {
-                checkbox.classList.remove(s.activeAddon);
-            }
-            return;
-        }
-        setAddon({
-            id: +evt.target.getAttribute('data-addon'),
-            price: +evt.target.getAttribute('data-price')
-        });
-        setSum(+size.price + +evt.target.getAttribute('data-price'));
-        const checkboxes = document.getElementsByClassName(s.addonCheckbox);
-        for (let checkbox of checkboxes) {
-            checkbox.classList.remove(s.activeAddon);
-        }
-        evt.target.classList.add(s.activeAddon);
-    }
-
-    const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-    const [openErrorAlert, setOpenErrorAlert] = useState(false);
-    const handleCloseAlert = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpenSuccessAlert(false);
-        setOpenErrorAlert(false);
-    };
-
-    const addProduct = () => {
-        if (size === '') {
-            setOpenErrorAlert(true);
-            return;
-        }
-        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        cart.push({ ...item, price: sum, addon: addon, id: size.id });
-        localStorage.setItem('cart', JSON.stringify(cart));
-        setOpenSuccessAlert(true);
-        closeModal();
+    const navigate = useNavigate();
+    const openProductModal = () => {
+        navigate(`/mobile/product/${item.id}`)
     }
 
     return (
         <div className={'row card mb-4'}>
-            <Card onClick={handleOpen} className={s.menuItemCard}>
+            <Card onClick={openProductModal} className={s.menuItemCard}>
                 <CardContent className='card-body'>
                     <div className='row'>
                         <div className='col'>
@@ -137,117 +37,6 @@ const MenuListItem = ({ item, addons }) => {
                     </div>
                 </CardContent>
             </Card>
-
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <div className='d-flex justify-content-start'>
-                        <IconButton aria-label="delete" onClick={closeModal} className='p-0'>
-                            <ArrowBackIcon color='#000000' />
-                        </IconButton>
-                    </div>
-
-                    <Typography className='mb-3' id="modal-modal-title" variant="h4" component="h2">
-                        {item.name}
-                    </Typography>
-
-                    <div className="mb-3 d-flex flex-column align-items-center justify-content-between">
-                        <div className='mb-2'>
-                            <Typography variant='h6'>
-                                Размер
-                            </Typography>
-                        </div>
-
-                        <div className={'d-flex align-items-center'}>
-                            {
-                                item.variations.map((item, index) => {
-                                    if (index === 0) {
-                                        return (
-                                            <div
-                                                key={index}
-                                                className={s.sizeCheckbox + ' ' + s.activeSize}
-                                                data-size={item.size}
-                                                onClick={changeSize}
-                                                data-price={item.price}
-                                                data-id={item.id}
-                                            >
-                                                {sizes[item.size]}
-                                            </div>
-                                        )
-                                    }
-                                    return (
-                                        <div
-                                            key={index}
-                                            className={s.sizeCheckbox}
-                                            data-size={item.size}
-                                            onClick={changeSize}
-                                            data-price={item.price}
-                                            data-id={item.id}
-                                        >
-                                            {sizes[item.size]}
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-
-                    </div>
-
-                    <div className="mb-3 d-flex align-items-center justify-content-between flex-column">
-                        <Typography variant='h6'>
-                            Добавки
-                        </Typography>
-                    </div>
-
-                    <div className={'d-flex justify-content-center flex-wrap align-items-center mb-auto ' + s.addonWrapper}>
-                        {addons.map((addon, index) => {
-                            return (
-                                <div key={index}
-                                    className={s.addonCheckbox}
-                                    data-addon={addon.id}
-                                    onClick={changeAddon}
-                                    data-price={addon.price}
-                                >
-                                    {addon.name}
-                                </div>
-                            )
-                        })}
-                    </div>
-
-                    <div className='d-flex justify-content-center mt-3'>
-                        <Button sx={{ border: '1px solid black', color: '#c28760' }} onClick={addProduct}
-                            className={"btn " + s.productAdd}>
-                            В корзину {sum} руб.
-                        </Button>
-                    </div>
-                </Box>
-            </Modal>
-
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={openErrorAlert}
-                onClose={handleCloseAlert}
-                key='errorAlert'
-            >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
-                    Вы не выбрали размер
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={openSuccessAlert}
-                onClose={handleCloseAlert}
-                key='successAlert'
-                autoHideDuration={6000}
-            >
-                <Alert onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>
-                    Продукт добавлен в вашу корзину
-                </Alert>
-            </Snackbar>
         </div>
     )
 }

@@ -1,25 +1,25 @@
-import React, {useEffect, useState} from 'react'
-import {connect} from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux';
 import menuStore from '../../../../store/modules/menuStore'
 import MenuListItem from './MenuListItem';
-import {TabContext, TabList, TabPanel} from "@mui/lab";
-import {CircularProgress, Slide, Tab} from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { CircularProgress, Slide, Tab } from "@mui/material";
 import userStore from "../../../../store/modules/userStore";
 
 import s from './MenuList.module.scss';
 import TopHeader from './MenuListHeader';
-import {useSwipeable} from "react-swipeable";
+import { useSwipeable } from "react-swipeable";
 
 const MenuList = ({
-                      menu,
-                      coffeeHouses,
-                      receiveCoffeeHouses,
-                      receiveMenu,
-                      coffeeHouse,
-                      changeCoffeeHouse,
-                      receiveAddons,
-                      addons
-                  }) => {
+    menu,
+    coffeeHouses,
+    receiveCoffeeHouses,
+    receiveMenu,
+    coffeeHouse,
+    changeCoffeeHouse,
+    receiveAddons,
+    addons
+}) => {
 
     const [value, setValue] = useState('coffee');
     const handleChange = (event, newValue) => {
@@ -71,7 +71,7 @@ const MenuList = ({
             setValue('coffee')
         }
     }
-    const handlers = useSwipeable({onSwiped: swipedMenu})
+    const handlers = useSwipeable({ onSwiped: swipedMenu })
 
     return (
         <div>
@@ -91,8 +91,8 @@ const MenuList = ({
                     <div className={'col mb-3 mt-1'}>
                         <div className='row d-flex align-item-center justify-content-start'>
                             <TabList onChange={handleChange} aria-label="lab API tabs">
-                                <Tab label="Кофе" value="coffee"/>
-                                <Tab label="Не кофе" value="notCoffee"/>
+                                <Tab label="Кофе" value="coffee" />
+                                <Tab label="Не кофе" value="notCoffee" />
                             </TabList>
 
                         </div>
@@ -103,13 +103,13 @@ const MenuList = ({
                                 {loading && activeMenu.length > 0
                                     ? (
                                         <div className={s.spinner}>
-                                            <CircularProgress color="success"/>
+                                            <CircularProgress color="success" />
                                         </div>
                                     )
                                     : activeMenu.map((product, index) => {
                                         if (product.type === 0) {
                                             return (
-                                                <MenuListItem key={index} item={product} addons={addons}/>
+                                                <MenuListItem key={index} item={product} addons={addons} />
                                             )
                                         }
                                     })}
@@ -121,13 +121,13 @@ const MenuList = ({
                                 {loading && activeMenu.length > 0
                                     ? (
                                         <div className={s.spinner}>
-                                            <CircularProgress color="success"/>
+                                            <CircularProgress color="success" />
                                         </div>
                                     )
                                     : activeMenu.map((product, index) => {
                                         if (product.type === 1) {
                                             return (
-                                                <MenuListItem key={index} item={product} addons={addons}/>
+                                                <MenuListItem key={index} item={product} addons={addons} />
                                             )
                                         }
                                     })}

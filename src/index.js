@@ -5,12 +5,15 @@ import App from './App';
 import store from "./store";
 import { Provider } from "react-redux";
 import { CookiesProvider } from "react-cookie";
+import { PopupProvider } from 'react-hook-popup';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <CookiesProvider>
-        <App />
+        <PopupProvider>
+          <App />
+        </PopupProvider>
       </CookiesProvider>
     </Provider>
   </React.StrictMode>,

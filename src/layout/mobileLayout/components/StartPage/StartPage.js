@@ -1,31 +1,17 @@
 import React, { useState } from "react";
 import coffeeBeans from '../../../../assets/img/coffeeBeans.png';
-import { Alert, Box, Button, IconButton, Modal, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Snackbar, TextField, Typography } from "@mui/material";
 import s from "./StartPage.module.scss";
 import { useCookies } from "react-cookie";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ReactCodeInput from "react-verification-code-input";
 import { connect } from 'react-redux';
 import navigationStore from './../../../../store/modules/navigationStore';
 import moment from "moment";
+import { useNavigate } from 'react-router-dom';
+import { usePopup } from "react-hook-popup";
 
-const style = {
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '100%',
-    height: '100%',
-    bgcolor: 'background.paper',
-    boxShadow: 'none',
-    p: 4,
-    textAlign: 'center',
-    color: '#000000'
-};
+const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
 
-const StartPage = ({ changeActiveTab }) => {
+    const navigate = useNavigate();
 
     const [isLogin, setIsLogin] = useState(true)
     const [name, setName] = useState('');
@@ -33,32 +19,6 @@ const StartPage = ({ changeActiveTab }) => {
     const [nameValid, setNameValid] = useState(null);
     const [phoneValid, setPhoneValid] = useState(null);
     const [cookies, setCookie] = useCookies(["jwt"]);
-    const [code, setCode] = useState('')
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const closeModal = () => {
-        handleClose();
-    }
-
-    const [loginErrorAlert, openLoginErrorAlert] = useState(false);
-    const [openLoginSuccessAlert, setOpenLoginSuccessAlert] = useState(false);
-    const [openCodeErrorAlert, setOpenCodeErrorAlert] = useState(false)
-    const [wrongTelephoneAlert, setWrongTelephoneAlert] = useState(false)
-    const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-    const [openErrorAlert, setOpenErrorAlert] = useState(false);
-    const handleCloseAlert = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpenSuccessAlert(false);
-        setOpenErrorAlert(false);
-        openLoginErrorAlert(false);
-        setOpenCodeErrorAlert(false);
-        setOpenLoginSuccessAlert(false);
-    };
 
     const handleNameChange = (event) => {
         if (/^[a-zA-Zа-яА-Я]+$/.test(event.target.value) || event.target.value === '') {
@@ -75,20 +35,15 @@ const StartPage = ({ changeActiveTab }) => {
         }
     }
 
-    const verifyPhone = () => {
-        const newWindow = window.open('https://t.me/cofefu_bot');
-        if (newWindow) newWindow.opener = null
-    }
-
     const userLoginRegistration = () => {
         if (isLogin) {
             if (phone === '' || !phoneValid) {
-                setOpenErrorAlert(true);
+                showErrorPopup('Номер заполнен неверно!')
                 return;
             }
         } else {
             if (name === '' || phone === '' || !phoneValid) {
-                setOpenErrorAlert(true);
+                showErrorPopup('Данные не заполнены!')
                 return;
             }
         }
@@ -109,17 +64,18 @@ const StartPage = ({ changeActiveTab }) => {
                     })
                     const response = await request.json();
                     if (response.detail) {
-                        setWrongTelephoneAlert(true);
+                        showErrorPopup(response.detail)
                         return;
                     }
                     if (response) {
-                        setOpenSuccessAlert(true);
+                        showSuccessPopup('Регистрация успешна. Не забудьте подтвердить номер телефона!')
                         setCookie('jwt', response,
                             {
                                 path: '/',
                                 expires: new Date(moment().add(15, 'd').format()),
                             });
                         changeActiveTab('menu');
+                        navigate('/mobile/menu');
                     }
                 } catch (e) {
                     console.log(e)
@@ -139,11 +95,11 @@ const StartPage = ({ changeActiveTab }) => {
                         }
                     })
                     const response = await request.json();
-                    if (response.detail === 'Пользователя с таким номером телефона не существует.') {
-                        openLoginErrorAlert(true);
+                    if (response.detail) {
+                        showErrorPopup(response.detail)
                     }
                     if (response === 'Success') {
-                        handleOpen();
+                        navigate('/login/verify');
                     }
                 } catch (e) {
                     console.log(e)
@@ -156,44 +112,6 @@ const StartPage = ({ changeActiveTab }) => {
 
     const changeIsLogin = () => {
         setIsLogin(!isLogin);
-    }
-
-    const changeCode = (event) => {
-        setCode(event);
-    }
-
-    const verify = () => {
-        if (code.length < 6) {
-            setOpenCodeErrorAlert(true);
-            return;
-        }
-
-        const sendVerifyCode = async () => {
-            try {
-                const request = await fetch(`https://cofefu.ru/api/verify_login_code?code=${code}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                const response = await request.json();
-                if (response.detail === 'Неверный код подтверждения.') {
-                    setOpenCodeErrorAlert(true);
-                } else {
-                    setCookie('jwt', response,
-                        {
-                            path: '/',
-                            expires: new Date(moment().add(15, 'd').format()),
-                        });
-                    setOpenLoginSuccessAlert(true);
-                    changeActiveTab('menu');
-                }
-            } catch (e) {
-                console.log(e)
-            }
-        }
-
-        sendVerifyCode();
     }
 
     return (
@@ -235,99 +153,6 @@ const StartPage = ({ changeActiveTab }) => {
                     {isLogin ? 'Регистрация' : 'Войти'}
                 </Typography>
             </div>
-
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <div className='d-flex justify-content-start h6'>
-                        <IconButton aria-label="delete" onClick={closeModal} className='p-0'>
-                            <ArrowBackIcon color='#000000' />
-                        </IconButton>
-                    </div>
-
-                    <Typography className='mb-3' id="modal-modal-title" variant="h4" component="h2">
-                        Введите код потверждения
-                    </Typography>
-
-                    <div className="p-3 d-flex flex-column align-items-center justify-content-between">
-                        <ReactCodeInput
-                            type="number"
-                            fields={6}
-                            value={code}
-                            onChange={changeCode} />
-                    </div>
-
-                    <div className='mt-auto d-flex justify-content-center'>
-                        <Button sx={{ border: '1px solid black', color: '#c28760' }} onClick={verify}
-                            className={"btn"}>
-                            подтвердить
-                        </Button>
-                    </div>
-                </Box>
-            </Modal>
-
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={loginErrorAlert}
-                onClose={handleCloseAlert}
-                key='loginErrorAlert'
-                autoHideDuration={6000}
-            >
-                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
-                    Пользователя с таким номером телефона не существует
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={openLoginSuccessAlert}
-                onClose={handleCloseAlert}
-                key='loginSuccessAlert'
-                autoHideDuration={6000}
-            >
-                <Alert severity="success" sx={{ width: '100%' }}>
-                    Успешный вход
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={openCodeErrorAlert}
-                onClose={handleCloseAlert}
-                key='codeErrorAlert'
-                autoHideDuration={6000}
-            >
-                <Alert severity="error" sx={{ width: '100%' }}>
-                    Неверный код подтверждения
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={openErrorAlert}
-                onClose={handleCloseAlert}
-                key='errorAlert'
-                autoHideDuration={6000}
-            >
-                <Alert severity="error" sx={{ width: '100%' }}>
-                    Данные не заполнены!
-                </Alert>
-            </Snackbar>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={openSuccessAlert}
-                onClose={handleCloseAlert}
-                key='successAlert'
-                autoHideDuration={6000}
-            >
-                <Alert severity="success" sx={{ width: '100%' }}>
-                    Регистрация успешна!
-                    <p>
-                        Не забудьте потвердить номер телефона!
-                    </p>
-                </Alert>
-            </Snackbar>
         </div>
     )
 };

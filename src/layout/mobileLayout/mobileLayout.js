@@ -7,15 +7,24 @@ import StartPage from "./components/StartPage";
 import Profile from './components/Profile'
 import { useCookies } from "react-cookie";
 import navigationStore from "../../store/modules/navigationStore";
-import {useEffect} from "react";
+import { useEffect } from "react";
 import moment from "moment";
+import { Outlet, useNavigate } from "react-router-dom";
+import { usePopup } from 'react-hook-popup';
+import { Snackbar } from '@mui/material';
+import { Alert } from '@mui/material';
 
 export const MobileLayout = ({ children, tab, changeActiveTab }) => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
-    if (!cookies.jwt) {
-        changeActiveTab('start');
-    }
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!cookies.jwt) {
+            navigate('/login');
+            changeActiveTab('start');
+        }
+    }, [])
+
 
     useEffect(() => {
         const updateToken = async () => {
@@ -27,45 +36,26 @@ export const MobileLayout = ({ children, tab, changeActiveTab }) => {
                 }
             })
             const response = await request.json();
-            setCookie('jwt', response,
-                {
-                    path: '/',
-                    expires: new Date(moment().add(15, 'd').format()),
-                });
+            if (response.detail !== 'Не удалось проверить учетные данные.') {
+                setCookie('jwt', response,
+                    {
+                        path: '/',
+                        expires: new Date(moment().add(15, 'd').format()),
+                    });
+            }
         }
         updateToken();
     }, [])
 
-    const getComponent = (tab) => {
-        switch (tab) {
-            case 'menu':
-                return (<ConnectedMenuList />);
-            case 'cart':
-                return (<CartComponent />);
-            case 'profile':
-                return (<Profile />);
-            case 'order':
-                return (<Order />)
-        }
-    }
+    return (
+        <>
+            <div className="container">
 
-    if (tab === 'start') {
-        return (
-            <StartPage />
-        )
-    } else {
-        return (
-            <>
-                <div className="container">
-                    {
-                        getComponent(tab)
-                    }
-                    {children}
-                    <BottomNavigation />
-                </div>
-            </>
-        )
-    }
+                <Outlet />
+                <BottomNavigation />
+            </div>
+        </>
+    )
 }
 
 const mapStateToProps = state => ({

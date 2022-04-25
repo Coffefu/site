@@ -7,15 +7,19 @@ import PersonIcon from '@mui/icons-material/Person';
 import { connect } from "react-redux";
 import navigationStore from "../../../../store/modules/navigationStore";
 import { AlarmOn } from "@mui/icons-material";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const MobileBottomNavigation = ({ tab, changeActiveTab }) => {
 
     const [value, setValue] = React.useState('menu');
-
+    const navigate = useNavigate();
+    const location = useLocation();
     useEffect(() => {
         setValue(tab);
-
-    }, [tab])
+        if (location.pathname.slice(8) !== value) {
+            setValue(location.pathname.slice(8));
+        }
+    }, [tab, location])
 
     return (
         <Paper
@@ -32,7 +36,8 @@ const MobileBottomNavigation = ({ tab, changeActiveTab }) => {
                 showLabels
                 value={value}
                 onChange={(event, newValue) => {
-                    changeActiveTab(newValue)
+                    navigate(`/mobile/${newValue}`);
+                    changeActiveTab(newValue);
                     setValue(newValue);
                 }}
                 sx={{
