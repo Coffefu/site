@@ -7,6 +7,7 @@ import OrdersHistory from "./OrdersHistory";
 import { CircularProgress } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import OrderFeedback from './OrderFeedback';
 
 const style = {
    display: 'flex',
@@ -25,7 +26,7 @@ const style = {
    backgroundColor: '#F6FCFE',
 };
 
-const OrderHistoryModal = () => {
+const OrderFeedbackModal = () => {
 
    const navigate = useNavigate();
    const [cookies, setCookie] = useCookies(["jwt"]);
@@ -39,34 +40,6 @@ const OrderHistoryModal = () => {
    }
 
    const [orders, setOrders] = useState(null);
-   useEffect(() => {
-      const getOrdersHistory = async () => {
-         try {
-            const res = await fetch(`https://cofefu.ru/dev/api/my_orders`,
-               {
-                  method: 'GET',
-                  headers: {
-                     'Content-Type': 'application/json',
-                     'jwt-token': cookies.jwt
-                  }
-               }).then(res => res.json());
-
-            setOrders(res);
-         } catch (e) {
-            console.log(e);
-         }
-      }
-
-      getOrdersHistory();
-   }, [])
-
-   if (!orders) {
-      return (
-         <div className='mb65-container d-flex flex-column justify-content-center align-items-center height-100'>
-            <CircularProgress color="success" />
-         </div>
-      )
-   }
 
    return (
       <Modal
@@ -87,5 +60,5 @@ const OrderHistoryModal = () => {
    )
 };
 
-export default OrderHistoryModal;
+export default OrderFeedbackModal;
 

@@ -32,11 +32,13 @@ const Profile = () => {
 
     const [openHistory, setOpenHistory] = React.useState(false);
     const handleOpenHistory = () => {
-        navigate('/mobile/profile/history')
+        navigate('/mobile/profile/history');
     };
     const handleCloseHistory = () => setOpenHistory(false);
     const [openFeedback, setOpenFeedback] = React.useState(false);
-    const handleOpenFeedback = () => setOpenFeedback(true);
+    const handleOpenFeedback = () => {
+        navigate('/mobile/profile/feedback');
+    }
     const handleCloseFeedback = () => setOpenFeedback(false);
     const closeModal = () => {
         handleCloseHistory();
@@ -52,7 +54,7 @@ const Profile = () => {
     useEffect(() => {
         const getCustomer = async () => {
             try {
-                const res = await fetch(`https://cofefu.ru/api/me`,
+                const res = await fetch(`https://cofefu.ru/dev/api/me`,
                     {
                         method: 'GET',
                         headers: {
@@ -75,7 +77,7 @@ const Profile = () => {
     useEffect(() => {
         const getOrdersHistory = async () => {
             try {
-                const res = await fetch(`https://cofefu.ru/api/my_orders`,
+                const res = await fetch(`https://cofefu.ru/dev/api/my_orders`,
                     {
                         method: 'GET',
                         headers: {

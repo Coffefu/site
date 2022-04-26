@@ -13,7 +13,7 @@ const Order = ({ showErrorPopup }) => {
 
     const checkStatus = async () => {
         try {
-            const res = await fetch(`https://cofefu.ru/api/last_order`,
+            const res = await fetch(`https://cofefu.ru/dev/api/last_order`,
                 {
                     method: 'GET',
                     headers: {
@@ -24,6 +24,7 @@ const Order = ({ showErrorPopup }) => {
             if (res && res.detail) {
                 showErrorPopup(res.detail)
             }
+            setOrder(res);
         } catch (e) {
             console.log(e);
         }
@@ -74,13 +75,13 @@ const Order = ({ showErrorPopup }) => {
                     <Typography variant='body1'>
                         Статус заказа
                     </Typography>
-                    <Typography variant='h3'>
+                    <Typography variant='h5'>
                         {order.status}
                     </Typography>
                 </div>
 
                 {
-                    order.status !== 'Принят' ? <></>
+                    order.status === 'Не забран покупателем' || order.status === 'Отдан покупателю' ? <></>
                         : (<div className='mt-3 mb-3 d-flex justify-content-center align-items-center flex-column'>
                             <Typography variant='body1'>
                                 Будет готов к

@@ -18,6 +18,7 @@ import { usePopup } from 'react-hook-popup';
 import { Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
 import OrderHistoryModal from './../layout/mobileLayout/components/Profile/OrderHistoryModal';
+import OrderFeedbackModal from './../layout/mobileLayout/components/Profile/OrderFeedbackModal';
 
 const AppRouter = () => {
 
@@ -69,6 +70,9 @@ const AppRouter = () => {
                   showErrorPopup={showErrorPopup}
                   showSuccessPopup={showSuccessPopup} />} />
                <Route path='profile/history' element={<OrderHistoryModal
+                  showErrorPopup={showErrorPopup}
+                  showSuccessPopup={showSuccessPopup} />} />
+               <Route path='profile/feedback' element={<OrderFeedbackModal
                   showErrorPopup={showErrorPopup}
                   showSuccessPopup={showSuccessPopup} />} />
             </Route>

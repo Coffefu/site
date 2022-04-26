@@ -47,7 +47,7 @@ const VerifyModal = ({ showErrorPopup, showSuccessPopup }) => {
 
       const sendVerifyCode = async () => {
          try {
-            const request = await fetch(`https://cofefu.ru/api/verify_login_code?code=${code}`, {
+            const request = await fetch(`https://cofefu.ru/dev/api/verify_login_code?code=${code}`, {
                method: 'GET',
                headers: {
                   'Content-Type': 'application/json'
@@ -57,7 +57,6 @@ const VerifyModal = ({ showErrorPopup, showSuccessPopup }) => {
             if (response.detail) {
                showErrorPopup(response.detail)
             } else {
-               console.log(showSuccessPopup);
                showSuccessPopup('Успешный вход.')
                setCookie('jwt', response,
                   {

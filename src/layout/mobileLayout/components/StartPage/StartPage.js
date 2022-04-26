@@ -55,7 +55,7 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
 
             const registerCustomer = async () => {
                 try {
-                    const request = await fetch('https://cofefu.ru/api/register_customer', {
+                    const request = await fetch('https://cofefu.ru/dev/api/register_customer', {
                         method: 'POST',
                         body: JSON.stringify(customer),
                         headers: {
@@ -87,7 +87,7 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
         if (isLogin) {
             const loginCustomer = async () => {
                 try {
-                    const request = await fetch('https://cofefu.ru/api/send_login_code', {
+                    const request = await fetch('https://cofefu.ru/dev/api/send_login_code', {
                         method: 'POST',
                         body: JSON.stringify(customer),
                         headers: {
