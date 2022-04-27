@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, IconButton, CircularProgress, List, ListItem, ListItemButton, Modal, Typography } from "@mui/material";
+import { Box, IconButton, CircularProgress, List, ListItem, ListItemButton, Modal, Typography, ListItemIcon } from "@mui/material";
 import { connect } from "react-redux"
 import s from "./Profile.module.scss"
 import { useCookies } from "react-cookie";
-import OrderHistory from './OrdersHistory';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import OrderFeedback from "./OrderFeedback";
 import { useNavigate } from 'react-router-dom';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const style = {
     display: 'flex',
@@ -110,7 +110,7 @@ const Profile = () => {
                         Мой cofefu
                     </Typography>
                 </div>
-                <div className='d-flex flex-column justify-content-center'>
+                <div className='pl-3 d-flex flex-column justify-content-center'>
                     <Typography variant='h5'>
                         Привет, {profile.name} !
                     </Typography>
@@ -120,21 +120,30 @@ const Profile = () => {
                 </div>
 
                 <div className='d-flex flex-column justify-content-center'>
-                    <List>
-                        <ListItem disablePadding>
+                    <List sx={{ fontSize: 20 }}>
+                        <ListItem className="d-flex justify-content-between" disablePadding divider>
                             <ListItemButton onClick={handleOpenHistory}>
                                 История заказов
                             </ListItemButton>
+                            <ListItemIcon>
+                                <ArrowForwardIcon sx={{ fontSize: 24 }} />
+                            </ListItemIcon>
                         </ListItem>
-                        <ListItem disablePadding>
+                        <ListItem className="d-flex justify-content-between" disablePadding divider>
                             <ListItemButton onClick={handleOpenFeedback}>
                                 Обратная связь
                             </ListItemButton>
+                            <ListItemIcon>
+                                <ArrowForwardIcon sx={{ fontSize: 24 }} />
+                            </ListItemIcon>
                         </ListItem>
-                        <ListItem disablePadding>
+                        <ListItem className="d-flex justify-content-between" disablePadding divider>
                             <ListItemButton onClick={verifyPhone}>
                                 Подтвердить телефон
                             </ListItemButton>
+                            <ListItemIcon>
+                                <ArrowForwardIcon sx={{ fontSize: 24 }} />
+                            </ListItemIcon>
                         </ListItem>
                     </List>
                 </div>

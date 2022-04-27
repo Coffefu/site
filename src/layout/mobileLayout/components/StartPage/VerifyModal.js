@@ -85,7 +85,7 @@ const VerifyModal = ({ showErrorPopup, showSuccessPopup }) => {
             <Box sx={style}>
                <div className='d-flex justify-content-start h6'>
                   <IconButton aria-label="delete" onClick={closeModal} className='p-0'>
-                     <ArrowBackIcon color='#000000' />
+                     <ArrowBackIcon color='#000000' sx={{ fontSize: 32 }} />
                   </IconButton>
                </div>
 
