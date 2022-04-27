@@ -41,7 +41,14 @@ const CartComponent = ({
 
     const deleteItem = (item) => {
         const cart = JSON.parse(localStorage.getItem('cart'));
+        let deleted = false
         const newCart = cart.filter(product => {
+            if (deleted) {
+                return true;
+            }
+            if (_.isEqual(product, item)) {
+                deleted = true;
+            }
             return !_.isEqual(product, item);
         })
         localStorage.setItem('cart', JSON.stringify(newCart));
