@@ -91,7 +91,7 @@ const CartComponent = ({
         order.comment = comment;
         const sendOrder = async () => {
             try {
-                const request = await fetch('https://cofefu.ru/dev/api/make_order', {
+                const request = await fetch('https://cofefu.ru/api/make_order', {
                     method: 'POST',
                     body: JSON.stringify(order),
                     headers: {
