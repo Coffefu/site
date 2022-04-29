@@ -19,6 +19,8 @@ import { Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
 import OrderHistoryModal from './../layout/mobileLayout/components/Profile/OrderHistoryModal';
 import OrderFeedbackModal from './../layout/mobileLayout/components/Profile/OrderFeedbackModal';
+import CoffeeHouseModal from './../layout/mobileLayout/components/MenuList/CoffeeHouseModal';
+import CoffeeHouseMap from './../layout/mobileLayout/components/MenuList/CoffeeHouseMap';
 
 const AppRouter = () => {
 
@@ -73,6 +75,12 @@ const AppRouter = () => {
                   showErrorPopup={showErrorPopup}
                   showSuccessPopup={showSuccessPopup} />} />
                <Route path='profile/feedback' element={<OrderFeedbackModal
+                  showErrorPopup={showErrorPopup}
+                  showSuccessPopup={showSuccessPopup} />} />
+               <Route path='menu/coffeehouse' element={<CoffeeHouseModal
+                  showErrorPopup={showErrorPopup}
+                  showSuccessPopup={showSuccessPopup} />} />
+               <Route path='menu/map' element={<CoffeeHouseMap
                   showErrorPopup={showErrorPopup}
                   showSuccessPopup={showSuccessPopup} />} />
             </Route>

@@ -4,7 +4,7 @@ const initialState = {
     coffeeHouse: JSON.parse(localStorage.getItem('coffeeHouse')) || {
         id: '1',
         name: 'Полка кофе',
-        placement: 'D7'
+        placement: 'D7 около D737'
     },
     order: JSON.parse(localStorage.getItem('order')) || {
         number: -1,

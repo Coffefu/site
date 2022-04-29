@@ -1,106 +1,28 @@
 import React from 'react'
 import { Box, CardContent, Modal, Typography, IconButton, Card, InputBase, Drawer } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import MenuIcon from '@mui/icons-material/Menu';
 import PlaceIcon from '@mui/icons-material/Place';
-import SearchIcon from '@mui/icons-material/Search';
+import MapIcon from '@mui/icons-material/Map';
 
 import s from './MenuList.module.scss';
-
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    backgroundColor: 'rgba(251, 152, 81, 0.69)',
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto',
-    },
-    borderRadius: '24px',
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: '#000000',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
-    },
-    width: '100%'
-}));
+import { useNavigate } from 'react-router-dom';
 
 const TopHeader = ({
     coffeeHouse,
-    coffeeHouses,
-    changeActiveCoffeeHouse,
-    handleClose,
     handleOpen,
-    open,
-    search,
-    setSearch
 }) => {
 
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 320,
-        maxHeight: 400,
-        overflow: 'auto',
-        bgcolor: 'background.paper',
-        border: '1px solid #000',
-        boxShadow: 24,
-        p: 4,
-        borderRadius: '5px',
-    };
+    const navigate = useNavigate();
 
-    const [state, setState] = React.useState(false);
-
-    const toggleDrawer = () => {
-        setState(!state);
-    };
+    const openMap = () => {
+        navigate('map');
+    }
 
     return (
         <div className={s.headerWrapper}>
-            <div className={'mb-3 mt-3 d-flex'}>
-                {/*<IconButton*/}
-                {/*    size="large"*/}
-                {/*    edge="start"*/}
-                {/*    color="inherit"*/}
-                {/*    aria-label="open drawer"*/}
-                {/*    onClick={toggleDrawer}*/}
-                {/*>*/}
-                {/*    <MenuIcon />*/}
-                {/*    <Drawer*/}
-                {/*        anchor={'left'}*/}
-                {/*        open={state}*/}
-                {/*        onClose={toggleDrawer}*/}
-                {/*    >*/}
-                {/*        <div className='p-3 mt-5'>*/}
-                {/*            В разработке!*/}
-                {/*        </div>*/}
-                {/*    </Drawer>*/}
-                {/*</IconButton>*/}
-
-                <div className={s.headerPlace + ' mb-3 mt-3 ml-auto'}>
-                    <div className='d-flex align-item-center justify-content-start'>
+            <div className={'mb-3 mt-3 d-flex flex-column'}>
+                <div className={s.headerPlace + ' mb-1 mt-3 '}>
+                    <div className='d-flex align-item-center justify-content-center'>
                         <span className={s.title + ' mr-1'}>
                             <PlaceIcon sx={{ marginBottom: "6px" }} />
                         </span>
@@ -109,41 +31,17 @@ const TopHeader = ({
                         </span>
                     </div>
                 </div>
-            </div>
-
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <Typography className={'mb-2'} id="modal-modal-title" variant="h6" component="h2">
-                        Выберите место, откуда будете забирать заказ
-                    </Typography>
-                    <div id="modal-modal-description">
-                        {
-                            coffeeHouses.map((coffeeHouse, index) => {
-                                return (
-                                    <Card key={index} id={coffeeHouse.id} className={'mb-4 border'}
-                                        onClick={() => changeActiveCoffeeHouse(coffeeHouse)}>
-                                        <CardContent>
-                                            <Typography variant="h5" component="div">
-                                                {coffeeHouse.name}
-                                            </Typography>
-                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                                расположение {coffeeHouse.placement}, <br />
-                                                время работы {coffeeHouse.open_time.slice(0, 5)} - {coffeeHouse.close_time.slice(0, 5)}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                )
-                            })
-                        }
+                <div className={s.headerPlace + ' mb-2 mt-1 '}>
+                    <div className='d-flex'>
+                        <span className={s.title + ' mr-1'}>
+                            <MapIcon sx={{ marginBottom: "2px" }} />
+                        </span>
+                        <span className={s.subtitle}
+                            onClick={openMap}> На карте
+                        </span>
                     </div>
-
-                </Box>
-            </Modal>
+                </div>
+            </div>
         </div>
     )
 }

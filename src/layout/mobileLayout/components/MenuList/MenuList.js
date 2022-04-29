@@ -9,6 +9,7 @@ import userStore from "../../../../store/modules/userStore";
 import s from './MenuList.module.scss';
 import TopHeader from './MenuListHeader';
 import { useSwipeable } from "react-swipeable";
+import { useNavigate } from 'react-router-dom';
 
 const MenuList = ({
     menu,
@@ -21,6 +22,7 @@ const MenuList = ({
     addons
 }) => {
 
+    const navigate = useNavigate();
     const [value, setValue] = useState('coffee');
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -55,7 +57,9 @@ const MenuList = ({
     }, [search])
 
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () => {
+        navigate('coffeehouse');
+    }
     const handleClose = () => setOpen(false);
 
     const changeActiveCoffeeHouse = (coffeeHouse) => {
