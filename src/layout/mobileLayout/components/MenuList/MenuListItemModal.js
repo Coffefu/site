@@ -74,7 +74,7 @@ const MenuListItemModal = ({ menu, addons, showErrorPopup, showSuccessPopup }) =
          price: +evt.target.getAttribute('data-price'),
          id: evt.target.getAttribute('data-id'),
       });
-      setSum(+evt.target.getAttribute('data-price') + (+addon.price || 0));
+      setSum(+evt.target.getAttribute('data-price') + (+addon.reduce((a, b) => a += b.price , 0) || 0));
       const checkboxes = document.getElementsByClassName(s.sizeCheckbox);
       for (let checkbox of checkboxes) {
          checkbox.classList.remove(s.activeSize);
@@ -82,28 +82,30 @@ const MenuListItemModal = ({ menu, addons, showErrorPopup, showSuccessPopup }) =
       evt.target.classList.add(s.activeSize);
    }
 
-   const [addon, setAddon] = useState({});
+   const [addon, setAddon] = useState([]);
    const changeAddon = (evt) => {
-      if (+addon.id === +evt.target.getAttribute('data-addon')) {
-         setAddon({
-            id: null,
-            price: 0
-         });
-         setSum(+size.price);
+      if (addon.map(item => item.id).includes(+evt.target.getAttribute('data-addon'))) {
+         const filteredAddons = [...addon.filter(item => item.id !== +evt.target.getAttribute('data-addon'))];
+         setAddon(filteredAddons);
+         setSum(+size.price + filteredAddons.reduce((a, b) => a += b.price , 0));
          const checkboxes = document.getElementsByClassName(s.addonCheckbox);
          for (let checkbox of checkboxes) {
-            checkbox.classList.remove(s.activeAddon);
+            if (+checkbox.getAttribute('data-addon') === +evt.target.getAttribute('data-addon') ) {
+               checkbox.classList.remove(s.activeAddon);
+            }
          }
          return;
       }
-      setAddon({
+      setAddon([...addon, {
          id: +evt.target.getAttribute('data-addon'),
          price: +evt.target.getAttribute('data-price')
-      });
-      setSum(+size.price + +evt.target.getAttribute('data-price'));
+      }]);
+      setSum(+size.price + +evt.target.getAttribute('data-price') + addon.reduce((a, b) => a += b.price , 0));
       const checkboxes = document.getElementsByClassName(s.addonCheckbox);
       for (let checkbox of checkboxes) {
-         checkbox.classList.remove(s.activeAddon);
+         if (!addon.map(item => item.id).includes(+checkbox.getAttribute('data-addon'))) {
+            checkbox.classList.remove(s.activeAddon);
+         }
       }
       evt.target.classList.add(s.activeAddon);
    }

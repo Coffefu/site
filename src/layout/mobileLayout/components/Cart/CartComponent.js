@@ -55,7 +55,7 @@ const CartComponent = ({
         setCartItems(newCart);
     }
 
-    const [time, setTime] = useState(new Date().setMilliseconds(new Date().getMilliseconds() + 300000));
+    const [time, setTime] = useState(new Date().setMilliseconds(new Date().getMilliseconds() + 360000));
     const [comment, setComment] = useState('')
 
     const [orderNumber, setOrderNumber] = useState(null);
@@ -91,8 +91,8 @@ const CartComponent = ({
         order.coffee_house = coffeeHouse.id;
         order.products = [];
         cartItems.forEach((product) => {
-            const addon = addons.filter((addon) => +addon.id === +product.addon.id);
-            order.products.push({ id: product.id, toppings: addon[0] ? [addon[0].id] : [] })
+            const addon = addons.filter((addon) => product.addon.map(item => item.id).includes(addon.id))
+            order.products.push({ id: product.id, toppings: addon.length > 0 ? [...addon.map(item => item.id)] : [] })
         })
         order.time = moment(time).format("YYYY-MM-DD HH:mm");
         order.comment = comment;

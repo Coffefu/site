@@ -7,7 +7,7 @@ import s from './Cart.module.scss'
 
 const CartItem = ({ item, addons, deleteItem }) => {
 
-    const stringAddon = addons.filter((addon) => +addon.id === +item.addon.id)
+    const stringAddon = addons.filter((addon) => item.addon.map(item => item.id).includes(addon.id))
     return (
         <div className={'row card mb-3 ' + s.cartItem}>
             <Card>
@@ -28,7 +28,7 @@ const CartItem = ({ item, addons, deleteItem }) => {
                         <div className='col-9'>
                             {stringAddon.length !== 0 && item.addon !== ''
                                 ? <span>
-                                    + {stringAddon[0].name}
+                                    + {stringAddon.map(item => item.name).join(' + ')}
                                 </span> : <span />}
                         </div>
                         <div className='col-3'>
