@@ -63,7 +63,12 @@ const CoffeeHouseModal = ({ coffeeHouses, changeCoffeeHouse }) => {
                               </Typography>
                               <Typography sx={{ fontSize: 15 }} gutterBottom>
                                  расположение {coffeeHouse.placement}, <br />
-                                 время работы {coffeeHouse.open_time.slice(0, 5)} - {coffeeHouse.close_time.slice(0, 5)}
+                                 {
+                                    coffeeHouse.openTime
+                                       ? (
+                                          `время работы ${coffeeHouse.open_time.slice(0, 5)} - ${coffeeHouse.close_time.slice(0, 5)}`
+                                       ) : ('Кафе закрыто')
+                                 }
                               </Typography>
                            </CardContent>
                         </Card>

@@ -87,6 +87,12 @@ const CartComponent = ({
             return;
         }
 
+        if (!coffeeHouse.id) {
+
+            showErrorPopup('Кафе не выбрано!')
+            return;
+        }
+
         const order = {};
         order.coffee_house = coffeeHouse.id;
         order.products = [];
