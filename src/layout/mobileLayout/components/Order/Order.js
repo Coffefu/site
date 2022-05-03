@@ -11,25 +11,6 @@ const Order = ({ showErrorPopup }) => {
     const [cookies, setCookie] = useCookies(["jwt"]);
     moment.locale('ru');
 
-    const checkStatus = async () => {
-        try {
-            const res = await fetch(`https://cofefu.ru/api/last_order`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'jwt-token': cookies.jwt
-                    }
-                }).then(res => res.json());
-            if (res && res.detail) {
-                showErrorPopup(res.detail)
-            }
-            setOrder(res);
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
     const [order, setOrder] = useState(null);
     useEffect(() => {
 
@@ -43,12 +24,33 @@ const Order = ({ showErrorPopup }) => {
         }
     }, [])
 
+    const checkStatus = async () => {
+        try {
+            const res = await fetch(`https://cofefu.ru/api/last_order`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'jwt-token': cookies.jwt
+                    }
+                }).then(res => res.json());
+            if (res && res.detail) {
+                setOrder(null);
+                showErrorPopup(res.detail);
+                return;
+            }
+            setOrder(res);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     if (!order) {
         return (
             <div>
                 <div className='mb65-container d-flex flex-column align-items-center justify-content-center height-100'>
                     <Typography variant={'h5'}>
-                        Нет активного заказа
+                        Нет активного заказа!
                     </Typography>
                 </div>
             </div>

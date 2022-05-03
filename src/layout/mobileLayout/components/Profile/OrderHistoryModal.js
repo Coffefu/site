@@ -25,7 +25,7 @@ const style = {
    backgroundColor: '#F6FCFE',
 };
 
-const OrderHistoryModal = () => {
+const OrderHistoryModal = ({ showErrorPopup }) => {
 
    const navigate = useNavigate();
    const [cookies, setCookie] = useCookies(["jwt"]);
@@ -50,7 +50,11 @@ const OrderHistoryModal = () => {
                      'jwt-token': cookies.jwt
                   }
                }).then(res => res.json());
-
+            if (res.detail) {
+               setOrders([])
+               showErrorPopup(res.detail);
+               return;
+            }
             setOrders(res);
          } catch (e) {
             console.log(e);
@@ -62,9 +66,45 @@ const OrderHistoryModal = () => {
 
    if (!orders) {
       return (
-         <div className='mb65-container d-flex flex-column justify-content-center align-items-center height-100'>
-            <CircularProgress color="success" />
-         </div>
+         <Modal
+            open={true}
+            onClose={handleCloseHistory}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+         >
+            <Box sx={style}>
+               <div className='d-flex justify-content-start h6'>
+                  <IconButton aria-label="delete" onClick={closeModal} className='p-0'>
+                     <ArrowBackIcon color='#000000' sx={{ fontSize: 32 }} />
+                  </IconButton>
+               </div>
+               <div className='mb65-container d-flex flex-column justify-content-center align-items-center height-100'>
+                  <CircularProgress color="success" />
+               </div>
+            </Box>
+         </Modal>
+      )
+   }
+
+   if (orders.length === 0) {
+      return (
+         <Modal
+            open={true}
+            onClose={handleCloseHistory}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+         >
+            <Box sx={style}>
+               <div className='d-flex justify-content-start h6'>
+                  <IconButton aria-label="delete" onClick={closeModal} className='p-0'>
+                     <ArrowBackIcon color='#000000' sx={{ fontSize: 32 }} />
+                  </IconButton>
+               </div>
+               <div className='mb65-container d-flex flex-column justify-content-center align-items-center height-100'>
+                  Нет заказов
+               </div>
+            </Box>
+         </Modal>
       )
    }
 
