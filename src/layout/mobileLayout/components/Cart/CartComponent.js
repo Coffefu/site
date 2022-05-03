@@ -21,6 +21,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import menuStore from "../../../../store/modules/menuStore";
 import userStore from "../../../../store/modules/userStore";
 import _ from 'lodash';
+import TimePickerModal from './TimePickerModal';
 
 const CartComponent = ({
     coffeeHouse,
@@ -32,7 +33,9 @@ const CartComponent = ({
 }) => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
-    const [cartItems, setCartItems] = useState([])
+    const [cartItems, setCartItems] = useState([]);
+    const [openTimePicker, setOpenTimePicker] = useState(false);
+    const closeTimePicker = () => setOpenTimePicker(false);
 
     const clearCart = () => {
         localStorage.removeItem('cart');
@@ -55,11 +58,10 @@ const CartComponent = ({
         setCartItems(newCart);
     }
 
+
     const [time, setTime] = useState(new Date().setMilliseconds(new Date().getMilliseconds() + 360000));
     const [comment, setComment] = useState('')
-
     const [orderNumber, setOrderNumber] = useState(null);
-
     const [loading, setLoading] = useState(false);
     useEffect(() => {
 
@@ -79,6 +81,7 @@ const CartComponent = ({
     const successOrder = (number) => {
         setOrderNumber(number);
         showSuccessPopup(`Заказ успешно отправлен. Номер вашего заказа - ${number}`)
+        clearCart();
     }
     const makeOrder = () => {
         if (time - new Date() < 0) {
@@ -195,18 +198,13 @@ const CartComponent = ({
                                             Во сколько заберете?
                                         </label>
                                     </div>
-                                    <div className={'col ' + s.timePicker}>
-                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                            <MobileTimePicker
-                                                ampm={false}
-                                                ampmInClock={false}
-                                                value={time}
-                                                onChange={setTime}
-                                                cancelText={'Отмена'}
-                                                openTo={'minutes'}
-                                                renderInput={(params) => <TextField {...params} />}
-                                            />
-                                        </LocalizationProvider>
+                                    <div className={'col'}>
+                                        <TimePickerModal
+                                            handleOpen={() => setOpenTimePicker(true)}
+                                            open={openTimePicker}
+                                            handleClose={closeTimePicker}
+                                            time={time}
+                                            setTime={setTime} />
                                     </div>
                                 </div>
                             </div>
