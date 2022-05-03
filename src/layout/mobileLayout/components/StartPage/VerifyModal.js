@@ -47,7 +47,7 @@ const VerifyModal = ({ showErrorPopup, showSuccessPopup }) => {
 
       const sendVerifyCode = async () => {
          try {
-            const request = await fetch(`https://cofefu.ru/dev/api/verify_login_code?code=${code}`, {
+            const request = await fetch(`https://cofefu.ru/api/verify_login_code?code=${code}`, {
                method: 'GET',
                headers: {
                   'Content-Type': 'application/json'

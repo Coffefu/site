@@ -26,7 +26,7 @@ const Order = ({ showErrorPopup }) => {
 
     const checkStatus = async () => {
         try {
-            const res = await fetch(`https://cofefu.ru/dev/api/last_order`,
+            const res = await fetch(`https://cofefu.ru/api/last_order`,
                 {
                     method: 'GET',
                     headers: {
