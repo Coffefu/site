@@ -1,5 +1,5 @@
-import React from "react";
-import {Modal, Box} from '@mui/material';
+import React, {useState} from "react";
+import {Modal, Box, Button} from '@mui/material';
 import moment from "moment";
 import s from './Cart.module.scss';
 
@@ -26,11 +26,13 @@ const TimePickerModal = ({open, handleClose, handleOpen, time, setTime}) => {
 
     const format = 'HH:mm';
 
-    const changeTime = (time) => {
-        setTime(time);
+    const changePickerTime = (evt) => {
+        const fulltime = moment();
+        fulltime.set('hour', evt.split(':')[0]);
+        fulltime.set('minute', evt.split(':')[1]);
+        setTime(fulltime.toDate());
+        console.log(evt)
     }
-
-    console.log(time);
 
     return (
         <div>
@@ -46,9 +48,12 @@ const TimePickerModal = ({open, handleClose, handleOpen, time, setTime}) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div>
-                        <Timeit/>
+                    <div className='mb-auto'>
+                        <Timeit defualtValue={moment(time).format(format)} onChange={changePickerTime}/>
                     </div>
+                    <Button className='btn border-dark' onClick={handleClose}>
+                        OK
+                    </Button>
                 </Box>
             </Modal>
         </div>

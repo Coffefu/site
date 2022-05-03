@@ -58,11 +58,10 @@ const CartComponent = ({
         setCartItems(newCart);
     }
 
+
     const [time, setTime] = useState(new Date().setMilliseconds(new Date().getMilliseconds() + 360000));
     const [comment, setComment] = useState('')
-
     const [orderNumber, setOrderNumber] = useState(null);
-
     const [loading, setLoading] = useState(false);
     useEffect(() => {
 
