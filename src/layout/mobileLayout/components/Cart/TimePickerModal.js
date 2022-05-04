@@ -10,6 +10,7 @@ const style = {
     display: 'flex',
     flexDirection: 'column',
     position: 'absolute',
+    borderRadius: 4,
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -37,24 +38,53 @@ const TimePickerModal = ({open, handleClose, handleOpen, time, setTime}) => {
     const sliders = document.getElementsByClassName('timeit-control-0-1-2');
     const controls = document.getElementsByClassName('timeit-control__time-0-1-3');
     const changeTime = (swipe) => {
+        console.log(swipe)
         if (swipe.dir === 'Up') {
             if (swipe.event.path.indexOf(sliders[0]) !== -1) {
-                setTime(moment(time).add(1, 'hour').toDate());
-                controls[1].click();
+                if (swipe.velocity > 0.5) {
+                    setTime(moment(time).add(5, 'hour').toDate());
+                    for (let i = 0; i < 5; i += 1) {
+                        controls[1].click();
+                    }
+                } else {
+                    setTime(moment(time).add(1, 'hour').toDate());
+                    controls[1].click();
+                }
             }
             if (swipe.event.path.indexOf(sliders[1]) !== -1) {
-                setTime(moment(time).add(1, 'minute').toDate());
-                controls[3].click();
+                if (swipe.velocity > 0.5) {
+                    setTime(moment(time).add(1, 'minute').toDate());
+                    for (let i = 0; i < 5; i += 1) {
+                        controls[3].click();
+                    }
+                } else {
+                    setTime(moment(time).add(1, 'minute').toDate());
+                    controls[3].click();
+                }
             }
         }
         if (swipe.dir === 'Down') {
             if (swipe.event.path.indexOf(sliders[0]) !== -1) {
-                setTime(moment(time).add(-1, 'hour').toDate());
-                controls[0].click();
+                if (swipe.velocity > 0.5) {
+                    setTime(moment(time).add(-5, 'hour').toDate());
+                    for (let i = 0; i < 5; i += 1) {
+                        controls[0].click();
+                    }
+                } else {
+                    setTime(moment(time).add(-1, 'hour').toDate());
+                    controls[0].click();
+                }
             }
             if (swipe.event.path.indexOf(sliders[1]) !== -1) {
-                setTime(moment(time).add(-1, 'minute').toDate());
-                controls[2].click();
+                if (swipe.velocity > 0.5) {
+                    setTime(moment(time).add(-5, 'minute').toDate());
+                    for (let i = 0; i < 5; i += 1) {
+                        controls[2].click();
+                    }
+                } else {
+                    setTime(moment(time).add(-1, 'minute').toDate());
+                    controls[2].click();
+                }
             }
         }
     }
