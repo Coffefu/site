@@ -31,7 +31,6 @@ const TimePickerModal = ({open, handleClose, handleOpen, time, setTime}) => {
         fulltime.set('hour', evt.split(':')[0]);
         fulltime.set('minute', evt.split(':')[1]);
         setTime(fulltime.toDate());
-        console.log(evt)
     }
 
     return (
