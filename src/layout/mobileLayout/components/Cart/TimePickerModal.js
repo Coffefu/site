@@ -38,7 +38,6 @@ const TimePickerModal = ({open, handleClose, handleOpen, time, setTime}) => {
     const sliders = document.getElementsByClassName('timeit-control-0-1-2');
     const controls = document.getElementsByClassName('timeit-control__time-0-1-3');
     const changeTime = (swipe) => {
-        console.log(swipe)
         if (swipe.dir === 'Up') {
             if (swipe.event.path.indexOf(sliders[0]) !== -1) {
                 if (swipe.velocity > 0.5) {
