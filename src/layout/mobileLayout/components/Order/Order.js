@@ -93,7 +93,7 @@ const Order = ({ showErrorPopup, coffeeHouses, receiveCoffeeHouses }) => {
                 </div>
 
                 {
-                    order.status === 'Не забран покупателем' || order.status === 'Отдан покупателю' || order.status === 'Отклонен' ? <></>
+                    order.status === 'Не забран покупателем' || order.status === 'Отдан покупателю' || order.status === 'Отклонен' || order.status.includes('отклонен') ? <></>
                         : (<div className='mt-3 mb-3 d-flex justify-content-center align-items-center flex-column'>
                             <Typography variant='body1'>
                                 Будет готов к

@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { FormControl, InputLabel, MenuItem, Modal, NativeSelect, OutlinedInput, Select, Button } from '@mui/material';
+import React, { useState } from "react";
+import { FormControl, InputLabel, MenuItem, Modal,  Select, Button } from '@mui/material';
 import { Box } from '@mui/material';
 import { IconButton } from '@mui/material';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import OrdersHistory from "./OrdersHistory";
-import { CircularProgress } from '@mui/material';
-import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import OrderFeedback from './OrderFeedback';
 import { TextField } from '@mui/material';
 import s from "./Profile.module.scss"
+import {useCookies} from "react-cookie";
 
 const style = {
    display: 'flex',
@@ -31,6 +28,7 @@ const style = {
 const OrderFeedbackModal = ({ showErrorPopup, showSuccessPopup }) => {
 
    const navigate = useNavigate();
+   const [cookies, setCookie] = useCookies(["jwt"]);
    const [openFeedback, setOpenFeedback] = useState(true);
    const handleCloseFeedback = () => setOpenFeedback(false);
    const closeModal = () => {
@@ -63,6 +61,7 @@ const OrderFeedbackModal = ({ showErrorPopup, showSuccessPopup }) => {
                   body: JSON.stringify(text),
                   headers: {
                      'Content-Type': 'application/json',
+                     'jwt-token': cookies.jwt
                   }
                })
                showSuccessPopup('Спасибо за ваш отзыв!')

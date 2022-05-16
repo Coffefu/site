@@ -4,7 +4,6 @@ import { connect } from "react-redux"
 import s from "./Profile.module.scss"
 import { useCookies } from "react-cookie";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import OrderFeedback from "./OrderFeedback";
 import { useNavigate } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
@@ -63,6 +62,29 @@ const Profile = () => {
                         }
                     }).then(res => res.json());
                 setProfile(res);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        if (!profile) {
+            getCustomer();
+        }
+    }, [profile])
+
+    let isConfirmed = false;
+    useEffect(() => {
+        const getCustomer = async () => {
+            try {
+                const res = await fetch(`https://cofefu.ru/api/is_confirmed`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'jwt-token': cookies.jwt
+                        }
+                    }).then(res => res.json());
+                isConfirmed = res;
             } catch (e) {
                 console.log(e);
             }
