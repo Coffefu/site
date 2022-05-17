@@ -4,7 +4,6 @@ import { connect } from "react-redux"
 import s from "./Profile.module.scss"
 import { useCookies } from "react-cookie";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import OrderFeedback from "./OrderFeedback";
 import { useNavigate } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
@@ -63,6 +62,29 @@ const Profile = () => {
                         }
                     }).then(res => res.json());
                 setProfile(res);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        if (!profile) {
+            getCustomer();
+        }
+    }, [profile])
+
+    let isConfirmed = false;
+    useEffect(() => {
+        const getCustomer = async () => {
+            try {
+                const res = await fetch(`https://cofefu.ru/api/is_confirmed`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'jwt-token': cookies.jwt
+                        }
+                    }).then(res => res.json());
+                isConfirmed = res;
             } catch (e) {
                 console.log(e);
             }
@@ -137,33 +159,20 @@ const Profile = () => {
                                 <ArrowForwardIcon sx={{ fontSize: 24 }} />
                             </ListItemIcon>
                         </ListItem>
-                        <ListItem className="d-flex justify-content-between" disablePadding divider>
-                            <ListItemButton onClick={verifyPhone}>
-                                Подтвердить телефон
-                            </ListItemButton>
-                            <ListItemIcon>
-                                <ArrowForwardIcon sx={{ fontSize: 24 }} />
-                            </ListItemIcon>
-                        </ListItem>
+                        {
+                            isConfirmed
+                            ? (<ListItem className="d-flex justify-content-between" disablePadding divider>
+                                    <ListItemButton onClick={verifyPhone}>
+                                        Подтвердить телефон
+                                    </ListItemButton>
+                                    <ListItemIcon>
+                                        <ArrowForwardIcon sx={{ fontSize: 24 }} />
+                                    </ListItemIcon>
+                                </ListItem>) : <></>
+                        }
                     </List>
                 </div>
             </div>
-
-            <Modal
-                open={openFeedback}
-                onClose={handleCloseFeedback}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <div className='d-flex justify-content-start h6'>
-                        <IconButton aria-label="delete" onClick={closeModal} className='p-0'>
-                            <ArrowBackIcon color='#000000' />
-                        </IconButton>
-                    </div>
-                    <OrderFeedback />
-                </Box>
-            </Modal>
         </div>
     )
 };

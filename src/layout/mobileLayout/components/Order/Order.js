@@ -5,11 +5,18 @@ import { useCookies } from "react-cookie";
 import 'moment/locale/ru';
 
 import s from "./Order.module.scss"
+import {connect} from "react-redux";
+import menuStore from "../../../../store/modules/menuStore";
 
-const Order = ({ showErrorPopup }) => {
+const Order = ({ showErrorPopup, coffeeHouses, receiveCoffeeHouses }) => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
+    const [coffeeHouse, setCoffeeHouse] = useState(null)
     moment.locale('ru');
+
+    useEffect(() => {
+        receiveCoffeeHouses();
+    }, [])
 
     const [order, setOrder] = useState(null);
     useEffect(() => {
@@ -40,6 +47,9 @@ const Order = ({ showErrorPopup }) => {
                 return;
             }
             setOrder(res);
+            if (coffeeHouses) {
+                setCoffeeHouse(coffeeHouses.filter(item => item.id === res.coffee_house)[0]);
+            }
         } catch (e) {
             console.log(e);
         }
@@ -83,13 +93,25 @@ const Order = ({ showErrorPopup }) => {
                 </div>
 
                 {
-                    order.status === 'Не забран покупателем' || order.status === 'Отдан покупателю' || order.status === 'Отклонен' ? <></>
+                    order.status === 'Не забран покупателем' || order.status === 'Отдан покупателю' || order.status === 'Отклонен' || order.status.includes('отклонен') ? <></>
                         : (<div className='mt-3 mb-3 d-flex justify-content-center align-items-center flex-column'>
                             <Typography variant='body1'>
                                 Будет готов к
                             </Typography>
                             <Typography variant='h5'>
                                 {moment(order.time).format('DD MMMM HH:mm')}
+                            </Typography>
+                        </div>)
+                }
+
+                {
+                    !coffeeHouse || (order.status === 'Не забран покупателем' || order.status === 'Отдан покупателю' || order.status === 'Отклонен' || order.status.includes('отклонен')) ? <></>
+                        : (<div className='mt-3 mb-3 d-flex justify-content-center align-items-center flex-column'>
+                            <Typography variant='body1'>
+                                Кофейня
+                            </Typography>
+                            <Typography variant='h5'>
+                                {coffeeHouse.name + ' ' + coffeeHouse.placement}
                             </Typography>
                         </div>)
                 }
@@ -102,4 +124,15 @@ const Order = ({ showErrorPopup }) => {
     )
 };
 
-export default Order;
+const mapStateToProps = state => ({
+    coffeeHouses: state.menu.coffeeHouses,
+});
+
+const mapDispatchToProps = {
+    receiveCoffeeHouses: menuStore.receiveCoffeeHouses,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Order);
