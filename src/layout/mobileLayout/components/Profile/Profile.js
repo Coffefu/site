@@ -159,33 +159,20 @@ const Profile = () => {
                                 <ArrowForwardIcon sx={{ fontSize: 24 }} />
                             </ListItemIcon>
                         </ListItem>
-                        <ListItem className="d-flex justify-content-between" disablePadding divider>
-                            <ListItemButton onClick={verifyPhone}>
-                                Подтвердить телефон
-                            </ListItemButton>
-                            <ListItemIcon>
-                                <ArrowForwardIcon sx={{ fontSize: 24 }} />
-                            </ListItemIcon>
-                        </ListItem>
+                        {
+                            isConfirmed
+                            ? (<ListItem className="d-flex justify-content-between" disablePadding divider>
+                                    <ListItemButton onClick={verifyPhone}>
+                                        Подтвердить телефон
+                                    </ListItemButton>
+                                    <ListItemIcon>
+                                        <ArrowForwardIcon sx={{ fontSize: 24 }} />
+                                    </ListItemIcon>
+                                </ListItem>) : <></>
+                        }
                     </List>
                 </div>
             </div>
-
-            <Modal
-                open={openFeedback}
-                onClose={handleCloseFeedback}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <div className='d-flex justify-content-start h6'>
-                        <IconButton aria-label="delete" onClick={closeModal} className='p-0'>
-                            <ArrowBackIcon color='#000000' />
-                        </IconButton>
-                    </div>
-                    <OrderFeedback />
-                </Box>
-            </Modal>
         </div>
     )
 };

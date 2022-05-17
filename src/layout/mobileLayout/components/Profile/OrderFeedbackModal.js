@@ -81,6 +81,7 @@ const OrderFeedbackModal = ({ showErrorPopup, showSuccessPopup }) => {
                   body: JSON.stringify(text),
                   headers: {
                      'Content-Type': 'application/json',
+                     'jwt-token': cookies.jwt
                   }
                })
                showSuccessPopup('Спасибо за ваш отзыв!')

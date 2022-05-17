@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import navigationStore from './../../../../store/modules/navigationStore';
 import moment from "moment";
 import { useNavigate } from 'react-router-dom';
-import { usePopup } from "react-hook-popup";
 
 const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
 
@@ -114,6 +113,11 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
         setIsLogin(!isLogin);
     }
 
+    const verifyPhone = () => {
+        const newWindow = window.open('https://t.me/cofefu_bot')
+        if (newWindow) newWindow.opener = null
+    }
+
     return (
         <div className='container pt-4 '>
             <div className='d-flex flex-column align-items-center justify-content-center height-100 mb-2'>
@@ -153,6 +157,9 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
                     {isLogin ? 'Регистрация' : 'Войти'}
                 </Typography>
             </div>
+            <Typography className='text-center' onClick={verifyPhone} style={{ cursor: 'pointer' }} variant='subtitle1'>
+                Подтвердить телефон
+            </Typography>
         </div>
     )
 };
