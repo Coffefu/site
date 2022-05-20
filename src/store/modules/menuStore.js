@@ -5,7 +5,7 @@ export default class menuStore {
 
    static receiveMenu = () => {
       return async dispatch => {
-         await callApi(`https://cofefu.ru/api/products`, 'GET', undefined, {})
+         await callApi(`https://cofefu.ru/dev/api/products`, 'GET', undefined, {})
             .then((json) => dispatch(success(json)))
             .catch((reason) => { console.log(reason); return dispatch(failure()); });
       }
@@ -15,7 +15,7 @@ export default class menuStore {
    }
    static receiveAddons = () => {
       return async dispatch => {
-         await callApi(`https://cofefu.ru/api/toppings`, 'GET', undefined, {})
+         await callApi(`https://cofefu.ru/dev/api/toppings`, 'GET', undefined, {})
             .then((json) => dispatch(success(json)))
             .catch((reason) => { console.log(reason); return dispatch(failure()); });
       }
@@ -25,7 +25,7 @@ export default class menuStore {
    }
    static receiveCoffeeHouses = () => {
       return async dispatch => {
-         await callApi(`https://cofefu.ru/api/coffee_houses`, 'GET', undefined, {})
+         await callApi(`https://cofefu.ru/dev/api/coffee_houses`, 'GET', undefined, {})
             .then((json) => dispatch(success(json)))
             .catch((reason) => { console.log(reason); return dispatch(failure()); });
       }

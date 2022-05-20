@@ -53,7 +53,7 @@ const Profile = () => {
     useEffect(() => {
         const getCustomer = async () => {
             try {
-                const res = await fetch(`https://cofefu.ru/api/me`,
+                const res = await fetch(`https://cofefu.ru/dev/api/me`,
                     {
                         method: 'GET',
                         headers: {
@@ -76,7 +76,7 @@ const Profile = () => {
     useEffect(() => {
         const getCustomer = async () => {
             try {
-                const res = await fetch(`https://cofefu.ru/api/is_confirmed`,
+                const res = await fetch(`https://cofefu.ru/dev/api/is_confirmed`,
                     {
                         method: 'GET',
                         headers: {
@@ -99,7 +99,7 @@ const Profile = () => {
     useEffect(() => {
         const getOrdersHistory = async () => {
             try {
-                const res = await fetch(`https://cofefu.ru/api/my_orders`,
+                const res = await fetch(`https://cofefu.ru/dev/api/my_orders`,
                     {
                         method: 'GET',
                         headers: {

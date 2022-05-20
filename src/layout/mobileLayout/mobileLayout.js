@@ -28,7 +28,7 @@ export const MobileLayout = ({ children, tab, changeActiveTab }) => {
 
     useEffect(() => {
         const updateToken = async () => {
-            const request = await fetch(`https://cofefu.ru/api/update_token`, {
+            const request = await fetch(`https://cofefu.ru/dev/api/update_token`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

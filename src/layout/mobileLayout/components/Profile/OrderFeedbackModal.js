@@ -56,7 +56,7 @@ const OrderFeedbackModal = ({ showErrorPopup, showSuccessPopup }) => {
 
          const sendFeedback = async () => {
             try {
-               const request = await fetch('https://cofefu.ru/api/feedback', {
+               const request = await fetch('https://cofefu.ru/dev/api/feedback', {
                   method: 'POST',
                   body: JSON.stringify(text),
                   headers: {
@@ -76,7 +76,7 @@ const OrderFeedbackModal = ({ showErrorPopup, showSuccessPopup }) => {
 
          const sendBug = async () => {
             try {
-               const request = await fetch('https://cofefu.ru/api/bugreport', {
+               const request = await fetch('https://cofefu.ru/dev/api/bugreport', {
                   method: 'POST',
                   body: JSON.stringify(text),
                   headers: {
