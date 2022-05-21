@@ -20,7 +20,7 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
     const [cookies, setCookie] = useCookies(["jwt"]);
 
     const handleNameChange = (event) => {
-        if (/^[a-zA-Zа-яА-Я]+$/.test(event.target.value) || event.target.value === '') {
+        if (/^[a-zA-Zа-яА-ЯёЁ]+$/.test(event.target.value) || event.target.value === '') {
             setName(event.target.value);
         }
     }
