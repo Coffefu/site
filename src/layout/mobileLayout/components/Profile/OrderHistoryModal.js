@@ -42,7 +42,7 @@ const OrderHistoryModal = ({ showErrorPopup }) => {
    useEffect(() => {
       const getOrdersHistory = async () => {
          try {
-            const res = await fetch(`https://cofefu.ru/api/my_orders`,
+            const res = await fetch(`api/my_orders`,
                {
                   method: 'GET',
                   headers: {

@@ -1,5 +1,8 @@
 import axios from "axios";
 
+
+const { REACT_APP_ENVIRONMENT } = process.env;
+
 export default async function callApi(
    endpoint,
    method,
@@ -9,7 +12,7 @@ export default async function callApi(
 
    const res = await axios({
       method: 'get',
-      url: endpoint,
+      url: `https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/${endpoint}`,
       responseType: 'json',
 
 

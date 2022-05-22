@@ -1,18 +1,10 @@
-import { ConnectedMenuList } from "./components/MenuList/MenuList";
 import BottomNavigation from "./components/MobileBottomNavigation";
-import { connect } from "react-redux";
-import CartComponent from "./components/Cart";
-import Order from "./components/Order";
-import StartPage from "./components/StartPage";
-import Profile from './components/Profile'
+import { connect } from "react-redux"; 
 import { useCookies } from "react-cookie";
 import navigationStore from "../../store/modules/navigationStore";
 import { useEffect } from "react";
 import moment from "moment";
 import { Outlet, useNavigate } from "react-router-dom";
-import { usePopup } from 'react-hook-popup';
-import { Snackbar } from '@mui/material';
-import { Alert } from '@mui/material';
 
 export const MobileLayout = ({ children, tab, changeActiveTab }) => {
 
