@@ -1,28 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, IconButton, CircularProgress, List, ListItem, ListItemButton, Modal, Typography, ListItemIcon } from "@mui/material";
+import { CircularProgress, List, ListItem, ListItemButton, Typography, ListItemIcon } from "@mui/material";
 import { connect } from "react-redux"
-import s from "./Profile.module.scss"
 import { useCookies } from "react-cookie";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-const style = {
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '100%',
-    height: '100%',
-    bgcolor: 'background.paper',
-    boxShadow: 'none',
-    p: 4,
-    textAlign: 'center',
-    color: '#000000',
-    backgroundColor: '#F6FCFE',
-};
+const { REACT_APP_ENVIRONMENT } = process.env;
 
 const Profile = () => {
 
@@ -53,7 +36,7 @@ const Profile = () => {
     useEffect(() => {
         const getCustomer = async () => {
             try {
-                const res = await fetch(`api/me`,
+                const res = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/me`,
                     {
                         method: 'GET',
                         headers: {
@@ -76,7 +59,7 @@ const Profile = () => {
     useEffect(() => {
         const getCustomer = async () => {
             try {
-                const res = await fetch(`api/is_confirmed`,
+                const res = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/is_confirmed`,
                     {
                         method: 'GET',
                         headers: {
@@ -99,7 +82,7 @@ const Profile = () => {
     useEffect(() => {
         const getOrdersHistory = async () => {
             try {
-                const res = await fetch(`api/my_orders`,
+                const res = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/my_orders`,
                     {
                         method: 'GET',
                         headers: {

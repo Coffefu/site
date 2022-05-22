@@ -25,6 +25,8 @@ const style = {
    backgroundColor: '#F6FCFE',
 };
 
+const { REACT_APP_ENVIRONMENT } = process.env;
+
 const OrderHistoryModal = ({ showErrorPopup }) => {
 
    const navigate = useNavigate();
@@ -42,7 +44,7 @@ const OrderHistoryModal = ({ showErrorPopup }) => {
    useEffect(() => {
       const getOrdersHistory = async () => {
          try {
-            const res = await fetch(`api/my_orders`,
+            const res = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/my_orders`,
                {
                   method: 'GET',
                   headers: {

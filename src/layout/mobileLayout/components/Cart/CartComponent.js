@@ -5,23 +5,18 @@ import { useCookies } from "react-cookie";
 
 import s from './Cart.module.scss';
 import {
-    Alert,
     Button,
     CircularProgress,
-    IconButton,
-    Snackbar,
     TextareaAutosize,
-    TextField,
     Typography
 } from "@mui/material";
 import CartItem from "./CartItem";
-import { LocalizationProvider, MobileTimePicker } from "@mui/lab";
-import DeleteIcon from '@mui/icons-material/Delete';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import menuStore from "../../../../store/modules/menuStore";
 import userStore from "../../../../store/modules/userStore";
 import _ from 'lodash';
 import TimePickerModal from './TimePickerModal';
+
+const { REACT_APP_ENVIRONMENT } = process.env;
 
 const CartComponent = ({
     coffeeHouse,
@@ -107,7 +102,7 @@ const CartComponent = ({
         order.comment = comment;
         const sendOrder = async () => {
             try {
-                const request = await fetch('api/make_order', {
+                const request = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/make_order`, {
                     method: 'POST',
                     body: JSON.stringify(order),
                     headers: {

@@ -25,6 +25,8 @@ const style = {
    backgroundColor: '#F6FCFE',
 };
 
+const { REACT_APP_ENVIRONMENT } = process.env;
+
 const OrderFeedbackModal = ({ showErrorPopup, showSuccessPopup }) => {
 
    const navigate = useNavigate();
@@ -56,7 +58,7 @@ const OrderFeedbackModal = ({ showErrorPopup, showSuccessPopup }) => {
 
          const sendFeedback = async () => {
             try {
-               const request = await fetch('api/feedback', {
+               const request = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/feedback`, {
                   method: 'POST',
                   body: JSON.stringify(text),
                   headers: {
@@ -76,7 +78,7 @@ const OrderFeedbackModal = ({ showErrorPopup, showSuccessPopup }) => {
 
          const sendBug = async () => {
             try {
-               const request = await fetch('api/bugreport', {
+               const request = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/bugreport`, {
                   method: 'POST',
                   body: JSON.stringify(text),
                   headers: {

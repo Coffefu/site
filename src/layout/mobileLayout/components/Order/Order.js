@@ -8,6 +8,8 @@ import s from "./Order.module.scss"
 import {connect} from "react-redux";
 import menuStore from "../../../../store/modules/menuStore";
 
+const { REACT_APP_ENVIRONMENT } = process.env;
+
 const Order = ({ showErrorPopup, coffeeHouses, receiveCoffeeHouses }) => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
@@ -33,7 +35,7 @@ const Order = ({ showErrorPopup, coffeeHouses, receiveCoffeeHouses }) => {
 
     const checkStatus = async () => {
         try {
-            const res = await fetch(`api/last_order`,
+            const res = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/last_order`,
                 {
                     method: 'GET',
                     headers: {

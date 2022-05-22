@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import coffeeBeans from '../../../../assets/img/coffeeBeans.png';
-import { Alert, Box, Button, Snackbar, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import s from "./StartPage.module.scss";
 import { useCookies } from "react-cookie";
 import { connect } from 'react-redux';
 import navigationStore from './../../../../store/modules/navigationStore';
 import moment from "moment";
 import { useNavigate } from 'react-router-dom';
+
+const { REACT_APP_ENVIRONMENT } = process.env;
 
 const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
 
@@ -54,7 +56,7 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
 
             const registerCustomer = async () => {
                 try {
-                    const request = await fetch('api/register_customer', {
+                    const request = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/register_customer`, {
                         method: 'POST',
                         body: JSON.stringify(customer),
                         headers: {
@@ -86,7 +88,7 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
         if (isLogin) {
             const loginCustomer = async () => {
                 try {
-                    const request = await fetch('api/send_login_code', {
+                    const request = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/send_login_code`, {
                         method: 'POST',
                         body: JSON.stringify(customer),
                         headers: {

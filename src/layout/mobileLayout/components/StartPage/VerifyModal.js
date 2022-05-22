@@ -3,9 +3,8 @@ import moment from "moment";
 import { useCookies } from "react-cookie";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ReactCodeInput from "react-verification-code-input";
-import { Alert, Box, Button, IconButton, Modal, Snackbar, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, Modal, Typography } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
-import { usePopup } from 'react-hook-popup';
 
 const style = {
    display: 'flex',
@@ -22,6 +21,8 @@ const style = {
    textAlign: 'center',
    color: '#000000'
 };
+
+const { REACT_APP_ENVIRONMENT } = process.env;
 
 const VerifyModal = ({ showErrorPopup, showSuccessPopup }) => {
 
@@ -47,7 +48,7 @@ const VerifyModal = ({ showErrorPopup, showSuccessPopup }) => {
 
       const sendVerifyCode = async () => {
          try {
-            const request = await fetch(`api/verify_login_code?code=${code}`, {
+            const request = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/verify_login_code?code=${code}`, {
                method: 'GET',
                headers: {
                   'Content-Type': 'application/json'
