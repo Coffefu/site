@@ -31,6 +31,9 @@ jobs:
           npm ci
           CI='' npm run build
       
+      - name: Ls
+        run: ls -al
+      
       - name: Share build
         uses: actions/upload-artifact@v2
         with:
