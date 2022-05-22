@@ -1,6 +1,3 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Deploy website
 
 on:
@@ -8,35 +5,56 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  tests:
     runs-on: ubuntu-latest
 
-    #strategy:
-    #  matrix:
-    #    node-version: [16.x]
-    #    # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v3
-    - name: npm install
+    - name: Checkout 
+      uses: actions/checkout@v3
+    
+    - name: Use Node.js 16.x
       uses: actions/setup-node@v3
       with:
         node-version: 16.x
         cache: 'npm'
-    - run: npm ci
-    - run: CI='' npm run build
-    #- run: npm run build --if-present
-    #- run: npm test
-    - name: Setup key
-      run: |
-        set -eu
-        mkdir "$HOME/.ssh"
-        echo "${{ secrets.SSH_TOKEN }}" > "$HOME/.ssh/key"
-        chmod 600 "$HOME/.ssh/key"
-    - name: Deploy
-      run: |
-        cd build
-        rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.DIR }}
 
-           
+    - name: Build
+      run: |
+        npm ci
+        CI='' npm run build
+    
+    - name: Share build
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: ./build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [ tests ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get build
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_KEY }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USER }}/${{ secrets.IMAGE_NAME }}:latest
