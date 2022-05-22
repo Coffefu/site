@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import moment from "moment";
 import { Outlet, useNavigate } from "react-router-dom";
 
+const { REACT_APP_ENVIRONMENT } = process.env;
+
 export const MobileLayout = ({ children, tab, changeActiveTab }) => {
 
     const [cookies, setCookie] = useCookies(["jwt"]);
@@ -20,7 +22,7 @@ export const MobileLayout = ({ children, tab, changeActiveTab }) => {
 
     useEffect(() => {
         const updateToken = async () => {
-            const request = await fetch(`https://cofefu.ru/api/update_token`, {
+            const request = await fetch(`https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/api/update_token`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

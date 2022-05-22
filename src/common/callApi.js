@@ -14,8 +14,7 @@ export default async function callApi(
       method: 'get',
       url: `https://cofefu.ru${REACT_APP_ENVIRONMENT || ''}/${endpoint}`,
       responseType: 'json',
-
-
+      
    })
       .then(res => {
          return res.data
