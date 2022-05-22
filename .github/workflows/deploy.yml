@@ -77,4 +77,4 @@ jobs:
           mkdir "$HOME/.ssh"
           echo "${{ secrets.SSH_TOKEN }}" > "$HOME/.ssh/key"
           chmod 600 "$HOME/.ssh/key"
-          ssh -i "$HOME/.ssh/key" ${{ secrets.USER }}@${{ secrets.HOST }} "./update.sh frontend"
+          ssh -i "$HOME/.ssh/key" -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} "./update.sh frontend"
