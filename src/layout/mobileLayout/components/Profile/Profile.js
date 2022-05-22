@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import EditIcon from '@mui/icons-material/Edit';
 
 const { REACT_APP_ENVIRONMENT } = process.env;
 
@@ -100,6 +101,10 @@ const Profile = () => {
         getOrdersHistory();
     }, [])
 
+    const changeName = () => {
+        navigate('/mobile/profile/changeName');
+    }
+
     if (!profile) {
         return (
             <div className='mb65-container d-flex flex-column justify-content-center align-items-center height-100'>
@@ -118,6 +123,7 @@ const Profile = () => {
                 <div className='pl-3 d-flex flex-column justify-content-center'>
                     <Typography variant='h5'>
                         Привет, {profile.name} !
+                        <EditIcon sx={{ paddingBottom: '3px', marginLeft: '5px'}} onClick={changeName}/>
                     </Typography>
                     <Typography variant='subtitle1'>
                         +7{profile.phone_number}
