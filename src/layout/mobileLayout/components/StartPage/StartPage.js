@@ -20,7 +20,7 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
     const [cookies, setCookie] = useCookies(["jwt"]);
 
     const handleNameChange = (event) => {
-        if (/^[a-zA-Zа-яА-Я]+$/.test(event.target.value) || event.target.value === '') {
+        if (/^[a-zA-Zа-яА-ЯёЁ]+$/.test(event.target.value) || event.target.value === '') {
             setName(event.target.value);
         }
     }
@@ -54,7 +54,7 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
 
             const registerCustomer = async () => {
                 try {
-                    const request = await fetch('https://cofefu.ru/api/register_customer', {
+                    const request = await fetch('api/register_customer', {
                         method: 'POST',
                         body: JSON.stringify(customer),
                         headers: {
@@ -86,7 +86,7 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
         if (isLogin) {
             const loginCustomer = async () => {
                 try {
-                    const request = await fetch('https://cofefu.ru/api/send_login_code', {
+                    const request = await fetch('api/send_login_code', {
                         method: 'POST',
                         body: JSON.stringify(customer),
                         headers: {
