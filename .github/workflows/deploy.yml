@@ -34,7 +34,7 @@ jobs:
       - name: Share build
         uses: actions/upload-artifact@v2
         with:
-          name: build
+          name: build-folder
           path: ./build
 
   deploy:
@@ -48,7 +48,7 @@ jobs:
       - name: Get build
         uses: actions/download-artifact@v2
         with:
-          name: build
+          name: build-folder
 
       - name: Ls
         run: ls -al
