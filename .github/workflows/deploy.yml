@@ -73,7 +73,6 @@ jobs:
 
       - name: Update image
         run: |
-          set -eu
           mkdir "$HOME/.ssh"
           echo "${{ secrets.SSH_TOKEN }}" > "$HOME/.ssh/key"
           chmod 600 "$HOME/.ssh/key"
