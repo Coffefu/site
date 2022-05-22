@@ -70,3 +70,10 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/${{ secrets.IMAGE_NAME }}:latest
+
+      - name: Update image
+        run: |
+          mkdir "$HOME/.ssh"
+          echo "${{ secrets.SSH_TOKEN }}" > "$HOME/.ssh/key"
+          chmod 600 "$HOME/.ssh/key"
+          ssh -i $HOME/.ssh/key ${{ secrets.HOST }}@${{ secrets.USER }} "./update.sh frontend"
