@@ -21,6 +21,7 @@ import OrderHistoryModal from './../layout/mobileLayout/components/Profile/Order
 import OrderFeedbackModal from './../layout/mobileLayout/components/Profile/OrderFeedbackModal';
 import CoffeeHouseModal from './../layout/mobileLayout/components/MenuList/CoffeeHouseModal';
 import CoffeeHouseMap from './../layout/mobileLayout/components/MenuList/CoffeeHouseMap';
+import ProfileChangeName from "../layout/mobileLayout/components/Profile/ProfileChangeName copy";
 
 const AppRouter = () => {
 
@@ -75,6 +76,9 @@ const AppRouter = () => {
                   showErrorPopup={showErrorPopup}
                   showSuccessPopup={showSuccessPopup} />} />
                <Route path='profile/feedback' element={<OrderFeedbackModal
+                  showErrorPopup={showErrorPopup}
+                  showSuccessPopup={showSuccessPopup} />} />
+                  <Route path='profile/changeName' element={<ProfileChangeName
                   showErrorPopup={showErrorPopup}
                   showSuccessPopup={showSuccessPopup} />} />
                <Route path='menu/coffeehouse' element={<CoffeeHouseModal
