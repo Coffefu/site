@@ -22,6 +22,7 @@ import OrderFeedbackModal from './../layout/mobileLayout/components/Profile/Orde
 import CoffeeHouseModal from './../layout/mobileLayout/components/MenuList/CoffeeHouseModal';
 import CoffeeHouseMap from './../layout/mobileLayout/components/MenuList/CoffeeHouseMap';
 import ProfileChangeName from "../layout/mobileLayout/components/Profile/ProfileChangeName copy";
+import WorksPage from "../layout/mobileLayout/components/Works/WorksPage";
 
 const AppRouter = () => {
 
@@ -56,47 +57,48 @@ const AppRouter = () => {
    return (
       <Router history={history}>
          <Routes>
-            <Route path="/mobile/" element={<MobileLayout />}>
-               <Route path='menu' element={<ConnectedMenuList
-                  showErrorPopup={showErrorPopup}
-                  showSuccessPopup={showSuccessPopup} />} />
-               <Route path='cart' element={<Cart
-                  showErrorPopup={showErrorPopup}
-                  showSuccessPopup={showSuccessPopup} />} />
-               <Route path='order' element={<Order
-                  showErrorPopup={showErrorPopup}
-                  showSuccessPopup={showSuccessPopup} />} />
-               <Route path='profile' element={<Profile
-                  showErrorPopup={showErrorPopup}
-                  showSuccessPopup={showSuccessPopup} />} />
-               <Route path='product/:productId' element={<MenuListItemModal
-                  showErrorPopup={showErrorPopup}
-                  showSuccessPopup={showSuccessPopup} />} />
-               <Route path='profile/history' element={<OrderHistoryModal
-                  showErrorPopup={showErrorPopup}
-                  showSuccessPopup={showSuccessPopup} />} />
-               <Route path='profile/feedback' element={<OrderFeedbackModal
-                  showErrorPopup={showErrorPopup}
-                  showSuccessPopup={showSuccessPopup} />} />
-                  <Route path='profile/changeName' element={<ProfileChangeName
-                  showErrorPopup={showErrorPopup}
-                  showSuccessPopup={showSuccessPopup} />} />
-               <Route path='menu/coffeehouse' element={<CoffeeHouseModal
-                  showErrorPopup={showErrorPopup}
-                  showSuccessPopup={showSuccessPopup} />} />
-               <Route path='menu/map' element={<CoffeeHouseMap
-                  showErrorPopup={showErrorPopup}
-                  showSuccessPopup={showSuccessPopup} />} />
-            </Route>
+            <Route path='*' element={<WorksPage />}/>
+            {/*<Route path="/mobile/" element={<MobileLayout />}>*/}
+            {/*   <Route path='menu' element={<ConnectedMenuList*/}
+            {/*      showErrorPopup={showErrorPopup}*/}
+            {/*      showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*   <Route path='cart' element={<Cart*/}
+            {/*      showErrorPopup={showErrorPopup}*/}
+            {/*      showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*   <Route path='order' element={<Order*/}
+            {/*      showErrorPopup={showErrorPopup}*/}
+            {/*      showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*   <Route path='profile' element={<Profile*/}
+            {/*      showErrorPopup={showErrorPopup}*/}
+            {/*      showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*   <Route path='product/:productId' element={<MenuListItemModal*/}
+            {/*      showErrorPopup={showErrorPopup}*/}
+            {/*      showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*   <Route path='profile/history' element={<OrderHistoryModal*/}
+            {/*      showErrorPopup={showErrorPopup}*/}
+            {/*      showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*   <Route path='profile/feedback' element={<OrderFeedbackModal*/}
+            {/*      showErrorPopup={showErrorPopup}*/}
+            {/*      showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*      <Route path='profile/changeName' element={<ProfileChangeName*/}
+            {/*      showErrorPopup={showErrorPopup}*/}
+            {/*      showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*   <Route path='menu/coffeehouse' element={<CoffeeHouseModal*/}
+            {/*      showErrorPopup={showErrorPopup}*/}
+            {/*      showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*   <Route path='menu/map' element={<CoffeeHouseMap*/}
+            {/*      showErrorPopup={showErrorPopup}*/}
+            {/*      showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*</Route>*/}
 
-            <Route path='/' element={<Navigate to='/mobile/menu' />} />
-            <Route path='*' element={<Navigate to='/mobile/menu' />} />
-            <Route path='/login' element={<StartPage
-               showErrorPopup={showErrorPopup}
-               showSuccessPopup={showSuccessPopup} />} />
-            <Route path="/login/verify" element={<VerifyModal
-               showErrorPopup={showErrorPopup}
-               showSuccessPopup={showSuccessPopup} />} />
+            {/*<Route path='/' element={<Navigate to='/mobile/menu' />} />*/}
+            {/*<Route path='*' element={<Navigate to='/mobile/menu' />} />*/}
+            {/*<Route index path='/login' element={<StartPage*/}
+            {/*   showErrorPopup={showErrorPopup}*/}
+            {/*   showSuccessPopup={showSuccessPopup} />} />*/}
+            {/*<Route path="/login/verify" element={<VerifyModal*/}
+            {/*   showErrorPopup={showErrorPopup}*/}
+            {/*   showSuccessPopup={showSuccessPopup} />} />*/}
          </Routes>
       </Router>
    )
