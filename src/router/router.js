@@ -57,8 +57,8 @@ const AppRouter = () => {
    return (
       <Router history={history}>
          <Routes>
-            <Route path='*' element={<WorksPage />}/>
-            {/*<Route path="/mobile/" element={<MobileLayout />}>
+            {/*<Route path='*' element={<WorksPage />}/>*/}
+            <Route path="/mobile/" element={<MobileLayout />}>
                <Route path='menu' element={<ConnectedMenuList
                   showErrorPopup={showErrorPopup}
                   showSuccessPopup={showSuccessPopup} />} />
@@ -98,7 +98,7 @@ const AppRouter = () => {
                showSuccessPopup={showSuccessPopup} />} />
             <Route path="/login/verify" element={<VerifyModal
                showErrorPopup={showErrorPopup}
-               showSuccessPopup={showSuccessPopup} />} />*/}
+               showSuccessPopup={showSuccessPopup} />} />
          </Routes>
       </Router>
    )

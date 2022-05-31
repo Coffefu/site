@@ -10,7 +10,7 @@ const { REACT_APP_ENVIRONMENT } = process.env;
 
 const Profile = () => {
 
-    const [cookies, setCookie] = useCookies(["jwt"]);
+    const [cookies, setCookie, removeCookie] = useCookies(["jwt"]);
     const navigate = useNavigate();
 
     const [openHistory, setOpenHistory] = React.useState(false);
@@ -105,6 +105,12 @@ const Profile = () => {
         navigate('/mobile/profile/changeName');
     }
 
+    const handleLogout = () => {
+
+        removeCookie('jwt');
+        navigate('/login');
+    }
+
     if (!profile) {
         return (
             <div className='mb65-container d-flex flex-column justify-content-center align-items-center height-100'>
@@ -159,6 +165,14 @@ const Profile = () => {
                                     </ListItemIcon>
                                 </ListItem>) : <></>
                         }
+                        <ListItem className="d-flex justify-content-between" disablePadding divider>
+                            <ListItemButton onClick={handleLogout}>
+                                Выйти с аккаунта
+                            </ListItemButton>
+                            <ListItemIcon>
+                                <ArrowForwardIcon sx={{ fontSize: 24 }} />
+                            </ListItemIcon>
+                        </ListItem>
                     </List>
                 </div>
             </div>
