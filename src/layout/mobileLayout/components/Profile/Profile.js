@@ -149,7 +149,7 @@ const Profile = () => {
                             </ListItemIcon>
                         </ListItem>
                         {
-                            isConfirmed
+                            !isConfirmed
                             ? (<ListItem className="d-flex justify-content-between" disablePadding divider>
                                     <ListItemButton onClick={verifyPhone}>
                                         Подтвердить телефон
