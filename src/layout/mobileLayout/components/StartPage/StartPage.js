@@ -69,7 +69,7 @@ const StartPage = ({ changeActiveTab, showErrorPopup, showSuccessPopup }) => {
                         return;
                     }
                     if (response) {
-                        showSuccessPopup('Регистрация успешна. Не забудьте подтвердить номер телефона!')
+                        showSuccessPopup('Регистрация успешна. Не забудьте подтвердить номер телефона!( в профиле )')
                         setCookie('jwt', response,
                             {
                                 path: '/',
