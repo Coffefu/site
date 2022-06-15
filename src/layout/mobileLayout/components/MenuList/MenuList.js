@@ -74,6 +74,12 @@ const MenuList = ({
         if (value === 'notCoffee' && evt.dir === 'Right') {
             setValue('coffee')
         }
+        if (value === 'notCoffee' && evt.dir === 'Left') {
+            setValue('summer')
+        }
+        if (value === 'summer' && evt.dir === 'Right') {
+            setValue('notCoffee')
+        }
     }
     const handlers = useSwipeable({ onSwiped: swipedMenu })
 
@@ -97,6 +103,7 @@ const MenuList = ({
                             <TabList onChange={handleChange} aria-label="lab API tabs">
                                 <Tab label="Кофе" value="coffee" />
                                 <Tab label="Не кофе" value="notCoffee" />
+                                <Tab label="Летнее" value="summer" />
                             </TabList>
 
                         </div>
@@ -130,6 +137,24 @@ const MenuList = ({
                                     )
                                     : activeMenu.map((product, index) => {
                                         if (product.type === 1) {
+                                            return (
+                                                <MenuListItem key={index} item={product} addons={addons} />
+                                            )
+                                        }
+                                    })}
+                            </TabPanel>
+                        </Slide>
+                        <Slide direction="left" in={value === 'summer'} mountOnEnter unmountOnExit>
+                            <TabPanel value='summer'>
+
+                                {loading && activeMenu.length > 0
+                                    ? (
+                                        <div className={s.spinner}>
+                                            <CircularProgress color="success" />
+                                        </div>
+                                    )
+                                    : activeMenu.map((product, index) => {
+                                        if (product.type === 2) {
                                             return (
                                                 <MenuListItem key={index} item={product} addons={addons} />
                                             )
